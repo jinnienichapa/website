@@ -1,1 +1,80 @@
-HI world
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Architecture Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+    header {
+      text-align: center;
+      padding: 2rem;
+      border-bottom: 1px solid #333;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
+    }
+    .project {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #444;
+    }
+    .project img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .project:hover img {
+      transform: scale(1.05);
+    }
+    .caption {
+      padding: 1rem;
+      font-size: 1.1rem;
+      text-align: center;
+      border-top: 1px solid #444;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Architecture Portfolio</h1>
+  </header>
+  <main>
+    <div class="projects">
+      <div class="project">
+        <img src="1.png" alt="Project 1">
+        <div class="caption">Project 1</div>
+      </div>
+      <div class="project">
+        <img src="2.png" alt="Project 2">
+        <div class="caption">Project 2</div>
+      </div>
+      <div class="project">
+        <img src="3.png" alt="Project 3">
+        <div class="caption">Project 3</div>
+      </div>
+      <div class="project">
+        <img src="4.png" alt="Project 4">
+        <div class="caption">Project 4</div>
+      </div>
+      <div class="project">
+        <img src="5.png" alt="Project 5">
+        <div class="caption">Project 5</div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
