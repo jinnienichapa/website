@@ -50,52 +50,27 @@
       border-bottom: 1px solid #000;
     }
 
-    /* Grid of Projects */
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .project {
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-    }
-
-    .project img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-
-    .project:hover img {
-      transform: scale(1.05);
-      opacity: 0.8;
-    }
-  </style>
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NICHAPA'S PORTFOLIO</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <header>
-    <div class="title">NICHAPA'S PORTFOLIO</div>
-    <div class="nav">
-      <a href="index.html">Portfolio</a>
-      <a href="about.html/">about</a>
-
-    </div>
+    <h1>NICHAPA'S PORTFOLIO</h1>
+    <nav>
+      <ul>
+        <li><a href="#projects">Project</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main>
-    <div class="projects">
-      <a class="project" href="project1.html"><img src="axo dw3-02.png" alt="Project 1"></a>
-      <a class="project" href="project2.html"><img src="2.png" alt="Project 2"></a>
-      <a class="project" href="project3.html"><img src="3.png" alt="Project 3"></a>
-      <a class="project" href="project4.html"><img src="4.png" alt="Project 4"></a>
-      <a class="project" href="project5.html"><img src="5.png" alt="Project 5"></a>
-      <a class="project" href="project6.html"><img src="6.png" alt="Project 6"></a>
-      <a class="project" href="project7.html"><img src="7.png" alt="Project 7"></a>
+    <img src="assets/your-image.jpg" alt="Main visual" class="main-image" />
+  </main>
+</body>
+</html>
