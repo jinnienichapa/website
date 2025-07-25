@@ -23,7 +23,7 @@
     }
 
     .logo img {
-      max-height: 200px; /* adjust size as needed */
+      max-height: 200px;
       height: auto;
       object-fit: contain;
     }
@@ -46,6 +46,20 @@
 
     .nav a:hover {
       border-bottom: 1px solid #000;
+    }
+
+    /* Hero Image */
+    .hero {
+      text-align: center;
+      margin: 2rem auto;
+    }
+
+    .hero img {
+      width: 80%;
+      max-width: 1000px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
     }
 
     /* Grid of Projects */
@@ -81,13 +95,18 @@
 
   <header>
     <div class="logo">
-      <img src="illus2@3x.png" alt="illus2@3x.png" />
+      <img src="illus2@3x.png" alt="Logo" />
     </div>
     <div class="nav">
       <a href="index.html">Portfolio</a>
       <a href="about.html">About</a>
     </div>
   </header>
+
+  <!-- 💡 Big hero image in the center -->
+  <div class="hero">
+    <img src="illus1@3x.png" alt="Featured project or intro image" />
+  </div>
 
   <main>
     <div class="projects">
@@ -106,3 +125,4 @@
 
 </body>
 </html>
+
