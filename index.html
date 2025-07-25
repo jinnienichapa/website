@@ -3,69 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About Me</title>
+  <title>My Architecture Portfolio</title>
   <style>
     body {
       margin: 0;
-      background-color: #000;
-      color: #fff;
+      background-color: #fff;
+      color: #000;
       font-family: Helvetica, Arial, sans-serif;
     }
     header {
       text-align: center;
       padding: 2rem;
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid #ccc;
     }
     h1 {
       margin: 0;
       font-size: 2.5rem;
     }
-    nav {
-      text-align: center;
-      margin-top: 1rem;
-    }
     nav a {
-      color: #fff;
-      text-decoration: none;
       margin: 0 1rem;
+      text-decoration: none;
+      color: #000;
       border-bottom: 1px solid transparent;
     }
     nav a:hover {
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid #000;
     }
-    main {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      line-height: 1.6;
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
     }
-    .contact {
-      margin-top: 2rem;
+    .project {
+      border: 1px solid #ddd;
+      overflow: hidden;
     }
-    .contact a {
-      color: #fff;
-      text-decoration: underline;
+    .project img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .caption {
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.1rem;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>About Me</h1>
+    <h1>My Architecture Portfolio</h1>
     <nav>
       <a href="index.html">Home</a>
+      <a href="about.html">About</a>
     </nav>
   </header>
-  <main>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet turpis nec sem fermentum ultricies. Curabitur placerat, quam a finibus vestibulum, ligula nisl commodo purus, non luctus justo velit nec nisi. Donec suscipit neque non justo tincidunt, vel fermentum justo accumsan. Nullam laoreet lectus ac est sagittis, ut dapibus ligula hendrerit.
-    </p>
-    <p>
-      Vivamus a tincidunt enim. Morbi id magna eu lacus gravida commodo. Vestibulum posuere dapibus diam, vitae aliquam augue facilisis non. Nulla facilisi. Pellentesque rutrum turpis in diam facilisis, in vulputate nulla porta.
-    </p>
 
-    <div class="contact">
-      <p>📧 Email: <a href="mailto:yourname@example.com">yourname@example.com</a></p>
-      <p>📸 Instagram: <a href="https://www.instagram.com/yourusername" target="_blank">@yourusername</a></p>
+  <main>
+    <div class="projects">
+      <div class="project">
+        <img src="1.png" alt="Project 1">
+        <div class="caption">Project 1</div>
+      </div>
+      <div class="project">
+        <img src="2.png" alt="Project 2">
+        <div class="caption">Project 2</div>
+      </div>
+      <div class="project">
+        <img src="3.png" alt="Project 3">
+        <div class="caption">Project 3</div>
+      </div>
+      <div class="project">
+        <img src="4.png" alt="Project 4">
+        <div class="caption">Project 4</div>
+      </div>
+      <div class="project">
+        <img src="5.png" alt="Project 5">
+        <div class="caption">Project 5</div>
+      </div>
     </div>
   </main>
 </body>
