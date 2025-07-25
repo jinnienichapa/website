@@ -1,1 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About - Nichapa</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #fff;
+      color: #000;
+      font-family: Helvetica, Arial, sans-serif;
+    }
 
+    header {
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+    }
+
+    .title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+    }
+
+    .nav a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1rem;
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav a:hover {
+      border-bottom: 1px solid #000;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+      line-height: 1.6;
+    }
+
+    .contact a {
+      color: #000;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="title">About</div>
+    <div class="nav">
+      <a href="index.html">Portfolio</a>
+      <a href="about.html">About</a>
+    </div>
+  </header>
+
+  <main>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+    </p>
+
+    <div class="contact">
+      <p>Email: <a href="mailto:nichapa@example.com">nichapa@example.com</a></p>
+      <p>Instagram: <a href="https://instagram.com/yourusername" target="_blank">@yourusername</a></p>
+    </div>
+  </main>
+
+</body>
+</html>
