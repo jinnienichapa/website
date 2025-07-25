@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Architecture Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Me</title>
   <style>
     body {
       margin: 0;
@@ -20,60 +20,52 @@
       margin: 0;
       font-size: 2.5rem;
     }
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1rem;
-      padding: 2rem;
-    }
-    .project {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid #444;
-    }
-    .project img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: transform 0.3s ease;
-    }
-    .project:hover img {
-      transform: scale(1.05);
-    }
-    .caption {
-      padding: 1rem;
-      font-size: 1.1rem;
+    nav {
       text-align: center;
-      border-top: 1px solid #444;
+      margin-top: 1rem;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 1rem;
+      border-bottom: 1px solid transparent;
+    }
+    nav a:hover {
+      border-bottom: 1px solid #fff;
+    }
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      line-height: 1.6;
+    }
+    .contact {
+      margin-top: 2rem;
+    }
+    .contact a {
+      color: #fff;
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>My Architecture Portfolio</h1>
+    <h1>About Me</h1>
+    <nav>
+      <a href="index.html">Home</a>
+    </nav>
   </header>
   <main>
-    <div class="projects">
-      <div class="project">
-        <img src="1.png" alt="Project 1">
-        <div class="caption">Project 1</div>
-      </div>
-      <div class="project">
-        <img src="2.png" alt="Project 2">
-        <div class="caption">Project 2</div>
-      </div>
-      <div class="project">
-        <img src="3.png" alt="Project 3">
-        <div class="caption">Project 3</div>
-      </div>
-      <div class="project">
-        <img src="4.png" alt="Project 4">
-        <div class="caption">Project 4</div>
-      </div>
-      <div class="project">
-        <img src="5.png" alt="Project 5">
-        <div class="caption">Project 5</div>
-      </div>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet turpis nec sem fermentum ultricies. Curabitur placerat, quam a finibus vestibulum, ligula nisl commodo purus, non luctus justo velit nec nisi. Donec suscipit neque non justo tincidunt, vel fermentum justo accumsan. Nullam laoreet lectus ac est sagittis, ut dapibus ligula hendrerit.
+    </p>
+    <p>
+      Vivamus a tincidunt enim. Morbi id magna eu lacus gravida commodo. Vestibulum posuere dapibus diam, vitae aliquam augue facilisis non. Nulla facilisi. Pellentesque rutrum turpis in diam facilisis, in vulputate nulla porta.
+    </p>
+
+    <div class="contact">
+      <p>📧 Email: <a href="mailto:yourname@example.com">yourname@example.com</a></p>
+      <p>📸 Instagram: <a href="https://www.instagram.com/yourusername" target="_blank">@yourusername</a></p>
     </div>
   </main>
 </body>
