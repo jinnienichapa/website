@@ -177,15 +177,16 @@
       animation: slidePanel 4s ease-in-out infinite alternate;
     }
 
-    @keyframes slidePanel {
+     @keyframes slidePanel {
       0% { transform: scaleX(1); }
       100% { transform: scaleX(1.05); }
     }
   </style>
 </head>
 <body>
+  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
 
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
     <h3>HOME</h3>
     <h3>PROJECTS</h3>
     <a href="#">architectural project</a>
