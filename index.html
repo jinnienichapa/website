@@ -13,46 +13,6 @@
       overflow-x: hidden;
     }
 
-    /* Header */
-    header {
-      position: relative;
-      padding: 2rem;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .logo {
-      width: 100%;
-      text-align: center;
-    }
-
-    .logo img {
-      width: 100%;
-      max-width: 400px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
-
-    .nav {
-      position: absolute;
-      top: 2rem;
-      right: 2rem;
-    }
-
-    .nav a {
-      margin-left: 2rem;
-      text-decoration: none;
-      color: #000;
-      font-weight: bold;
-      text-transform: uppercase;
-      font-size: 1rem;
-      border-bottom: 1px solid transparent;
-    }
-
-    .nav a:hover {
-      border-bottom: 1px solid #000;
-    }
-
     /* Sidebar */
     .sidebar {
       position: fixed;
@@ -108,7 +68,47 @@
       padding: 2rem;
     }
 
-    /* Central Graphic with Floating Links */
+    /* Header */
+    header {
+      position: relative;
+      padding: 2rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      width: 100%;
+      text-align: center;
+    }
+
+    .logo img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+    }
+
+    .nav a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1rem;
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav a:hover {
+      border-bottom: 1px solid #000;
+    }
+
+    /* Hero */
     .hero {
       position: relative;
       text-align: center;
@@ -134,7 +134,7 @@
       text-decoration: none;
     }
 
-    /* Grid of Projects */
+    /* Projects */
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -162,7 +162,7 @@
       opacity: 0.8;
     }
 
-    /* Panel Animation Background */
+    /* Panel animation */
     .panel-overlay {
       background-image: linear-gradient(to right, #2c1d5a 0%, #e0e0e0 100%);
       height: 200px;
@@ -177,7 +177,7 @@
       animation: slidePanel 4s ease-in-out infinite alternate;
     }
 
-     @keyframes slidePanel {
+    @keyframes slidePanel {
       0% { transform: scaleX(1); }
       100% { transform: scaleX(1.05); }
     }
@@ -211,32 +211,40 @@
       </div>
     </header>
 
-    <!-- Hero image with floating image links -->
-<div class="hero" style="position: relative;">
-  <img src="Asset 13@3x.png" alt="Main Graphic" style="width: 100%; max-width: 900px; display: block; margin: 0 auto;" />
+    <div class="hero">
+      <img src="nAsset 4@3x.png" alt="Main Graphic" style="width: 100%; max-width: 900px; display: block; margin: 0 auto;" />
+      <a href="illustration.html" style="position: absolute; top: 40%; left: 20%;">
+        <img src="illustration.png" alt="Illustration" style="width: 120px;" />
+      </a>
+      <a href="artsncrafts.html" style="position: absolute; top: 50%; left: 60%;">
+        <img src="artsncrafts.png" alt="Arts n Crafts" style="width: 150px;" />
+      </a>
+    </div>
 
-  <a href="illustration.html" style="position: absolute; top: 40%; left: 20%;">
-    <img src="nAsset 5@3x.png" alt="Illustration" style="width: 120px;" />
-  </a>
+    <div class="panel-overlay">
+      PANEL OVERLAY ANIMATION
+    </div>
 
-  <a href="artsncrafts.html" style="position: absolute; top: 50%; left: 60%;">
-    <img src="nAsset 4@3x.png" alt="Arts n Crafts" style="width: 150px;" />
-  </a>
+    <main>
+      <div class="projects" id="portfolio">
+        <a class="project" href="project1.html"><img src="1.png" alt="Project 1"></a>
+        <a class="project" href="project2.html"><img src="2.png" alt="Project 2"></a>
+        <a class="project" href="project3.html"><img src="3.png" alt="Project 3"></a>
+        <a class="project" href="project4.html"><img src="4.png" alt="Project 4"></a>
+        <a class="project" href="project5.html"><img src="5.png" alt="Project 5"></a>
+        <a class="project" href="project6.html"><img src="6.png" alt="Project 6"></a>
+        <a class="project" href="project7.html"><img src="7.png" alt="Project 7"></a>
+        <a class="project" href="project8.html"><img src="8.png" alt="Project 8"></a>
+        <a class="project" href="project9.html"><img src="9.png" alt="Project 9"></a>
+        <a class="project" href="project10.html"><img src="10.png" alt="Project 10"></a>
+      </div>
+    </main>
+  </div>
 
-  <a href="architectural.html" style="position: absolute; top: 40%; left: 60%;">
-    <img src="nAsset 7@3x.png" alt="architectural" style="width: 180px;" />
-  </a>
-
-  <a href="profile.html" style="position: absolute; top: 50%; left: 40%;">
-    <img src="nAsset 6@3x.png" alt="profile" style="width: 120px;" />
-  </a>
-
-  <a href="other.html" style="position: absolute; top: 30%; left: 30%;">
-    <img src="nAsset 8@3x.png" alt="other" style="width: 100px;" />
-  </a>
-</div>
-
-
-
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+  </script>
 </body>
 </html>
