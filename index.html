@@ -7,9 +7,11 @@
   <style>
     body {
       margin: 0;
-      background-color: #fff;
-      color: #000;
       font-family: Helvetica, Arial, sans-serif;
+      background-image: url('nAsset 3@3x.png');
+      background-size: cover;
+      background-repeat: repeat;
+      color: #000;
       overflow-x: hidden;
     }
 
@@ -35,7 +37,8 @@
     .sidebar h3 {
       text-transform: uppercase;
       margin-top: 1rem;
-      color: #e646a3;
+      color: #f48ab6;
+      font-size: 0.9rem;
     }
 
     .sidebar a {
@@ -43,11 +46,11 @@
       color: white;
       text-decoration: none;
       margin: 0.5rem 0;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
     .sidebar a:hover {
-      color: #e646a3;
+      color: #f48ab6;
     }
 
     .menu-toggle {
@@ -63,20 +66,9 @@
       padding: 0.5rem 1rem;
     }
 
-    .content {
-      margin-left: 0;
-      padding: 2rem;
-    }
-
     /* Header */
     header {
-      position: relative;
       padding: 2rem;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .logo {
-      width: 100%;
       text-align: center;
     }
 
@@ -84,8 +76,6 @@
       width: 100%;
       max-width: 400px;
       height: auto;
-      display: block;
-      margin: 0 auto;
     }
 
     .nav {
@@ -108,122 +98,108 @@
       border-bottom: 1px solid #000;
     }
 
-    /* Hero */
+    /* Hero Section */
     .hero {
       position: relative;
       text-align: center;
       margin: 2rem auto;
     }
 
-    .hero img {
-      width: 60%;
-      max-width: 800px;
-      height: auto;
+    .hero img.main-graphic {
+      width: 100%;
+      max-width: 900px;
       display: block;
       margin: 0 auto;
     }
 
-    .floating-link {
+    .floating-icon {
       position: absolute;
-      padding: 0.5rem 1rem;
-      background: #e646a3;
-      color: white;
-      font-weight: bold;
-      font-size: 0.85rem;
-      border-radius: 4px;
-      text-decoration: none;
+      width: 140px;
+      transition: transform 0.3s ease;
     }
 
-    /* Projects */
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      padding: 2rem 0;
-      max-width: 1200px;
-      margin: 0 auto;
+    .floating-icon:hover {
+      transform: scale(1.1);
     }
 
-    .project {
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
+    /* Position each floating icon here */
+    .float-illustration {
+      top: 40%;
+      left: 16%;
     }
 
-    .project img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: transform 0.3s ease, opacity 0.3s ease;
+    .float-artsncrafts {
+      top: 38%;
+      right: 12%;
     }
 
-    .project:hover img {
-      transform: scale(1.05);
-      opacity: 0.8;
+    .float-architecture {
+      top: 18%;
+      right: 10%;
     }
 
-    /* Panel animation */
-    .panel-overlay {
-      background-image: linear-gradient(to right, #2c1d5a 0%, #e0e0e0 100%);
-      height: 200px;
-      width: 100%;
-      margin: 2rem auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-      color: #000;
-      animation: slidePanel 4s ease-in-out infinite alternate;
+    .float-profile {
+      top: 55%;
+      left: 44%;
     }
 
-    @keyframes slidePanel {
-      0% { transform: scaleX(1); }
-      100% { transform: scaleX(1.05); }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .floating-icon {
+        width: 90px;
+      }
     }
   </style>
 </head>
-<body>
-  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
 
+<body>
+  <!-- Sidebar -->
+  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
   <div class="sidebar" id="sidebar">
     <h3>HOME</h3>
     <h3>PROJECTS</h3>
-    <a href="#">architectural project</a>
-    <a href="#">illustration</a>
-    <a href="#">arts n crafts</a>
-    <a href="#">other</a>
+    <a href="#">Architectural Project</a>
+    <a href="#">Illustration</a>
+    <a href="#">Arts n Crafts</a>
+    <a href="#">Other</a>
     <h3>ABOUT</h3>
-    <a href="#">profile</a>
-    <a href="#">contact</a>
+    <a href="#">Profile</a>
+    <a href="#">Contact</a>
   </div>
 
-  <div class="content">
-    <header>
-      <div class="logo">
-        <img src="illus2@3x.png" alt="Nichapa's Logo" />
-      </div>
-      <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="project.html">Project</a>
-        <a href="about.html">About</a>
-      </div>
-    </header>
-
-    <div class="hero">
-      <img src="Asset 13@3x.png" alt="Main Graphic" style="width: 100%; max-width: 900px; display: block; margin: 0 auto;" />
-      <a href="illustration.html" style="position: absolute; top: 40%; left: 20%;">
-        <img src="nAsset 5@3x.png" alt="Illustration" style="width: 120px;" />
-      </a>
-      <a href="artsncrafts.html" style="position: absolute; top: 50%; left: 60%;">
-        <img src="nAsset 4@3x.png" alt="Arts n Crafts" style="width: 150px;" />
-      </a>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="illus2@3x.png" alt="Nichapa's Logo" />
     </div>
+    <div class="nav">
+      <a href="index.html">Home</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="project.html">Project</a>
+      <a href="about.html">About</a>
+    </div>
+  </header>
 
+  <!-- Hero Image with Floating Links -->
+  <div class="hero">
+    <img src="nAsset 2@3x.png" class="main-graphic" alt="Main Graphic" />
 
+    <!-- Floating Text Icons -->
+    <a href="illustration.html">
+      <img src="nAsset 5@3x.png" class="floating-icon float-illustration" alt="Illustration" />
+    </a>
+    <a href="artsncrafts.html">
+      <img src="nAsset 4@3x.png" class="floating-icon float-artsncrafts" alt="Arts n Crafts" />
+    </a>
+    <a href="architecture.html">
+      <img src="nAsset 4@3x.png" class="floating-icon float-architecture" alt="Architecture" />
+    </a>
+    <a href="profile.html">
+      <img src="nAsset 4@3x.png" class="floating-icon float-profile" alt="Profile" />
+    </a>
+  </div>
 
-
+  <!-- JS for Sidebar -->
   <script>
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
