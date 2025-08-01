@@ -113,41 +113,19 @@
       margin: 0 auto;
     }
 
-    .floating-icon {
-      position: absolute;
-      width: 140px;
-      transition: transform 0.3s ease;
-    }
+    <style>
+  .floating-icon {
+    position: absolute;
+    width: 100px; /* new smaller size */
+    transition: transform 0.3s ease;
+  }
+  .floating-icon:hover { transform: scale(1.1); }
+  .float-illustration { top: 38%; left: 16%; }
+  .float-artsncrafts { top: 33%; left: 52%; }
+  .float-architecture { top: 20%; left: 72%; }
+  .float-profile { top: 55%; left: 36%; }
+</style>
 
-    .floating-icon:hover {
-      transform: scale(1.1);
-    }
-
-    /* Position each floating icon here */
-    .float-illustration {
-      top: 40%;
-      left: 16%;
-    }
-
-    .float-artsncrafts {
-      top: 38%;
-      right: 12%;
-    }
-
-    .float-architecture {
-      top: 18%;
-      right: 10%;
-    }
-
-    .float-profile {
-      top: 55%;
-      left: 44%;
-    }
-    
-    .float-other {
-      top: 52%;
-      left: 68%;
-    }
 
     /* Responsive */
     @media (max-width: 768px) {
