@@ -82,10 +82,19 @@
       right: 2rem;
     }
 
+    .nav a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1rem;
+      border-bottom: 1px solid transparent;
+    }
+
     .nav a:hover {
       border-bottom: 1px solid #000;
     }
-
 
     /* Projects Grid */
     .projects {
@@ -123,9 +132,10 @@
       padding: 1rem;
       font-weight: bold;
       font-size: 1rem;
-      background-color: #f7f7f7;
-      border-radius: 0 0 8px 8px;
       text-align: center;
+      border-radius: 0 0 8px 8px;
+      background-color: #212254;
+      color: #C4499A;
     }
   </style>
 </head>
@@ -158,22 +168,19 @@
     </div>
   </header>
 
-  <!-- Page Title -->
-  <div class="page-title">Architectural Projects</div>
-
   <!-- Project Grid -->
   <div class="projects">
     <a class="project" href="01 Life in Soi.html">
-      <img src="1.png" alt="01 Life in Soi" />
-      <div class="project-title">01 Life in Soi</div>
+      <img src="life in soi-01.png" alt="01 Life in Soi" />
+      <div class="01 Life in Soi">01 Life in Soi</div>
     </a>
     <a class="project" href="02 Let it Float.html">
-      <img src="2.png" alt="02 Let it Float" />
-      <div class="project-title">02 Let it Float</div>
+      <img src="let it float-01.png" alt="02 Let it Float" />
+      <div class="02 Let it Float">02 Let it Float</div>
     </a>
     <a class="project" href="03 Flow.html">
       <img src="flow-02-01.png" alt="03 Flow" />
-      <div class="project-title">03 Flow</div>
+      <div class="03 Flow">03 Flow</div>
     </a>
     <a class="project" href="project4.html">
       <img src="village in a city-01-01.png" alt="Village in a City" />
@@ -183,9 +190,13 @@
       <img src="Y3S2_Nichapa_Eamcharoen_Invisible Boundaries_2.jpg" alt="Invisible Boundaries" />
       <div class="project-title">05 Invisible Boundaries</div>
     </a>
+    <a class="project" href="project6.html">
+      <img src="questioning-01.png" alt="nothing" />
+      <div class="wait">nothing</div>
+    </a>
   </div>
 
-  <!-- Sidebar Toggle -->
+  <!-- JS Sidebar Toggle -->
   <script>
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
@@ -194,3 +205,4 @@
 
 </body>
 </html>
+
