@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Village in a City – Nichapa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      background-color: #fff;
+      color: #000;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .top-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .left-image {
+      flex: 1 1 65%;
+    }
+
+    .left-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .right-text {
+      flex: 1 1 30%;
+    }
+
+    .right-text h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #212254;
+    }
+
+    .right-text h3 {
+      font-weight: normal;
+      font-size: 1rem;
+      color: #666;
+      margin-top: 0;
+    }
+
+    .right-text p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-top: 1rem;
+    }
+
+    .section-title {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin: 2rem 0 1rem;
+      color: #C4499A;
+      font-size: 1.2rem;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .detail-grid img {
+      width: 100%;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .top-section {
+        flex-direction: column;
+      }
+
+      .right-text {
+        padding-top: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- Top Section: Image + Text -->
+    <div class="top-section">
+      <div class="left-image">
+        <img src="main-render.jpg" alt="Main Render of Project">
+      </div>
+      <div class="right-text">
+        <h1>Life in Soi</h1>
+        <h3>2023</h3>
+        <p><strong>Brief:</strong> A housing project exploring everyday life and spatial transitions in small alleys of Bangkok. </p>
+        <p><strong>Description:</strong> This design aims to integrate architecture with the local context by using layering, open-air spaces, and visual permeability. The housing units are designed to create semi-public zones that promote community interaction while maintaining privacy.</p>
+      </div>
+    </div>
+
+    <!-- Other Drawings Section -->
+    <div class="section-title">Other Drawings & Details</div>
+    <div class="detail-grid">
+      <img src="drawing1.jpg" alt="Floor Plan">
+      <img src="drawing2.jpg" alt="Section">
+      <img src="drawing3.jpg" alt="Detail Model">
+      <img src="drawing4.jpg" alt="Diagram">
+      <!-- Add or remove images as needed -->
+    </div>
+
+  </div>
+</body>
+</html>
