@@ -8,9 +8,7 @@
     body {
       margin: 0;
       font-family: Helvetica, Arial, sans-serif;
-      background-image: url('nAsset 2@3x.png');
-      background-size: cover;
-      background-repeat: repeat;
+      background-color: #ffffff;
       color: #000;
       overflow-x: hidden;
     }
@@ -98,6 +96,16 @@
       border-bottom: 1px solid #000;
     }
 
+    /* Page Title */
+    .page-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      margin-top: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
     /* Project Grid */
     .projects {
       display: grid;
@@ -137,18 +145,6 @@
       border-radius: 0 0 8px 8px;
       text-align: center;
     }
-
-    @media (max-width: 768px) {
-      .nav {
-        top: 1rem;
-        right: 1rem;
-      }
-
-      .menu-toggle {
-        top: 1rem;
-        left: 1rem;
-      }
-    }
   </style>
 </head>
 <body>
@@ -180,7 +176,10 @@
     </div>
   </header>
 
-  <!-- Architectural Project Grid -->
+  <!-- Page Title -->
+  <div class="page-title">Architectural Projects</div>
+
+  <!-- Project Grid -->
   <div class="projects">
     <a class="project" href="project1.html">
       <img src="1.png" alt="Project 1" />
@@ -198,10 +197,9 @@
       <img src="4.png" alt="Project 4" />
       <div class="project-title">Project Four</div>
     </a>
-    <!-- Add more as needed -->
   </div>
 
-  <!-- JavaScript -->
+  <!-- Sidebar Toggle -->
   <script>
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
@@ -210,4 +208,3 @@
 
 </body>
 </html>
-
