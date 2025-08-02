@@ -64,11 +64,12 @@
     .section-title {
       text-transform: uppercase;
       font-weight: bold;
-      margin: 2rem 0 1rem;
+      margin: 3rem 0 1.5rem;
       color: #C4499A;
       font-size: 1.2rem;
     }
 
+    /* Large Drawing List */
     .detail-list {
       display: flex;
       flex-direction: column;
@@ -76,6 +77,21 @@
     }
 
     .detail-list img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Grid of Smaller Details */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .detail-grid img {
       width: 100%;
       height: auto;
       border-radius: 6px;
@@ -105,30 +121,28 @@
       <div class="right-text">
         <h1>Village in a City</h1>
         <h3>Y3 S1</h3>
-        <p><strong>Brief:</strong> Urban Incubators </p>
+        <p><strong>Brief:</strong> Urban Incubators</p>
         <p><strong>Description:</strong> Village in a City is a Thai modern residential project located in the heart of Ploenchit, an area surrounded by high-rise and mixed-use buildings that blend work and living spaces seamlessly. The project aims to break the norms of the area by mentioning new activities, creating a space for relaxation and community gatherings, staying true to the original spirit of the neighborhood. The design emphasizes cultural exchange, reflecting the diverse population brought by the embassies in the vicinity. Sports and parks are utilized as connectors. The residences are designed to accommodate both locals and foreigners.</p>
         <p><strong>Program:</strong> AI, PS, Rhino</p>
       </div>
     </div>
 
-    <!-- Drawing -->
+    <!-- Large Drawings -->
     <div class="section-title">Other Drawings & Details</div>
     <div class="detail-list">
       <img src="plan with site on-01.png" alt="Plan">
       <img src="section two-03.png" alt="Section">
-      <img src="2024-2025_Y3S1_ARCH_DESGN _2_Chutayaves_Sinthuphan_Jinnie_Nichapa_Eamcharoen_05_Panel-01.jpg" alt="Exploded">
-      <img src="front n side panel-02.png" alt="Drawing">
-      <!-- Add or remove images as needed -->
+      <img src="2024-2025_Y3S1_ARCH_DESGN _2_Chutayaves_Sinthuphan_Jinnie_Nichapa_Eamcharoen_05_Panel-01.jpg" alt="Exploded Axon">
+      <img src="front n side panel-02.png" alt="Perspective Drawing">
     </div>
 
-    <!-- Details -->
-    <div class="section-title">Other Drawings & Details</div>
+    <!-- Grid of Smaller Details -->
+    <div class="section-title">Additional Views</div>
     <div class="detail-grid">
-      <img src="2024-2025_Y3S1_ARCH_DESGN _2_Chutayaves_Sinthuphan_Jinnie_Nichapa_Eamcharoen_06_Panel.jpg" alt="site">
-      <img src="30x60 diagram full file-01.jpg" alt="Diagram">
-      <img src="2024-2025_Y3S1_ARCH_DESGN _2_Chutayaves_Sinthuphan_Jinnie_Nichapa_Eamcharoen_05_Model.JPG" alt="Detail Model">
-      <img src="present final-48.jpg" alt="Render">
-      <!-- Add or remove images as needed -->
+      <img src="2024-2025_Y3S1_ARCH_DESGN _2_Chutayaves_Sinthuphan_Jinnie_Nichapa_Eamcharoen_06_Panel.jpg" alt="Site Overview">
+      <img src="30x60 diagram full file-01.jpg" alt="Concept Diagram">
+      <img src="2024-2025_Y3S1_ARCH_DESGN _2_Chutayaves_Sinthuphan_Jinnie_Nichapa_Eamcharoen_05_Model.JPG" alt="Physical Model">
+      <img src="present final-48.jpg" alt="Render View">
     </div>
 
   </div>
