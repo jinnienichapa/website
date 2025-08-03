@@ -101,53 +101,57 @@
 
     /* Hero Section */
     .hero {
-      position: relative;
-      text-align: center;
-      margin: 3rem auto;
-    }
+  display: flex;
+  justify-content: center;
+  margin: 3rem auto;
+}
 
-    .hero img.main-graphic {
-      width: 80%; /* scaled down slightly */
-      max-width: 800px;
-      display: block;
-      margin: 0 auto;
-    }
+.graphic-wrapper {
+  position: relative;
+  width: 80%;
+  max-width: 800px;
+}
 
-    .floating-icon {
-      position: absolute;
-      width: 140px;
-      transition: transform 0.3s ease;
-    }
+.graphic-wrapper .main-graphic {
+  width: 100%;
+  display: block;
+}
 
-    .floating-icon:hover {
-      transform: scale(1.1);
-    }
+.floating-icon {
+  position: absolute;
+  width: 140px;
+  transition: transform 0.3s ease;
+}
 
-    /* Position each floating icon here */
-    .float-illustration {
-      top: 40%;
-      left: 16%;
-    }
+.floating-icon:hover {
+  transform: scale(1.1);
+}
 
-    .float-artsncrafts {
-      top: 38%;
-      right: 12%;
-    }
+/* Position each label exactly using % from top/left of image */
+.float-illustration {
+  top: 54%;
+  left: 4%;
+}
 
-    .float-architecture {
-      top: 18%;
-      right: 10%;
-    }
+.float-artsncrafts {
+  top: 63%;
+  right: 2%;
+}
 
-    .float-profile {
-      top: 55%;
-      left: 44%;
-    }
-    
-    .float-other {
-      top: 52%;
-      left: 68%;
-    }
+.float-architecture {
+  top: 28%;
+  right: 5%;
+}
+
+.float-profile {
+  top: 70%;
+  left: 40%;
+}
+
+.float-other {
+  top: 65%;
+  left: 70%;
+}
 
 
 
@@ -185,8 +189,8 @@
     </div>
   </header>
 
-  <!-- Hero Section with Floating Labels -->
   <div class="hero">
+  <div class="graphic-wrapper">
     <img src="nAsset 3@3x.png" class="main-graphic" alt="Main Graphic" />
 
     <!-- Floating Text Icons -->
@@ -205,8 +209,8 @@
     <a href="other.html">
       <img src="nAsset 8@3x.png" class="floating-icon float-other" alt="Other" />
     </a>
-
   </div>
+</div>
 
   <!-- Sidebar Toggle Script -->
   <script>
