@@ -15,56 +15,57 @@
       overflow-x: hidden;
     }
 
-    /* Sidebar */
+    /* Sidebar: Icon Only */
     .sidebar {
-      position: fixed;
-      top: 0;
-      left: -220px;
-      width: 220px;
-      height: 100%;
-      background-color: #2c1d5a;
-      color: white;
-      padding: 4rem 1rem 2rem; /* top padding increased to clear the icon */
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      transition: left 0.3s ease;
-      z-index: 1000;
-    }
-
-    .sidebar.open {
-      left: 0;
-    }
-
-    .sidebar h3 {
-      text-transform: uppercase;
-      margin-top: 1.5rem;
-      color: #f48ab6;
-      font-size: 0.9rem;
-    }
-
-    .sidebar a {
-      display: block;
-      color: white;
-      text-decoration: none;
-      margin: 0.5rem 0;
-      font-size: 0.9rem;
-    }
-
-    .sidebar a:hover {
-      color: #f48ab6;
-    }
-
-    .menu-toggle {
       position: fixed;
       top: 1rem;
       left: 1rem;
-      background-color: #2c1d5a;
-      color: white;
-      border: none;
-      font-size: 1.5rem;
+      width: auto;
+      height: auto;
+      z-index: 1000;
+    }
+
+    .menu-icon {
+      font-size: 1.8rem;
       cursor: pointer;
-      z-index: 1001;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
+      color: #2c1d5a;
+      transition: color 0.3s ease;
+    }
+
+    .menu-panel {
+      position: absolute;
+      top: 0;
+      left: 2.5rem;
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      display: none;
+      min-width: 180px;
+    }
+
+    .sidebar:hover .menu-panel {
+      display: block;
+    }
+
+    .menu-panel h3 {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+      color: #C4499A;
+    }
+
+    .menu-panel a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      font-size: 0.85rem;
+      margin: 0.25rem 0;
+    }
+
+    .menu-panel a:hover {
+      color: #C4499A;
     }
 
     /* Header */
@@ -101,89 +102,80 @@
 
     /* Hero Section */
     .hero {
-  display: flex;
-  justify-content: center;
-  margin: 3rem auto;
-}
+      display: flex;
+      justify-content: center;
+      margin: 3rem auto;
+    }
 
-.graphic-wrapper {
-  position: relative;
-  width: 80%;
-  max-width: 800px;
-}
+    .graphic-wrapper {
+      position: relative;
+      width: 80%;
+      max-width: 800px;
+    }
 
-.graphic-wrapper .main-graphic {
-  width: 100%;
-  display: block;
-}
+    .graphic-wrapper .main-graphic {
+      width: 100%;
+      display: block;
+    }
 
-.floating-icon {
-  position: absolute;
-  width: 140px;
-  transition: transform 0.3s ease;
-}
+    .floating-icon {
+      position: absolute;
+      transition: transform 0.3s ease;
+    }
 
-.floating-icon:hover {
-  transform: scale(1.1);
-}
+    .floating-icon:hover {
+      transform: scale(1.1);
+    }
 
-/* Position each label exactly using % from top/left of image */
-/* Illustration label smaller */
-.float-illustration {
-  top: 40%;
-  left: -4%;
-  width: 120px;
-}
+    /* Individual Floating Labels */
+    .float-illustration {
+      top: 40%;
+      left: -4%;
+      width: 120px;
+    }
 
-/* Arts n Crafts label a bit bigger */
-.float-artsncrafts {
-  top: 26%;
-  right: 58%;
-  width: 130px;
-}
+    .float-artsncrafts {
+      top: 26%;
+      right: 58%;
+      width: 130px;
+    }
 
-/* Architecture label normal */
-.float-architecture {
-  top: 33%;
-  right: -5%;
-  width: 180px;
-}
+    .float-architecture {
+      top: 33%;
+      right: -5%;
+      width: 180px;
+    }
 
-/* Profile label */
-.float-profile {
-  top: 52%;
-  left: 20%;
-  width: 90px;
-}
+    .float-profile {
+      top: 52%;
+      left: 20%;
+      width: 90px;
+    }
 
-/* Other label */
-.float-other {
-  top:65%;
-  left: 80%;
-  width: 80px;
-}
-
-
-
-  
+    .float-other {
+      top: 65%;
+      left: 80%;
+      width: 80px;
+    }
   </style>
 </head>
 
 <body>
-  <!-- Sidebar Toggle -->
-  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-
   <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
-    <h3>HOME</h3>
-    <h3>PROJECTS</h3>
-    <a href="#">Architectural Project</a>
-    <a href="#">Illustration</a>
-    <a href="#">Arts n Crafts</a>
-    <a href="#">Other</a>
-    <h3>ABOUT</h3>
-    <a href="#">Profile</a>
-    <a href="#">Contact</a>
+  <div class="sidebar">
+    <div class="menu-icon">☰</div>
+    <div class="menu-panel">
+      <h3>HOME</h3>
+      <a href="index.html">Main</a>
+      <h3>PROJECTS</h3>
+      <a href="architecture.html">Architecture</a>
+      <a href="illustration.html">Illustration</a>
+      <a href="artsncrafts.html">Arts & Crafts</a>
+      <a href="other.html">Other</a>
+      <h3>ABOUT</h3>
+      <a href="profile.html">Profile</a>
+      <a href="#">Contact</a>
+    </div>
   </div>
 
   <!-- Header -->
@@ -199,34 +191,28 @@
     </div>
   </header>
 
+  <!-- Hero Section -->
   <div class="hero">
-  <div class="graphic-wrapper">
-    <img src="nAsset 3@3x.png" class="main-graphic" alt="Main Graphic" />
+    <div class="graphic-wrapper">
+      <img src="nAsset 3@3x.png" class="main-graphic" alt="Main Graphic" />
 
-    <!-- Floating Text Icons -->
-    <a href="illustration.html">
-      <img src="nAsset 5@3x.png" class="floating-icon float-illustration" alt="Illustration" />
-    </a>
-    <a href="artsncrafts.html">
-      <img src="nAsset 4@3x.png" class="floating-icon float-artsncrafts" alt="Arts n Crafts" />
-    </a>
-    <a href="architecture.html">
-      <img src="nAsset 7@3x.png" class="floating-icon float-architecture" alt="Architecture" />
-    </a>
-    <a href="profile.html">
-      <img src="nAsset 6@3x.png" class="floating-icon float-profile" alt="Profile" />
-    </a>
-    <a href="other.html">
-      <img src="nAsset 8@3x.png" class="floating-icon float-other" alt="Other" />
-    </a>
+      <!-- Floating Text Icons -->
+      <a href="illustration.html">
+        <img src="nAsset 5@3x.png" class="floating-icon float-illustration" alt="Illustration" />
+      </a>
+      <a href="artsncrafts.html">
+        <img src="nAsset 4@3x.png" class="floating-icon float-artsncrafts" alt="Arts n Crafts" />
+      </a>
+      <a href="architecture.html">
+        <img src="nAsset 7@3x.png" class="floating-icon float-architecture" alt="Architecture" />
+      </a>
+      <a href="profile.html">
+        <img src="nAsset 6@3x.png" class="floating-icon float-profile" alt="Profile" />
+      </a>
+      <a href="other.html">
+        <img src="nAsset 8@3x.png" class="floating-icon float-other" alt="Other" />
+      </a>
+    </div>
   </div>
-</div>
-
-  <!-- Sidebar Toggle Script -->
-  <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-    }
-  </script>
 </body>
 </html>
