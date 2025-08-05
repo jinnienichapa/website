@@ -15,13 +15,11 @@
       overflow-x: hidden;
     }
 
-    /* Sidebar: Icon Only */
+    /* --- Sidebar Styles --- */
     .sidebar {
       position: fixed;
       top: 1rem;
       left: 1rem;
-      width: auto;
-      height: auto;
       z-index: 1000;
     }
 
@@ -41,11 +39,11 @@
       padding: 1rem;
       border-radius: 6px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      display: none;
       min-width: 180px;
+      display: none;
     }
 
-    .sidebar:hover .menu-panel {
+    .menu-panel.active {
       display: block;
     }
 
@@ -68,7 +66,7 @@
       color: #C4499A;
     }
 
-    /* Header */
+    /* --- Header & Navigation --- */
     header {
       padding: 2rem;
       text-align: center;
@@ -100,7 +98,7 @@
       border-bottom: 1px solid #000;
     }
 
-    /* Hero Section */
+    /* --- Hero Section --- */
     .hero {
       display: flex;
       justify-content: center;
@@ -127,7 +125,7 @@
       transform: scale(1.1);
     }
 
-    /* Individual Floating Labels */
+    /* --- Floating Labels with Sizes & Positioning --- */
     .float-illustration {
       top: 40%;
       left: -4%;
@@ -157,14 +155,16 @@
       left: 80%;
       width: 80px;
     }
+
   </style>
 </head>
 
 <body>
+
   <!-- Sidebar -->
   <div class="sidebar">
-    <div class="menu-icon">☰</div>
-    <div class="menu-panel">
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <div class="menu-panel" id="menuPanel">
       <h3>HOME</h3>
       <a href="index.html">Main</a>
       <h3>PROJECTS</h3>
@@ -196,7 +196,7 @@
     <div class="graphic-wrapper">
       <img src="nAsset 3@3x.png" class="main-graphic" alt="Main Graphic" />
 
-      <!-- Floating Text Icons -->
+      <!-- Floating Icons -->
       <a href="illustration.html">
         <img src="nAsset 5@3x.png" class="floating-icon float-illustration" alt="Illustration" />
       </a>
@@ -214,5 +214,23 @@
       </a>
     </div>
   </div>
+
+  <!-- Sidebar JS -->
+  <script>
+    function toggleMenu() {
+      const panel = document.getElementById("menuPanel");
+      panel.classList.toggle("active");
+    }
+
+    // Optional: Close sidebar when clicking outside
+    document.addEventListener("click", function(event) {
+      const sidebar = document.querySelector(".sidebar");
+      const panel = document.getElementById("menuPanel");
+      if (!sidebar.contains(event.target)) {
+        panel.classList.remove("active");
+      }
+    });
+  </script>
+
 </body>
 </html>
