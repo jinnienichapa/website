@@ -16,52 +16,54 @@
     /* Sidebar */
     .sidebar {
       position: fixed;
-      top: 0;
-      left: -220px;
-      width: 220px;
-      height: 100%;
-      background-color: #2c1d5a;
-      color: white;
-      padding: 2rem 1rem;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      transition: left 0.3s ease;
+      top: 1rem;
+      left: 1rem;
       z-index: 1000;
     }
 
-    .sidebar.open {
-      left: 0;
-    }
-
-    .sidebar h3 {
-      text-transform: uppercase;
-      margin-top: 1rem;
-      color: #f48ab6;
-      font-size: 0.9rem;
-    }
-
-    .sidebar a {
-      display: block;
-      color: white;
-      text-decoration: none;
-      margin: 0.5rem 0;
-      font-size: 0.9rem;
-    }
-
-    .sidebar a:hover {
-      color: #f48ab6;
-    }
-
-    .menu-toggle {
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      background-color: #2c1d5a;
-      color: white;
-      border: none;
-      font-size: 1.5rem;
+    .menu-icon {
+      font-size: 1.8rem;
       cursor: pointer;
-      z-index: 1001;
-      padding: 0.5rem 1rem;
+      color: #2c1d5a;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+    }
+
+    .menu-panel {
+      position: absolute;
+      top: 0;
+      left: 2.5rem;
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      min-width: 180px;
+      display: none;
+    }
+
+    .menu-panel.active {
+      display: block;
+    }
+
+    .menu-panel h3 {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+      color: #f48ab6;
+    }
+
+    .menu-panel a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      font-size: 0.85rem;
+      margin: 0.25rem 0;
+    }
+
+    .menu-panel a:hover {
+      color: #f48ab6;
     }
 
     /* Header */
@@ -111,7 +113,7 @@
       overflow: hidden;
       cursor: pointer;
       border-radius: 8px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
       background: #fff;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -126,7 +128,7 @@
 
     .project:hover {
       transform: scale(1.03);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
     .project-title {
@@ -143,18 +145,20 @@
 <body>
 
   <!-- Sidebar -->
-  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-  <div class="sidebar" id="sidebar">
-    <h3>HOME</h3>
-    <a href="index.html">Main</a>
-    <h3>PROJECTS</h3>
-    <a href="architecture.html">Architectural Project</a>
-    <a href="illustration.html">Illustration</a>
-    <a href="artsncrafts.html">Arts n Crafts</a>
-    <a href="other.html">Other</a>
-    <h3>ABOUT</h3>
-    <a href="profile.html">Profile</a>
-    <a href="#">Contact</a>
+  <div class="sidebar">
+    <button class="menu-icon" onclick="toggleMenu()">☰</button>
+    <div class="menu-panel" id="menuPanel">
+      <h3>HOME</h3>
+      <a href="index.html">Main</a>
+      <h3>PROJECTS</h3>
+      <a href="architecture.html">Architectural Project</a>
+      <a href="illustration.html">Illustration</a>
+      <a href="artsncrafts.html">Arts n Crafts</a>
+      <a href="other.html">Other</a>
+      <h3>ABOUT</h3>
+      <a href="profile.html">Profile</a>
+      <a href="#">Contact</a>
+    </div>
   </div>
 
   <!-- Header -->
@@ -197,11 +201,22 @@
     </a>
   </div>
 
-  <!-- JS Sidebar Toggle -->
+  <!-- Sidebar JS -->
   <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
+    function toggleMenu() {
+      const panel = document.getElementById("menuPanel");
+      panel.classList.toggle("active");
     }
+
+    document.addEventListener("click", function (event) {
+      const sidebar = document.querySelector(".sidebar");
+      const panel = document.getElementById("menuPanel");
+      const icon = document.querySelector(".menu-icon");
+
+      if (!sidebar.contains(event.target)) {
+        panel.classList.remove("active");
+      }
+    });
   </script>
 
 </body>
