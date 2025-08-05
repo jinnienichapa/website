@@ -13,59 +13,63 @@
       overflow-x: hidden;
     }
 
-    /* Hidden Sidebar */
+    /* Collapsible Sidebar */
     .sidebar {
       position: fixed;
       top: 0;
-      left: -220px;
-      width: 220px;
+      left: 0;
+      width: 60px;
       height: 100%;
       background-color: #2c1d5a;
       color: white;
-      padding: 2rem 1rem;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      transition: left 0.3s ease;
+      overflow-x: hidden;
+      transition: width 0.3s ease;
       z-index: 1000;
     }
 
     .sidebar:hover {
-      left: 0;
+      width: 220px;
     }
 
-    /* Invisible hot zone for hover */
-    .sidebar-hover-area {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 20px;
-      height: 100%;
-      z-index: 999;
+    .sidebar .menu-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60px;
+      font-size: 1.5rem;
+      background-color: #1f1340;
+      color: white;
     }
 
     .sidebar h3 {
       text-transform: uppercase;
-      margin-top: 1rem;
+      margin: 1rem 1rem 0;
       color: #f48ab6;
       font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     .sidebar a {
       display: block;
       color: white;
       text-decoration: none;
-      margin: 0.5rem 0;
+      margin: 0.5rem 1rem;
       font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    .sidebar a:hover {
-      color: #f48ab6;
+    .sidebar:hover h3,
+    .sidebar:hover a {
+      opacity: 1;
     }
 
-    /* Page Layout */
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem;
+      padding-left: 80px; /* spacing to avoid sidebar overlap */
     }
 
     .top-section {
@@ -118,7 +122,6 @@
       font-size: 1.2rem;
     }
 
-    /* Large Drawing List */
     .detail-list {
       display: flex;
       flex-direction: column;
@@ -132,7 +135,6 @@
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* Grid of Smaller Details */
     .detail-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -155,16 +157,28 @@
       .right-text {
         padding-top: 1rem;
       }
+
+      .sidebar {
+        width: 100%;
+        height: 60px;
+      }
+
+      .sidebar:hover {
+        height: auto;
+        width: 100%;
+      }
+
+      .container {
+        padding-left: 20px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <!-- Hover zone for sidebar -->
-  <div class="sidebar-hover-area"></div>
-
-  <!-- Hidden Sidebar -->
+  <!-- Collapsible Sidebar -->
   <div class="sidebar">
+    <div class="menu-icon">☰</div>
     <h3>HOME</h3>
     <a href="index.html">Main</a>
     <h3>PROJECTS</h3>
@@ -177,6 +191,7 @@
     <a href="#">Contact</a>
   </div>
 
+  <!-- Main Content -->
   <div class="container">
     <!-- Top Section: Image + Text -->
     <div class="top-section">
