@@ -13,6 +13,55 @@
       overflow-x: hidden;
     }
 
+    /* Hidden Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -220px;
+      width: 220px;
+      height: 100%;
+      background-color: #2c1d5a;
+      color: white;
+      padding: 2rem 1rem;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      transition: left 0.3s ease;
+      z-index: 1000;
+    }
+
+    .sidebar:hover {
+      left: 0;
+    }
+
+    /* Invisible hot zone for hover */
+    .sidebar-hover-area {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 100%;
+      z-index: 999;
+    }
+
+    .sidebar h3 {
+      text-transform: uppercase;
+      margin-top: 1rem;
+      color: #f48ab6;
+      font-size: 0.9rem;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    .sidebar a:hover {
+      color: #f48ab6;
+    }
+
+    /* Page Layout */
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -111,8 +160,24 @@
 </head>
 
 <body>
-  <div class="container">
+  <!-- Hover zone for sidebar -->
+  <div class="sidebar-hover-area"></div>
 
+  <!-- Hidden Sidebar -->
+  <div class="sidebar">
+    <h3>HOME</h3>
+    <a href="index.html">Main</a>
+    <h3>PROJECTS</h3>
+    <a href="architecture.html">Architectural Project</a>
+    <a href="illustration.html">Illustration</a>
+    <a href="artsncrafts.html">Arts n Crafts</a>
+    <a href="other.html">Other</a>
+    <h3>ABOUT</h3>
+    <a href="profile.html">Profile</a>
+    <a href="#">Contact</a>
+  </div>
+
+  <div class="container">
     <!-- Top Section: Image + Text -->
     <div class="top-section">
       <div class="left-image">
@@ -144,7 +209,6 @@
       <img src="2024-2025_Y3S1_ARCH_DESGN _2_Chutayaves_Sinthuphan_Jinnie_Nichapa_Eamcharoen_05_Model.JPG" alt="Physical Model">
       <img src="present final-48.jpg" alt="Render View">
     </div>
-
   </div>
 </body>
 </html>
