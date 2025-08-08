@@ -234,6 +234,24 @@
     </div>
 
   </div>
+
+  <!-- Sidebar JS -->
+  <script>
+    function toggleMenu() {
+      const panel = document.getElementById("menuPanel");
+      panel.classList.toggle("active");
+    }
+
+    document.addEventListener("click", function (event) {
+      const sidebar = document.querySelector(".sidebar");
+      const panel = document.getElementById("menuPanel");
+      const icon = document.querySelector(".menu-icon");
+
+      if (!sidebar.contains(event.target)) {
+        panel.classList.remove("active");
+      }
+    });
+  </script>
 </body>
 </html>
 
