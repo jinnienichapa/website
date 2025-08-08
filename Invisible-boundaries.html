@@ -112,13 +112,11 @@
     grid-template-columns: 1fr;
   }
 }
-    /* Sidebar (same as Village in a City) */
+     /* Sidebar */
     .sidebar {
       position: fixed;
       top: 1rem;
       left: 1rem;
-      width: auto;
-      height: auto;
       z-index: 1000;
     }
 
@@ -126,7 +124,9 @@
       font-size: 1.8rem;
       cursor: pointer;
       color: #2c1d5a;
-      transition: color 0.3s ease;
+      background-color: transparent;
+      border: none;
+      padding: 0;
     }
 
     .menu-panel {
@@ -137,12 +137,12 @@
       border: 1px solid #ddd;
       padding: 1rem;
       border-radius: 6px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      display: none;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
       min-width: 180px;
+      display: none;
     }
 
-    .sidebar:hover .menu-panel {
+    .menu-panel.active {
       display: block;
     }
 
@@ -150,7 +150,7 @@
       text-transform: uppercase;
       font-size: 0.8rem;
       margin: 0.5rem 0;
-      color: #C4499A;
+      color: #f48ab6;
     }
 
     .menu-panel a {
@@ -162,8 +162,9 @@
     }
 
     .menu-panel a:hover {
-      color: #C4499A;
+      color: #f48ab6;
     }
+
   </style>
 </head>
 
