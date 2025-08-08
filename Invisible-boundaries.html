@@ -86,29 +86,32 @@
 
     /* Grid of Smaller Details */
     .detail-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Always 3 columns on desktop */
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
 
-    .detail-grid img {
-      width: 100%;
-      height: auto;
-      border-radius: 6px;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-    }
+.detail-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
 
-    @media (max-width: 768px) {
-      .top-section {
-        flex-direction: column;
-      }
+/* Tablet: 2 images per row */
+@media (max-width: 768px) {
+  .detail-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
-      .right-text {
-        padding-top: 1rem;
-      }
-    }
-
+/* Mobile: 1 image per row */
+@media (max-width: 480px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
     /* Sidebar (same as Village in a City) */
     .sidebar {
       position: fixed;
