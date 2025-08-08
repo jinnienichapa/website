@@ -15,7 +15,7 @@
   }
 
   .page {
-    width: 400px;
+    width: 200px;
     height: 550px;
     background: white;
     overflow: hidden;
@@ -36,6 +36,14 @@
     height: 100%;
     object-fit: cover;
   }
+  #flipbook div {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#flipbook div:hover {
+  transform: scale(1.05);
+  z-index: 10;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 </style>
 </head>
 <body>
@@ -45,16 +53,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
 
 <div id="flipbook">
-  <div><img src="full board vil2-03-03.png"></div>
-  <div><img src="full board vil2-03-03.png"></div>
-  <div><img src="full board vil2-03-03.png"></div>
-  <div><img src="full board vil2-03-03.png"></div>
+  <div><img src="pic1.png"></div>
+  <div><img src="pic2.png"></div>
+  <div><img src="pic3.png"></div>
+  <div><img src="pic4.png"></div>
 </div>
 
 <script>
   $("#flipbook").turn({
-    width: 800,
-    height: 600,
+    width: 200,
+    height: 550,
     autoCenter: true
   });
 </script>
