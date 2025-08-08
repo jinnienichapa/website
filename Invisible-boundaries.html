@@ -1,1 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Invisible Boundaries – Nichapa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      background-color: #fff;
+      color: #000;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .top-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .left-image {
+      flex: 1 1 65%;
+    }
+
+    .left-image iframe {
+      width: 100%;
+      height: 480px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border: none;
+    }
+
+    .right-text {
+      flex: 1 1 30%;
+    }
+
+    .right-text h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #212254;
+    }
+
+    .right-text h3 {
+      font-weight: normal;
+      font-size: 1rem;
+      color: #666;
+      margin-top: 0;
+    }
+
+    .right-text p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-top: 1rem;
+      text-align: justify;
+    }
+
+    .section-title {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin: 3rem 0 1.5rem;
+      color: #C4499A;
+      font-size: 1.2rem;
+    }
+
+    /* Large Drawing List */
+    .detail-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .detail-list img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Grid of Smaller Details */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .detail-grid img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .top-section {
+        flex-direction: column;
+      }
+
+      .right-text {
+        padding-top: 1rem;
+      }
+    }
+
+    /* Sidebar (same as Village in a City) */
+    .sidebar {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      width: auto;
+      height: auto;
+      z-index: 1000;
+    }
+
+    .menu-icon {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #2c1d5a;
+      transition: color 0.3s ease;
+    }
+
+    .menu-panel {
+      position: absolute;
+      top: 0;
+      left: 2.5rem;
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      display: none;
+      min-width: 180px;
+    }
+
+    .sidebar:hover .menu-panel {
+      display: block;
+    }
+
+    .menu-panel h3 {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+      color: #C4499A;
+    }
+
+    .menu-panel a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      font-size: 0.85rem;
+      margin: 0.25rem 0;
+    }
+
+    .menu-panel a:hover {
+      color: #C4499A;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="menu-icon">☰</div>
+    <div class="menu-panel">
+      <h3>HOME</h3>
+      <a href="index.html">Main</a>
+      <h3>PROJECTS</h3>
+      <a href="architecture.html">Architecture</a>
+      <a href="illustration.html">Illustration</a>
+      <a href="artsncrafts.html">Arts & Crafts</a>
+      <a href="other.html">Other</a>
+      <h3>ABOUT</h3>
+      <a href="profile.html">Profile</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+
+    <div class="top-section">
+      <div class="left-image">
+        <iframe 
+          src="https://drive.google.com/file/d/1a3UOd1NaNx82ChZWzHpxfL0boUETjZiq/preview" 
+          allow="autoplay; encrypted-media" 
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="right-text">
+        <h1>Invisible Boundaries</h1>
+        <h3>Y3 S1</h3>
+        <p><strong>Brief:</strong> Extrastatecraft: Infrapolitics vs the Critical Project</p>
+        <p><strong>Description:</strong> Invisible Boundaries act as an infrastructure that invites wildlife back to the city area, using ruins as an asset to bring nature into urban life. The project focuses on rewilding spaces and redefining the relationship between cities and nature. Instead of decoration, nature becomes part of daily life, creating shared spaces for humans and wildlife through four key invisible boundary methods.</p>
+        <p><strong>Program:</strong> Unreal Engine, Rhino, Blender</p>
+      </div>
+    </div>
+
+    <!-- Large Drawings -->
+    <div class="section-title">Other Drawings & Details</div>
+    <div class="detail-list">
+      <img src="2024-2025_Y3S2_ARCH_DSGN_3_HSENG_TAI_LINTNER_Jinnie_Nichapa_Eamcharoen_LT_06.jpeg" alt="Plan">
+      <img src="2024-2025_Y3S2_ARCH_DSGN_3_HSENG_TAI_LINTNER_Jinnie_Nichapa_Eamcharoen_RD_05.jpeg" alt="Section">
+      <img src="2024-2025_Y3S1_ARCH_DESGN _2_Chutayaves_Sinthuphan_Jinnie_Nichapa_Eamcharoen_05_Panel-01.jpg" alt="Exploded Axon">
+      <img src="front n side panel-02.png" alt="Perspective Drawing">
+    </div>
+
+    <!-- Grid of Smaller Details -->
+    <div class="section-title">Additional Views</div>
+    <div class="detail-grid">
+      <img src="2024-2025_Y3S1_ARCH_DESGN _2_Chutayaves_Sinthuphan_Jinnie_Nichapa_Eamcharoen_06_Panel.jpg" alt="Site Overview">
+      <img src="30x60 diagram full file-01.jpg" alt="Concept Diagram">
+      <img src="2024-2025_Y3S1_ARCH_DESGN _2_Chutayaves_Sinthuphan_Jinnie_Nichapa_Eamcharoen_05_Model.JPG" alt="Physical Model">
+      <img src="present final-48.jpg" alt="Render View">
+    </div>
+
+  </div>
+</body>
+</html>
 
