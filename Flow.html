@@ -1,1 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Invisible Boundaries – Nichapa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      background-color: #fff;
+      color: #000;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .top-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .left-image {
+      flex: 1 1 65%;
+    }
+
+    .left-image iframe {
+      width: 100%;
+      height: 480px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border: none;
+    }
+
+    .right-text {
+      flex: 1 1 30%;
+    }
+
+    .right-text h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #212254;
+    }
+
+    .right-text h3 {
+      font-weight: normal;
+      font-size: 1rem;
+      color: #666;
+      margin-top: 0;
+    }
+
+    .right-text p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-top: 1rem;
+      text-align: justify;
+    }
+
+    .section-title {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin: 3rem 0 1.5rem;
+      color: #C4499A;
+      font-size: 1.2rem;
+    }
+
+    /* Large Drawing List */
+    .detail-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .detail-list img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Grid of Smaller Details */
+    .detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Always 3 columns on desktop */
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.detail-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tablet: 2 images per row */
+@media (max-width: 768px) {
+  .detail-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: 1 image per row */
+@media (max-width: 480px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+     /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1000;
+    }
+
+    .menu-icon {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #2c1d5a;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+    }
+
+    .menu-panel {
+      position: absolute;
+      top: 0;
+      left: 2.5rem;
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      min-width: 180px;
+      display: none;
+    }
+
+    .menu-panel.active {
+      display: block;
+    }
+
+    .menu-panel h3 {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+      color: #f48ab6;
+    }
+
+    .menu-panel a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      font-size: 0.85rem;
+      margin: 0.25rem 0;
+    }
+
+    .menu-panel a:hover {
+      color: #f48ab6;
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <button class="menu-icon" onclick="toggleMenu()">☰</button>
+    <div class="menu-panel" id="menuPanel">
+      <h3>HOME</h3>
+      <a href="index.html">Home</a>
+      <h3>PROJECTS</h3>
+      <a href="architecture.html">Architectural Project</a>
+      <a href="illustration.html">Illustration</a>
+      <a href="artsncrafts.html">Arts n Crafts</a>
+      <a href="other.html">Other</a>
+      <h3>ABOUT</h3>
+      <a href="profile.html">Profile</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+
+    <div class="top-section">
+      <div class="left-image">
+         <div class="left-image">
+    <iframe 
+      width="100%" 
+      height="480" 
+      src="https://www.youtube.com/embed/pWQORCTmoxc" 
+      title="Invisible Boundaries Video"
+      frameborder="0"
+      allow="autoplay; encrypted-media; picture-in-picture" 
+      allowfullscreen
+      style="border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: none;">
+    </iframe>
+  </div>
+      </div>
+
+      <div class="right-text">
+        <h1>Flow</h1>
+        <h3>Y2 S2</h3>
+        <p><strong>Brief:</strong> Aquatecture</p>
+        <p><strong>Description:</strong> Flow is an underground living museum that highlights the importance of land use through many eras related to the waterway. The museum is placed in the underground level as an extension of Phayathai palace. It’s different from the current museum in that it’s a living museum people can experience through the activities. The key concept is using the level of ground to separate the timeline. In this area, water is the main factor that evokes the Ratchathewi area. But these days the importance of the waterway is lost. Flow is also created to bring back attention to the waterway
+</p>
+        <p><strong>Program:</strong> Rhino, Blender, Ai, Ps</p>
+      </div>
+    </div>
+
+    <!-- Large Drawings -->
+    <div class="section-title">Other Drawings & Details</div>
+    <div class="detail-list">
+      <img src="2024-2025_Y3S2_ARCH_DSGN_3_HSENG_TAI_LINTNER_Jinnie_Nichapa_Eamcharoen_LT_06.jpeg" alt="Plan">
+      <img src="vis2@3x.png" alt="Exploded Axon">
+      <img src="vis10-03.png" alt="Perspective Drawing">
+      <img src="2024-2025_Y3S2_ARCH_DSGN_3_HSENG_TAI_LINTNER_Jinnie_Nichapa_Eamcharoen_RD_05.jpeg" alt="Section">
+    </div>
+
+    <!-- Grid of Smaller Details -->
+    <div class="section-title">Additional Views</div>
+    <div class="detail-grid">
+      <img src="map1@3x.png" alt="Concept Diagram">
+      <img src="2024-2025_Y3S2_AD3_HSENG_TAI_LINTNER_Jinnie_Nichapa_Eamcharoen_S_07-02.jpg" alt="Render View">
+      <img src="map3@3x.png" alt="Render View">
+      <img src="vis1@3x.png" alt="Site Overview">
+      <img src="map2@3x.png" alt="Physical Model">
+      <img src="map4@3x.png" alt="Render View">
+    </div>
+
+  </div>
+
+  <!-- Sidebar JS -->
+  <script>
+    function toggleMenu() {
+      const panel = document.getElementById("menuPanel");
+      panel.classList.toggle("active");
+    }
+
+    document.addEventListener("click", function (event) {
+      const sidebar = document.querySelector(".sidebar");
+      const panel = document.getElementById("menuPanel");
+      const icon = document.querySelector(".menu-icon");
+
+      if (!sidebar.contains(event.target)) {
+        panel.classList.remove("active");
+      }
+    });
+  </script>
+</body>
+</html>
 
