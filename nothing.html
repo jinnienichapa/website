@@ -1,74 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Layered Flipbook</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Floating Flip Pages — Multi-Layer</title>
 <style>
+  :root {
+    --page-w: 360px;  /* adjustable width */
+    --page-h: 520px;
+    --gap-x: 180px;   /* horizontal offset step between layers */
+  }
+
   body {
-    background: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
-  }
-
-  #flipbook {
+    min-height: 100vh;
     display: flex;
-    gap: -200px; /* stronger overlap for more layers */
-    position: relative;
-    height: 550px; /* fixed height */
-    align-items: flex-end;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    font-family: Helvetica, Arial, sans-serif;
   }
 
-  #flipbook div {
-    display: inline-block;
-    height: 100%;
-    width: auto;
+  .wrap {
+    width: 100%;
+    max-width: 1400px;
+    height: calc(var(--page-h) + 120px);
     position: relative;
-    z-index: 1;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0s ease;
+    perspective: 1800px;
+  }
+
+  .book {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+  }
+
+  .page {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--page-w);
+    height: var(--page-h);
+    transform: translate(-50%, -50%) translateX(var(--offset, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
+    transform-origin: center;
+    transition: transform 600ms cubic-bezier(.2, .8, .2, 1), opacity 300ms ease;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
     cursor: pointer;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  /* Base stacked shadow for depth */
-  #flipbook div img {
+  .page img {
+    width: 100%;
     height: 100%;
-    width: auto;
-    object-fit: contain;
-    display: block;
-    box-shadow: 
-      0 2px 4px rgba(0,0,0,0.2),
-      0 4px 8px rgba(0,0,0,0.15),
-      0 8px 16px rgba(0,0,0,0.1);
+    object-fit: cover;
+  }
+
+  .page:hover {
+    --scale: calc(var(--scale) * 1.06);
+    z-index: 9999;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  }
+
+  .page.dim {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 34px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    user-select: none;
+  }
+  .nav.left { left: 18px; }
+  .nav.right { right: 18px; }
+
+  @media (max-width: 980px) {
+    :root { --page-w: 300px; --page-h: 460px; --gap-x: 150px; }
+  }
+  @media (max-width: 620px) {
+    :root { --page-w: 220px; --page-h: 360px; --gap-x: 100px; }
+    .nav { display: none; }
+  }
+
+  .page .title {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    background: rgba(33, 34, 84, 0.9);
+    color: #fff;
+    padding: 6px 10px;
     border-radius: 4px;
-  }
-
-  /* Hover: bring page forward */
-  #flipbook div:hover {
-    transform: scale(1.08) rotate(0deg);
-    z-index: 100;
-  }
-
-  /* Hover shadow: stronger & more layered */
-  #flipbook div:hover img {
-    box-shadow:
-      0 4px 12px rgba(0,0,0,0.3),
-      0 8px 24px rgba(0,0,0,0.25),
-      0 12px 36px rgba(0,0,0,0.2);
+    font-size: 13px;
   }
 </style>
 </head>
 <body>
 
-<div id="flipbook">
-  <div><img src="full board in-01-min.png" alt="Page 1"></div>
-  <div><img src="full board in-01-min.png" alt="Page 2"></div>
-  <div><img src="full board in-01-min.png" alt="Page 3"></div>
-  <div><img src="full board vil-03.png" alt="Page 4"></div>
-  <div><img src="full board vil-03.png" alt="Page 5"></div>
+<div class="wrap">
+  <div class="book" id="book">
+    <div class="page" data-index="0"><img src="pic1.png"><div class="title">Project 01</div></div>
+    <div class="page" data-index="1"><img src="pic2.png"><div class="title">Project 02</div></div>
+    <div class="page" data-index="2"><img src="pic3.png"><div class="title">Project 03</div></div>
+    <div class="page" data-index="3"><img src="pic4.png"><div class="title">Project 04</div></div>
+    <div class="page" data-index="4"><img src="pic5.png"><div class="title">Project 05</div></div>
+    <div class="page" data-index="5"><img src="pic6.png"><div class="title">Project 06</div></div>
+    <div class="page" data-index="6"><img src="pic7.png"><div class="title">Project 07</div></div>
+  </div>
+
+  <div class="nav left" id="prevBtn">‹</div>
+  <div class="nav right" id="nextBtn">›</div>
 </div>
+
+<script>
+const pages = Array.from(document.querySelectorAll('.page'));
+let centerIndex = Math.floor(pages.length / 2);
+
+function layout() {
+  const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
+  const maxVisible = 3; // number of pages visible on each side
+
+  pages.forEach((el, idx) => {
+    const pos = idx - centerIndex;
+    if (Math.abs(pos) > maxVisible) {
+      // hide far pages
+      el.classList.add('dim');
+      el.style.setProperty('--offset', `${pos * gap}px`);
+      el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
+      el.style.setProperty('--scale', '0.7');
+      el.style.zIndex = 10;
+    } else {
+      // show visible pages with graduated offset and scale
+      el.classList.remove('dim');
+      const offset = pos * gap;
+      const rot = pos * -6; // smaller rotation for deeper stack
+      const scale = 1 - Math.abs(pos) * 0.12;
+      el.style.setProperty('--offset', `${offset}px`);
+      el.style.setProperty('--rot', `${rot}deg`);
+      el.style.setProperty('--scale', scale.toString());
+      el.style.zIndex = 50 - Math.abs(pos);
+    }
+  });
+}
+
+pages.forEach((el, idx) => {
+  el.addEventListener('click', () => {
+    if (idx !== centerIndex) {
+      centerIndex = idx;
+      layout();
+    } else {
+      console.log('Center page clicked');
+    }
+  });
+});
+
+document.getElementById('prevBtn').addEventListener('click', () => {
+  centerIndex = Math.max(0, centerIndex - 1);
+  layout();
+});
+document.getElementById('nextBtn').addEventListener('click', () => {
+  centerIndex = Math.min(pages.length - 1, centerIndex + 1);
+  layout();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') { centerIndex = Math.max(0, centerIndex - 1); layout(); }
+  if (e.key === 'ArrowRight') { centerIndex = Math.min(pages.length - 1, centerIndex + 1); layout(); }
+});
+
+layout();
+window.addEventListener('resize', () => setTimeout(layout, 120));
+</script>
 
 </body>
 </html>
