@@ -1,68 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flipbook Page</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Floating Flip Pages — Demo</title>
 <style>
-  body {
-    background: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+  :root{
+    --page-w: 360px;
+    --page-h: 520px;
+    --gap-x: 260px; /* horizontal offset of side pages */
   }
 
-  #flipbook {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f3f4f6;
+    font-family: Helvetica, Arial, sans-serif;
   }
 
-  #flipbook div {
-    width: 400px;  /* each page width */
-    height: 550px; /* each page height */
-    overflow: hidden;
+  .wrap{
+    width: 100%;
+    max-width: 1200px;
+    height: calc(var(--page-h) + 120px);
+    position: relative;
+    perspective: 1800px;
   }
 
-  #flipbook div img {
+  /* Book container */
+  .book{
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    display: block;
+    position: relative;
+    transform-style: preserve-3d;
   }
 
-  /* Hover zoom effect for pages */
-  #flipbook div {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Single page */
+  .page{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width: var(--page-w);
+    height: var(--page-h);
+    transform: translate(-50%, -50%) translateX(var(--offset,0px)) rotateY(var(--rot,0deg)) scale(var(--scale,1));
     transform-origin: center;
+    transition: transform 600ms cubic-bezier(.2,.8,.2,1), opacity 300ms ease;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    cursor: pointer;
+    will-change: transform;
+    background: #fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
 
-  #flipbook div:hover {
-    transform: scale(1.05);
-    z-index: 10;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  .page img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  /* hover grows the hovered page slightly using CSS variable --hover-scale applied */
+  .page:hover{
+    --scale: calc(var(--scale) * 1.06);
+    z-index: 9999;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  }
+
+  /* dim non-visible pages slightly */
+  .page.dim {
+    opacity: 0.0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) translateX(var(--offset,0px)) scale(0.75);
+  }
+
+  /* navigation arrows */
+  .nav {
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    font-size: 34px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    user-select:none;
+  }
+  .nav.left { left: 18px; }
+  .nav.right { right: 18px; }
+
+  /* small responsive tweaks */
+  @media (max-width: 980px){
+    :root{ --page-w: 300px; --page-h: 460px; --gap-x: 200px; }
+  }
+  @media (max-width: 620px){
+    :root{ --page-w: 220px; --page-h: 360px; --gap-x: 120px; }
+    .nav{ display:none; }
+  }
+
+  /* optional page title overlay */
+  .page .title{
+    position:absolute;
+    left:12px;
+    bottom:12px;
+    background: rgba(33,34,84,0.9);
+    color: #fff;
+    padding:6px 10px;
+    border-radius:4px;
+    font-size: 13px;
+    letter-spacing: .6px;
   }
 </style>
 </head>
 <body>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
+<div class="wrap">
+  <div class="book" id="book">
+    <!-- pages: replace pic1.png... with your images -->
+    <div class="page" data-index="0"><img src="pic1.png" alt=""><div class="title">Project 01</div></div>
+    <div class="page" data-index="1"><img src="pic2.png" alt=""><div class="title">Project 02</div></div>
+    <div class="page" data-index="2"><img src="pic3.png" alt=""><div class="title">Project 03</div></div>
+    <div class="page" data-index="3"><img src="pic4.png" alt=""><div class="title">Project 04</div></div>
+    <div class="page" data-index="4"><img src="pic5.png" alt=""><div class="title">Project 05</div></div>
+  </div>
 
-<div id="flipbook">
-  <div><img src="pic1.png" alt="Page 1"></div>
-  <div><img src="pic2.png" alt="Page 2"></div>
-  <div><img src="pic3.png" alt="Page 3"></div>
-  <div><img src="pic4.png" alt="Page 4"></div>
+  <div class="nav left" id="prevBtn" title="Previous">‹</div>
+  <div class="nav right" id="nextBtn" title="Next">›</div>
 </div>
 
 <script>
-  $("#flipbook").turn({
-    width: 800,   // total book width (2 pages)
-    height: 550,  // height of the book
-    autoCenter: true
+/*
+  Simple controller:
+  - centerIndex is the index of the centered page
+  - pages arranged so center, left, right visible; others hidden
+  - clicking a side page sets it as center
+*/
+
+const pages = Array.from(document.querySelectorAll('.page'));
+let centerIndex = Math.floor(pages.length/2); // start centered roughly in middle
+
+function layout(){
+  const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x')) || 260;
+  pages.forEach((el, idx) => {
+    const pos = idx - centerIndex;
+    if(pos === 0){
+      // center
+      el.style.setProperty('--offset', '0px');
+      el.style.setProperty('--rot', '0deg');
+      el.style.setProperty('--scale', '1');
+      el.style.zIndex = 50;
+      el.classList.remove('dim');
+      el.style.opacity = 1;
+    } else if(pos === -1){
+      // left visible
+      el.style.setProperty('--offset', `${-gap}px`);
+      el.style.setProperty('--rot', '16deg');
+      el.style.setProperty('--scale', '0.88');
+      el.style.zIndex = 40;
+      el.classList.remove('dim');
+      el.style.opacity = 1;
+    } else if(pos === 1){
+      // right visible
+      el.style.setProperty('--offset', `${gap}px`);
+      el.style.setProperty('--rot', '-16deg');
+      el.style.setProperty('--scale', '0.88');
+      el.style.zIndex = 40;
+      el.classList.remove('dim');
+      el.style.opacity = 1;
+    } else if(pos < -1){
+      // out left (hidden)
+      el.style.setProperty('--offset', `${-gap*2 - 160}px`);
+      el.style.setProperty('--rot', '18deg');
+      el.style.setProperty('--scale', '0.75');
+      el.style.zIndex = 20;
+      el.classList.add('dim');
+      el.style.opacity = 0;
+    } else {
+      // pos > 1 => out right (hidden)
+      el.style.setProperty('--offset', `${gap*2 + 160}px`);
+      el.style.setProperty('--rot', '-18deg');
+      el.style.setProperty('--scale', '0.75');
+      el.style.zIndex = 20;
+      el.classList.add('dim');
+      el.style.opacity = 0;
+    }
   });
+}
+
+// click interactions
+pages.forEach((el, idx) => {
+  el.addEventListener('click', (e) => {
+    // if clicked page is not center, center it
+    if(idx !== centerIndex){
+      centerIndex = idx;
+      layout();
+    } else {
+      // center clicked - you might open project page or lightbox
+      // example: window.location.href = 'project-' + (idx+1) + '.html';
+      console.log('center page clicked (open project or lightbox)');
+    }
+  });
+});
+
+// next/prev nav
+document.getElementById('prevBtn').addEventListener('click', () => {
+  centerIndex = Math.max(0, centerIndex - 1);
+  layout();
+});
+document.getElementById('nextBtn').addEventListener('click', () => {
+  centerIndex = Math.min(pages.length - 1, centerIndex + 1);
+  layout();
+});
+
+// keyboard
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'ArrowLeft') { centerIndex = Math.max(0, centerIndex - 1); layout(); }
+  if(e.key === 'ArrowRight'){ centerIndex = Math.min(pages.length - 1, centerIndex + 1); layout(); }
+});
+
+// initial layout
+layout();
+
+// optional: resize handler to re-layout if CSS variables change
+window.addEventListener('resize', () => setTimeout(layout, 120));
 </script>
 
 </body>
