@@ -14,55 +14,56 @@
     margin: 0;
   }
 
-  .page {
-    width: 200px;
-    height: 550px;
-    background: white;
-    overflow: hidden;
-    border-radius: 8px;
+  #flipbook {
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
   }
 
-  .page:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    z-index: 10;
+  #flipbook div {
+    width: 400px;  /* each page width */
+    height: 550px; /* each page height */
+    overflow: hidden;
   }
 
-  .page img {
+  #flipbook div img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
-  #flipbook div {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
 
-#flipbook div:hover {
-  transform: scale(1.05);
-  z-index: 10;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  /* Hover zoom effect for pages */
+  #flipbook div {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-origin: center;
+  }
+
+  #flipbook div:hover {
+    transform: scale(1.05);
+    z-index: 10;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
 </style>
 </head>
 <body>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
 
 <div id="flipbook">
-  <div><img src="pic1.png"></div>
-  <div><img src="pic2.png"></div>
-  <div><img src="pic3.png"></div>
-  <div><img src="pic4.png"></div>
+  <div><img src="pic1.png" alt="Page 1"></div>
+  <div><img src="pic2.png" alt="Page 2"></div>
+  <div><img src="pic3.png" alt="Page 3"></div>
+  <div><img src="pic4.png" alt="Page 4"></div>
 </div>
 
 <script>
   $("#flipbook").turn({
-    width: 200,
-    height: 550,
+    width: 800,   // total book width (2 pages)
+    height: 550,  // height of the book
     autoCenter: true
   });
 </script>
+
+</body>
+</html>
