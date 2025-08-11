@@ -191,13 +191,11 @@
     /* Projects Grid */
     .projects {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* bigger min size */
-  gap: 1.5rem;
-  padding: 2rem;
-  width: 100%; /* take full page width */
-  max-width: 1200; 
-  margin: 0 auto;
-}
+       grid-template-columns: repeat(3, 1fr); /* always 3 columns on desktop */
+  gap: 2rem;
+  max-width: 1200px; /* matches screenshot width */
+  margin: 0 auto; /* center grid */
+  padding: 2rem 1rem;
 
     .project {
       position: relative;
