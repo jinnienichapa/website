@@ -86,11 +86,11 @@
     }
 
     /* Flipbook */
-    :root {
-      --page-w: 360px;
-      --page-h: 520px;
-      --gap-x: 180px;
-    }
+   :root {
+  --page-w: clamp(200px, 30vw, 360px); /* min 200px, preferred 30% of viewport width, max 360px */
+  --page-h: calc(var(--page-w) * 1.44); /* keep aspect ratio 360:520 ≈ 1:1.44 */
+  --gap-x: calc(var(--page-w) / 2);
+}
 
     .flipbook-container {
       text-align: center;
