@@ -89,7 +89,7 @@
     :root {
       --page-w: 360px;
       --page-h: 520px;
-      --gap-x: 180px;
+      --gap-x: 200px;
     }
 
     .flipbook-container {
@@ -119,9 +119,8 @@
       top: 50%;
       left: 50%;
       height: var(--page-h);
-      transform: translate(-50%, -50%) translateX(var(--offset, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
-      transform-origin: center;
-      transition: transform 600ms cubic-bezier(.2, .8, .2, 1), opacity 300ms ease;
+      transform: translateX(var(--offset, 0)) rotateY(var(--rot, 0)) scale(var(--scale, 1));      transform-origin: center;
+      transition: transform 0.4s ease, z-index 0.4s ease;
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 6px 20px rgba(0,0,0,0.12);
@@ -146,7 +145,7 @@
     }
 
     .page.dim {
-      opacity: 0;
+      opacity: 0.5;
       pointer-events: none;
     }
 
@@ -339,7 +338,6 @@
 <script>
   
   <!-- Flipbook JS -->
-<script>
 const pages = Array.from(document.querySelectorAll('.page'));
 let centerIndex = Math.floor(pages.length / 2);
 
@@ -401,7 +399,7 @@ const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
 const closeBtn = document.querySelector('.lightbox .close');
 
-document.querySelectorAll('.page img').forEach(img => {
+document.querySelectorAll('.page').forEach(img => {
   img.addEventListener('click', (e) => {
     e.stopPropagation(); // prevent flipbook click action
     lightbox.style.display = 'flex';
