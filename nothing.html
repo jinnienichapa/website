@@ -363,39 +363,40 @@
     const pages = document.querySelectorAll('.page');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    let currentPage = 4;
+    let currentPage = 4; // Or whatever your starting page is
 
     function layout() {
-  const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
-  const maxVisible = 3;
+      const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
+      const maxVisible = 3;
 
-  pages.forEach((el, idx) => {
-    const pos = idx - currentPage;
+      pages.forEach((el, idx) => {
+        const pos = idx - currentPage;
 
-    // Set z-index for all pages first
-    if (idx === currentPage) {
-      el.style.zIndex = 100; // Center page is always on top
-    } else {
-      el.style.zIndex = 50 - Math.abs(pos); // Other pages are layered behind
+        // Set z-index for all pages first
+        if (idx === currentPage) {
+          el.style.zIndex = 100; // Center page is always on top
+        } else {
+          el.style.zIndex = 50 - Math.abs(pos); // Other pages are layered behind
+        }
+
+        // Now apply other visual transformations
+        if (Math.abs(pos) > maxVisible || idx < currentPage - 2 || idx > currentPage + 2) {
+          el.classList.add('dim');
+          el.style.setProperty('--offset', `${pos * gap}px`);
+          el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
+          el.style.setProperty('--scale', `0.7`);
+        } else {
+          el.classList.remove('dim');
+          const offset = pos * gap;
+          const rot = pos * -6;
+          const scale = 1 - Math.abs(pos) * 0.12;
+          el.style.setProperty('--offset', `${offset}px`);
+          el.style.setProperty('--rot', `${rot}deg`);
+          el.style.setProperty('--scale', scale.toString());
+        }
+      });
     }
 
-    // Now apply other visual transformations
-    if (Math.abs(pos) > maxVisible || idx < currentPage - 2 || idx > currentPage + 2) {
-      el.classList.add('dim');
-      el.style.setProperty('--offset', `${pos * gap}px`);
-      el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
-      el.style.setProperty('--scale', `0.7`);
-    } else {
-      el.classList.remove('dim');
-      const offset = pos * gap;
-      const rot = pos * -6;
-      const scale = 1 - Math.abs(pos) * 0.12;
-      el.style.setProperty('--offset', `${offset}px`);
-      el.style.setProperty('--rot', `${rot}deg`);
-      el.style.setProperty('--scale', scale.toString());
-    }
-  });
-}
     function updateNavButtons() {
       prevBtn.style.opacity = currentPage === 0 ? 0.3 : 1;
       nextBtn.style.opacity = currentPage === pages.length - 1 ? 0.3 : 1;
@@ -419,10 +420,18 @@
       }
     });
 
+    // Modified click handler for pages
     pages.forEach((el, idx) => {
       el.addEventListener('click', () => {
-        // Only trigger flipbook movement if the clicked page is not the current one
-        if (idx !== currentPage) {
+        // Check if the clicked page is already the center page
+        if (idx === currentPage) {
+          // If it is the center page, open the lightbox
+          const img = el.querySelector('img');
+          lightbox.style.display = 'flex';
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt;
+        } else {
+          // If it is NOT the center page, move it to the center
           currentPage = idx;
           layout();
           updateNavButtons();
