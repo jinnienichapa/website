@@ -192,11 +192,12 @@
     /* Projects Grid */
     .projects {
       display: grid;
-       grid-template-columns: repeat(3, 1fr); /* always 3 columns on desktop */
-  gap: 2rem;
-  max-width: 1200px; /* matches screenshot width */
-  margin: 0 auto; /* center grid */
-  padding: 2rem 1rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
 
     .project {
       position: relative;
@@ -231,10 +232,34 @@
       background-color: #212254;
       color: #C4499A;
     }
+
+    /* Lightbox styling */
+    .lightbox {
+      position: fixed;
+      z-index: 1000;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .lightbox-img {
+      max-width: 90%;
+      max-height: 90%;
+    }
+    .lightbox .close {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      color: #fff;
+      font-size: 40px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
   <div class="sidebar">
     <button class="menu-icon" onclick="toggleMenu()">☰</button>
     <div class="menu-panel" id="menuPanel">
@@ -252,31 +277,28 @@
   </div>
 
   <div class="content">
-    <!-- Header -->
     <header>
       <div class="logo">
         <img src="arch pro_1@3x.png" alt="Nichapa's Logo" />
       </div>
     </header>
 
-    <!-- Flipbook -->
     <div class="flipbook-container">
       <div class="wrap">
         <div class="book" id="book">
-          <div class="page" data-index="0"><img src="pic1.png"><div class="title">Project 01</div></div>
-          <div class="page" data-index="1"><img src="pic2.png"><div class="title">Project 02</div></div>
-          <div class="page" data-index="2"><img src="full board flow-01.png"><div class="title">Flow</div></div>
-          <div class="page" data-index="3"><img src="full board flow2-01.png"><div class="title">Flow</div></div>
-          <div class="page" data-index="4"><img src="full board vil-03.png"><div class="title">Village in a City</div></div>
-          <div class="page" data-index="5"><img src="full board vil2-01.png"><div class="title">Village in a City</div></div>
-          <div class="page" data-index="6"><img src="full board in-01-min.png"><div class="title">Invisible Boundaries</div></div>
+          <div class="page" data-index="0"><img src="pic1.png" alt="Project 1"><div class="title">Project 01</div></div>
+          <div class="page" data-index="1"><img src="pic2.png" alt="Project 2"><div class="title">Project 02</div></div>
+          <div class="page" data-index="2"><img src="full board flow-01.png" alt="Flow"><div class="title">Flow</div></div>
+          <div class="page" data-index="3"><img src="full board flow2-01.png" alt="Flow 2"><div class="title">Flow</div></div>
+          <div class="page" data-index="4"><img src="full board vil-03.png" alt="Village in a City"><div class="title">Village in a City</div></div>
+          <div class="page" data-index="5"><img src="full board vil2-01.png" alt="Village in a City 2"><div class="title">Village in a City</div></div>
+          <div class="page" data-index="6"><img src="full board in-01-min.png" alt="Invisible Boundaries"><div class="title">Invisible Boundaries</div></div>
         </div>
-       <div class="nav left" id="prevBtn">&#9664;</div>
-       <div class="nav right" id="nextBtn">&#9654;</div>
+        <div class="nav left" id="prevBtn">&#9664;</div>
+        <div class="nav right" id="nextBtn">&#9654;</div>
       </div>
     </div>
 
-    <!-- Project Grid -->
     <div class="projects">
       <a class="project" href="life-in-soi.html">
         <img src="life in soi blur.png" alt="01 Life in Soi" />
@@ -305,153 +327,137 @@
     </div>
   </div>
 
-  <!-- Lightbox HTML -->
-<div id="lightbox" class="lightbox" style="display:none;">
-  <span class="close">&times;</span>
-  <img class="lightbox-img" id="lightbox-img" src="" alt="">
-</div>
+  <div id="lightbox" class="lightbox" style="display:none;">
+    <span class="close">&times;</span>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  </div>
 
-<style>
-  /* Lightbox styling */
-  .lightbox {
-    position: fixed;
-    z-index: 1000;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .lightbox-img {
-    max-width: 90%;
-    max-height: 90%;
-  }
-  .lightbox .close {
-    position: absolute;
-    top: 20px;
-    right: 40px;
-    color: #fff;
-    font-size: 40px;
-    cursor: pointer;
-  }
-</style>
-
-<script>
-  
-  <!-- Flipbook JS -->
-  const pages = document.querySelectorAll('.page');
-  const gapX = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
-  let currentPage = 0;
-
-function layout() {
-  const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
-  const maxVisible = 3;
-
-  pages.forEach((el, idx) => {
-    const pos = idx - centerIndex;
-    if (Math.abs(pos) > maxVisible) {
-      el.classList.add('dim');
-      el.style.setProperty('--offset', `${pos * gap}px`);
-      el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
-      el.style.setProperty('--scale', '0.7');
-      el.style.zIndex = 10;
-    } else {
-      el.classList.remove('dim');
-      const offset = pos * gap;
-      const rot = pos * -6;
-      const scale = 1 - Math.abs(pos) * 0.12;
-      el.style.setProperty('--offset', `${offset}px`);
-      el.style.setProperty('--rot', `${rot}deg`);
-      el.style.setProperty('--scale', scale.toString());
-      el.style.zIndex = 50 - Math.abs(pos);
+  <script>
+    // Sidebar toggle
+    function toggleMenu() {
+      const panel = document.getElementById("menuPanel");
+      panel.classList.toggle("active");
     }
-  });
-}
 
-pages.forEach((el, idx) => {
-  el.addEventListener('click', () => {
-    if (idx !== centerIndex) {
-      centerIndex = idx;
-      layout();
-    }
-  });
-});
+    document.addEventListener("click", function (event) {
+      const sidebar = document.querySelector(".sidebar");
+      const panel = document.getElementById("menuPanel");
+      const menuButton = document.querySelector(".menu-icon");
 
-
-pages.forEach((el, idx) => {
-  el.addEventListener('click', () => {
-    if (idx !== centerIndex) {
-      centerIndex = idx;
-      layout();
-    }
-  });
-});
-
-document.getElementById('prevBtn').addEventListener('click', () => {
-  centerIndex = Math.max(0, centerIndex - 1);
-  layout();
-});
-document.getElementById('nextBtn').addEventListener('click', () => {
-  centerIndex = Math.min(pages.length - 1, centerIndex + 1);
-  layout();
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowLeft') { centerIndex = Math.max(0, centerIndex - 1); layout(); }
-  if (e.key === 'ArrowRight') { centerIndex = Math.min(pages.length - 1, centerIndex + 1); layout(); }
-});
-
-layout();
-window.addEventListener('resize', () => setTimeout(layout, 120));
-</script>
-
-
- <!-- Lightbox JS -->
-<script>
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
-const closeBtn = document.querySelector('.lightbox .close');
-
-document.querySelectorAll('.page').forEach(img => {
-  img.addEventListener('click', (e) => {
-    e.stopPropagation(); // prevent flipbook click action
-    lightbox.style.display = 'flex';
-    lightboxImg.src = img.src;
-  });
-});
-
-closeBtn.addEventListener('click', () => {
-  lightbox.style.display = 'none';
-});
-
-lightbox.addEventListener('click', (e) => {
-  if (e.target === lightbox) {
-    lightbox.style.display = 'none';
-  }
-});
-</script>
+      // Check if the click is inside the sidebar or on the menu button
+      if (sidebar.contains(event.target) || menuButton.contains(event.target)) {
+        return;
+      }
       
+      // Check if the click is inside the lightbox
+      if (event.target.closest(".lightbox")) {
+        return;
+      }
 
- <!-- Sidebar toggle -->
-<script>
-function toggleMenu() {
-  const panel = document.getElementById("menuPanel");
-  panel.classList.toggle("active");
-}
+      panel.classList.remove("active");
+    });
+  </script>
 
-document.addEventListener("click", function (event) {
-  const sidebar = document.querySelector(".sidebar");
-  const panel = document.getElementById("menuPanel");
-  const menuButton = document.querySelector(".menu-icon");
+  <script>
+    // Flipbook JS
+    const pages = document.querySelectorAll('.page');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentPage = 0;
 
-  if (sidebar.contains(event.target) || menuButton.contains(event.target)) return;
-  if (event.target.closest(".lightbox")) return;
+    function layout() {
+      const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
+      const maxVisible = 3;
 
-  panel.classList.remove("active");
-});
-</script>
-  
+      pages.forEach((el, idx) => {
+        const centerIndex = currentPage;
+        const pos = idx - centerIndex;
+        
+        if (Math.abs(pos) > maxVisible || idx < currentPage - 1 || idx > currentPage + 1) {
+          el.classList.add('dim');
+          el.style.setProperty('--offset', `${pos * gap}px`);
+          el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
+          el.style.setProperty('--scale', '0.7');
+          el.style.zIndex = 10;
+        } else {
+          el.classList.remove('dim');
+          const offset = pos * gap;
+          const rot = pos * -6;
+          const scale = 1 - Math.abs(pos) * 0.12;
+          el.style.setProperty('--offset', `${offset}px`);
+          el.style.setProperty('--rot', `${rot}deg`);
+          el.style.setProperty('--scale', scale.toString());
+          el.style.zIndex = 50 - Math.abs(pos);
+        }
+      });
+    }
+
+    function updateNavButtons() {
+      prevBtn.style.opacity = currentPage === 0 ? 0.3 : 1;
+      nextBtn.style.opacity = currentPage === pages.length - 1 ? 0.3 : 1;
+      prevBtn.style.pointerEvents = currentPage === 0 ? 'none' : 'auto';
+      nextBtn.style.pointerEvents = currentPage === pages.length - 1 ? 'none' : 'auto';
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        layout();
+        updateNavButtons();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        layout();
+        updateNavButtons();
+      }
+    });
+
+    pages.forEach((el, idx) => {
+      el.addEventListener('click', () => {
+        // Only trigger flipbook movement if the clicked page is not the current one
+        if (idx !== currentPage) {
+          currentPage = idx;
+          layout();
+          updateNavButtons();
+        }
+      });
+    });
+
+    // Initial setup
+    layout();
+    updateNavButtons();
+    window.addEventListener('resize', () => setTimeout(layout, 120));
+  </script>
+
+  <script>
+    // Lightbox JS
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.querySelector('.lightbox .close');
+
+    document.querySelectorAll('.page img').forEach(img => {
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        lightbox.style.display = 'flex';
+        lightboxImg.src = img.src;
+        // The alt text for the lightbox image
+        lightboxImg.alt = img.alt; 
+      });
+    });
+
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      lightbox.style.display = 'none';
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target === lightboxImg) {
+        lightbox.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
-
