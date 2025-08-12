@@ -370,36 +370,29 @@
   const maxVisible = 3;
 
   pages.forEach((el, idx) => {
-    const centerIndex = currentPage;
-    const pos = idx - centerIndex;
+    const pos = idx - currentPage;
 
-    // Apply specific styles for the center page
-    if (idx === centerIndex) {
-      el.style.zIndex = 100; // Always on top
+    // Set z-index for all pages first
+    if (idx === currentPage) {
+      el.style.zIndex = 100; // Center page is always on top
+    } else {
+      el.style.zIndex = 50 - Math.abs(pos); // Other pages are layered behind
+    }
+
+    // Now apply other visual transformations
+    if (Math.abs(pos) > maxVisible || idx < currentPage - 2 || idx > currentPage + 2) {
+      el.classList.add('dim');
+      el.style.setProperty('--offset', `${pos * gap}px`);
+      el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
+      el.style.setProperty('--scale', `0.7`);
+    } else {
       el.classList.remove('dim');
-      el.style.setProperty('--offset', `0px`);
-      el.style.setProperty('--rot', `0deg`);
-      el.style.setProperty('--scale', `1`);
-    } 
-    // Apply styles for pages that are not the center page
-    else {
-      // Check if the page should be visible or dimmed
-      if (Math.abs(pos) > maxVisible || idx < currentPage - 2 || idx > currentPage + 2) {
-        el.classList.add('dim');
-        el.style.zIndex = 10;
-        el.style.setProperty('--offset', `${pos * gap}px`);
-        el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
-        el.style.setProperty('--scale', `0.7`);
-      } else {
-        el.classList.remove('dim');
-        const offset = pos * gap;
-        const rot = pos * -6;
-        const scale = 1 - Math.abs(pos) * 0.12;
-        el.style.setProperty('--offset', `${offset}px`);
-        el.style.setProperty('--rot', `${rot}deg`);
-        el.style.setProperty('--scale', scale.toString());
-        el.style.zIndex = 50 - Math.abs(pos);
-      }
+      const offset = pos * gap;
+      const rot = pos * -6;
+      const scale = 1 - Math.abs(pos) * 0.12;
+      el.style.setProperty('--offset', `${offset}px`);
+      el.style.setProperty('--rot', `${rot}deg`);
+      el.style.setProperty('--scale', scale.toString());
     }
   });
 }
