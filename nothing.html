@@ -420,20 +420,33 @@
 </script>
       
 
-    // Sidebar toggle
-    function toggleMenu() {
-      const panel = document.getElementById("menuPanel");
-      panel.classList.toggle("active");
-    }
+    <!-- Sidebar toggle -->
+<script>
+function toggleMenu() {
+  const panel = document.getElementById("menuPanel");
+  panel.classList.toggle("active");
+}
 
-    document.addEventListener("click", function (event) {
-      const sidebar = document.querySelector(".sidebar");
-      const panel = document.getElementById("menuPanel");
-      if (!sidebar.contains(event.target)) {
-        panel.classList.remove("active");
-      }
-    });
-  </script>
+// Close sidebar only if clicking outside BOTH sidebar and menu button
+document.addEventListener("click", function (event) {
+  const sidebar = document.querySelector(".sidebar");
+  const panel = document.getElementById("menuPanel");
+  const menuButton = document.getElementById("menuButton"); // if you have one
+
+  // If click is inside sidebar or menu button, do nothing
+  if (sidebar.contains(event.target) || menuButton?.contains(event.target)) {
+    return;
+  }
+
+  // If click is inside lightbox, do nothing
+  if (event.target.closest(".lightbox")) {
+    return;
+  }
+
+  panel.classList.remove("active");
+});
+</script>
+  
 </body>
 </html>
 
