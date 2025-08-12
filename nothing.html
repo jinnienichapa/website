@@ -135,7 +135,7 @@
     .page img {
       width: auto;
       height: 100%;
-      opacity: 0.7;
+      opacity: 0.8;
       object-fit: contain;
     }
 
@@ -358,6 +358,29 @@
 
     layout();
     window.addEventListener('resize', () => setTimeout(layout, 120));
+    <!-- Lightbox JS (add after the flipbook script) -->
+<script>
+  // Handle image click zoom
+  document.querySelectorAll('.page img').forEach(img => {
+    img.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent page change
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').style.display = 'flex';
+    });
+  });
+
+  // Close lightbox
+  document.querySelector('.lightbox .close').addEventListener('click', () => {
+    document.getElementById('lightbox').style.display = 'none';
+  });
+
+  // Close on background click
+  document.getElementById('lightbox').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+      document.getElementById('lightbox').style.display = 'none';
+    }
+  });
+</script>
 
     // Sidebar toggle
     function toggleMenu() {
