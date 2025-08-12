@@ -339,110 +339,102 @@
 <script>
   
   <!-- Flipbook JS -->
-  <script>
-    const pages = Array.from(document.querySelectorAll('.page'));
-    let centerIndex = Math.floor(pages.length / 2);
+<script>
+const pages = Array.from(document.querySelectorAll('.page'));
+let centerIndex = Math.floor(pages.length / 2);
 
-    function layout() {
-      const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
-      const maxVisible = 3;
-      pages.forEach((el, idx) => {
-        const pos = idx - centerIndex;
-        if (Math.abs(pos) > maxVisible) {
-          el.classList.add('dim');
-          el.style.setProperty('--offset', `${pos * gap}px`);
-          el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
-          el.style.setProperty('--scale', '0.7');
-          el.style.zIndex = 10;
-        } else {
-          el.classList.remove('dim');
-          const offset = pos * gap;
-          const rot = pos * -6;
-          const scale = 1 - Math.abs(pos) * 0.12;
-          el.style.setProperty('--offset', `${offset}px`);
-          el.style.setProperty('--rot', `${rot}deg`);
-          el.style.setProperty('--scale', scale.toString());
-          el.style.zIndex = 50 - Math.abs(pos);
-        }
-      });
+function layout() {
+  const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
+  const maxVisible = 3;
+  pages.forEach((el, idx) => {
+    const pos = idx - centerIndex;
+    if (Math.abs(pos) > maxVisible) {
+      el.classList.add('dim');
+      el.style.setProperty('--offset', `${pos * gap}px`);
+      el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
+      el.style.setProperty('--scale', '0.7');
+      el.style.zIndex = 10;
+    } else {
+      el.classList.remove('dim');
+      const offset = pos * gap;
+      const rot = pos * -6;
+      const scale = 1 - Math.abs(pos) * 0.12;
+      el.style.setProperty('--offset', `${offset}px`);
+      el.style.setProperty('--rot', `${rot}deg`);
+      el.style.setProperty('--scale', scale.toString());
+      el.style.zIndex = 50 - Math.abs(pos);
     }
-
-    pages.forEach((el, idx) => {
-      el.addEventListener('click', () => {
-        if (idx !== centerIndex) {
-          centerIndex = idx;
-          layout();
-        }
-      });
-    });
-
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      centerIndex = Math.max(0, centerIndex - 1);
-      layout();
-    });
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      centerIndex = Math.min(pages.length - 1, centerIndex + 1);
-      layout();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') { centerIndex = Math.max(0, centerIndex - 1); layout(); }
-      if (e.key === 'ArrowRight') { centerIndex = Math.min(pages.length - 1, centerIndex + 1); layout(); }
-    });
-
-    layout();
-    window.addEventListener('resize', () => setTimeout(layout, 120));
-    <!-- Lightbox JS (add after the flipbook script) -->
-<script>
-
-       <!-- Lightbox JS -->
-<script>
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
-  const closeBtn = document.querySelector('.lightbox .close');
-
-  document.querySelectorAll('.page img').forEach(img => {
-    img.addEventListener('click', (e) => {
-      e.stopPropagation(); // Prevent flipbook click action
-      lightbox.style.display = 'flex';
-      lightboxImg.src = img.src;
-    });
   });
+}
 
-  closeBtn.addEventListener('click', () => {
+pages.forEach((el, idx) => {
+  el.addEventListener('click', () => {
+    if (idx !== centerIndex) {
+      centerIndex = idx;
+      layout();
+    }
+  });
+});
+
+document.getElementById('prevBtn').addEventListener('click', () => {
+  centerIndex = Math.max(0, centerIndex - 1);
+  layout();
+});
+document.getElementById('nextBtn').addEventListener('click', () => {
+  centerIndex = Math.min(pages.length - 1, centerIndex + 1);
+  layout();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') { centerIndex = Math.max(0, centerIndex - 1); layout(); }
+  if (e.key === 'ArrowRight') { centerIndex = Math.min(pages.length - 1, centerIndex + 1); layout(); }
+});
+
+layout();
+window.addEventListener('resize', () => setTimeout(layout, 120));
+</script>
+
+
+ <!-- Lightbox JS -->
+<script>
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const closeBtn = document.querySelector('.lightbox .close');
+
+document.querySelectorAll('.page img').forEach(img => {
+  img.addEventListener('click', (e) => {
+    e.stopPropagation(); // prevent flipbook click action
+    lightbox.style.display = 'flex';
+    lightboxImg.src = img.src;
+  });
+});
+
+closeBtn.addEventListener('click', () => {
+  lightbox.style.display = 'none';
+});
+
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) {
     lightbox.style.display = 'none';
-  });
-
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) {
-      lightbox.style.display = 'none';
-    }
-  });
+  }
+});
 </script>
       
 
-    <!-- Sidebar toggle -->
+ <!-- Sidebar toggle -->
 <script>
 function toggleMenu() {
   const panel = document.getElementById("menuPanel");
   panel.classList.toggle("active");
 }
 
-// Close sidebar only if clicking outside BOTH sidebar and menu button
 document.addEventListener("click", function (event) {
   const sidebar = document.querySelector(".sidebar");
   const panel = document.getElementById("menuPanel");
-  const menuButton = document.getElementById("menuButton"); // if you have one
+  const menuButton = document.querySelector(".menu-icon");
 
-  // If click is inside sidebar or menu button, do nothing
-  if (sidebar.contains(event.target) || menuButton?.contains(event.target)) {
-    return;
-  }
-
-  // If click is inside lightbox, do nothing
-  if (event.target.closest(".lightbox")) {
-    return;
-  }
+  if (sidebar.contains(event.target) || menuButton.contains(event.target)) return;
+  if (event.target.closest(".lightbox")) return;
 
   panel.classList.remove("active");
 });
