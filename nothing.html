@@ -304,6 +304,40 @@
     </div>
   </div>
 
+  <!-- Lightbox HTML -->
+<div id="lightbox" class="lightbox" style="display:none;">
+  <span class="close">&times;</span>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+</div>
+
+<style>
+  /* Lightbox styling */
+  .lightbox {
+    position: fixed;
+    z-index: 1000;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox-img {
+    max-width: 90%;
+    max-height: 90%;
+  }
+  .lightbox .close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: #fff;
+    font-size: 40px;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  
   <!-- Flipbook JS -->
   <script>
     const pages = Array.from(document.querySelectorAll('.page'));
@@ -361,6 +395,30 @@
     <!-- Lightbox JS (add after the flipbook script) -->
 <script>
 
+       // Lightbox JS
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const closeBtn = document.querySelector('.lightbox .close');
+
+  document.querySelectorAll('.page img').forEach(img => {
+    img.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent flipbook click action
+      lightbox.style.display = 'flex';
+      lightboxImg.src = img.src;
+    });
+  });
+
+  closeBtn.addEventListener('click', () => {
+    lightbox.style.display = 'none';
+  });
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      lightbox.style.display = 'none';
+    }
+  });
+</script>
+      
 
     // Sidebar toggle
     function toggleMenu() {
