@@ -367,36 +367,39 @@
 
     function layout() {
   const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
-  const maxVisible = 1;
+  const maxVisible = 3;
 
   pages.forEach((el, idx) => {
     const centerIndex = currentPage;
     const pos = idx - centerIndex;
-    
-    // Check if the current page is the center page
+
+    // Apply specific styles for the center page
     if (idx === centerIndex) {
-      el.style.zIndex = 100; // Set a very high z-index to bring it to the front
+      el.style.zIndex = 100; // Always on top
       el.classList.remove('dim');
       el.style.setProperty('--offset', `0px`);
       el.style.setProperty('--rot', `0deg`);
       el.style.setProperty('--scale', `1`);
     } 
-    // Handle the other pages as before
-    else if (Math.abs(pos) > maxVisible || idx < currentPage - 1 || idx > currentPage + 1) {
-      el.classList.add('dim');
-      el.style.setProperty('--offset', `${pos * gap}px`);
-      el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
-      el.style.setProperty('--scale', '0.7');
-      el.style.zIndex = 10;
-    } else {
-      el.classList.remove('dim');
-      const offset = pos * gap;
-      const rot = pos * -6;
-      const scale = 1 - Math.abs(pos) * 0.12;
-      el.style.setProperty('--offset', `${offset}px`);
-      el.style.setProperty('--rot', `${rot}deg`);
-      el.style.setProperty('--scale', scale.toString());
-      el.style.zIndex = 50 - Math.abs(pos); // This still works well for the pages around the center
+    // Apply styles for pages that are not the center page
+    else {
+      // Check if the page should be visible or dimmed
+      if (Math.abs(pos) > maxVisible || idx < currentPage - 2 || idx > currentPage + 2) {
+        el.classList.add('dim');
+        el.style.zIndex = 10;
+        el.style.setProperty('--offset', `${pos * gap}px`);
+        el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
+        el.style.setProperty('--scale', `0.7`);
+      } else {
+        el.classList.remove('dim');
+        const offset = pos * gap;
+        const rot = pos * -6;
+        const scale = 1 - Math.abs(pos) * 0.12;
+        el.style.setProperty('--offset', `${offset}px`);
+        el.style.setProperty('--rot', `${rot}deg`);
+        el.style.setProperty('--scale', scale.toString());
+        el.style.zIndex = 50 - Math.abs(pos);
+      }
     }
   });
 }
