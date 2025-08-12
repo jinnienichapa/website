@@ -1,454 +1,463 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Architectural Projects – Nichapa</title>
-  <style>
-    /* Sidebar */
-    .sidebar {
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      z-index: 1000;
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Architectural Projects – Nichapa</title>
+  <style>
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1000;
+    }
 
-    .menu-icon {
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: #2c1d5a;
-      background-color: transparent;
-      border: none;
-      padding: 0;
-    }
+    .menu-icon {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #2c1d5a;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+    }
 
-    .menu-panel {
-      position: absolute;
-      top: 0;
-      left: 2.5rem;
-      background-color: white;
-      border: 1px solid #ddd;
-      padding: 1rem;
-      border-radius: 6px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-      min-width: 180px;
-      display: none;
-    }
+    .menu-panel {
+      position: absolute;
+      top: 0;
+      left: 2.5rem;
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      min-width: 180px;
+      display: none;
+    }
 
-    .menu-panel.active {
-      display: block;
-    }
+    .menu-panel.active {
+      display: block;
+    }
 
-    .menu-panel h3 {
-      text-transform: uppercase;
-      font-size: 0.8rem;
-      margin: 0.5rem 0;
-      color: #f48ab6;
-    }
+    .menu-panel h3 {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+      color: #f48ab6;
+    }
 
-    .menu-panel a {
-      display: block;
-      text-decoration: none;
-      color: #333;
-      font-size: 0.85rem;
-      margin: 0.25rem 0;
-    }
+    .menu-panel a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      font-size: 0.85rem;
+      margin: 0.25rem 0;
+    }
 
-    .menu-panel a:hover {
-      color: #f48ab6;
-    }
+    .menu-panel a:hover {
+      color: #f48ab6;
+    }
 
-    /* Main layout */
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #f3f4f6;
-      font-family: Helvetica, Arial, sans-serif;
-    }
+    /* Main layout */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #f3f4f6;
+      font-family: Helvetica, Arial, sans-serif;
+    }
 
-    .content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
-      padding: 2rem 1rem;
-    }
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem 1rem;
+    }
 
-    /* Header */
-    header {
-      text-align: center;
-    }
+    /* Header */
+    header {
+      text-align: center;
+    }
 
-    .logo img {
-      width: 100%;
-      max-width: 500px;
-      height: auto;
-    }
+    .logo img {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+    }
 
-    /* Flipbook */
-    :root {
-      --page-w: 360px;
-      --page-h: 520px;
-      --gap-x: 200px;
-    }
+    /* Flipbook */
+    :root {
+      --page-w: 360px;
+      --page-h: 520px;
+      --gap-x: 200px;
+    }
 
-    .flipbook-container {
-      text-align: center;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      padding: 40px 0;
-    }
+    .flipbook-container {
+      text-align: center;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 40px 0;
+    }
 
-    .wrap {
-      width: 100%;
-      max-width: 1400px;
-      height: calc(var(--page-h) + 120px);
-      position: relative;
-      perspective: 1800px;
-    }
+    .wrap {
+      width: 100%;
+      max-width: 1400px;
+      height: calc(var(--page-h) + 120px);
+      position: relative;
+      perspective: 1800px;
+    }
 
-    .book {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-    }
+    .book {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+    }
 
-    .page {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      height: var(--page-h);
-      transform: translate(-50%, -50%) translateX(var(--offset, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
-      transform-origin: center;
-      transition: transform 600ms cubic-bezier(.2, .8, .2, 1), opacity 300ms ease;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-      cursor: pointer;
-      background: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .page {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      height: var(--page-h);
+      transform: translate(-50%, -50%) translateX(var(--offset, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
+      transform-origin: center;
+      transition: transform 600ms cubic-bezier(.2, .8, .2, 1), opacity 300ms ease;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      cursor: pointer;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-    .page img {
-      width: auto;
-      height: 100%;
-      opacity: 0.8;
-      object-fit: contain;
-    }
+    .page img {
+      width: auto;
+      height: 100%;
+      opacity: 0.8;
+      object-fit: contain;
+    }
 
-    .page:hover {
-      --scale: calc(var(--scale) * 1.06);
-      z-index: 9999;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-    }
+    .page:hover {
+      --scale: calc(var(--scale) * 1.06);
+      z-index: 9999;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
 
-    .page.dim {
-      opacity: 0.5;
-      pointer-events: none;
-    }
+    .page.dim {
+      opacity: 0.5;
+      pointer-events: none;
+    }
 
-    .nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 34px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-      user-select: none;
-    }
-    .nav.left { left: 18px; }
-    .nav.right { right: 18px; }
+    .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 34px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      user-select: none;
+    }
+    .nav.left { left: 18px; }
+    .nav.right { right: 18px; }
 
-    @media (max-width: 980px) {
-      :root { --page-w: 300px; --page-h: 460px; --gap-x: 150px; }
-    }
-    @media (max-width: 620px) {
-      :root { --page-w: 220px; --page-h: 360px; --gap-x: 100px; }
-      .nav { display: none; }
-    }
+    @media (max-width: 980px) {
+      :root { --page-w: 300px; --page-h: 460px; --gap-x: 150px; }
+    }
+    @media (max-width: 620px) {
+      :root { --page-w: 220px; --page-h: 360px; --gap-x: 100px; }
+      .nav { display: none; }
+    }
 
-    .page .title {
-      position: absolute;
-      left: 12px;
-      bottom: 12px;
-      background: rgba(33, 34, 84, 0.9);
-      color: #fff;
-      padding: 6px 10px;
-      border-radius: 4px;
-      font-size: 13px;
-    }
+    .page .title {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      background: rgba(33, 34, 84, 0.9);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
 
-    /* Projects Grid */
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
+    /* Projects Grid */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
 
-    .project {
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      border-radius: 8px;
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-      background: #fff;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+    .project {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border-radius: 8px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      background: #fff;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-    .project img {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      max-height: 260px;
-      object-fit: cover;
-      display: block;
-      border-radius: 8px 8px 0 0;
-    }
+    .project img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      max-height: 260px;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px 8px 0 0;
+    }
 
-    .project:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
+    .project:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
 
-    .project-title {
-      padding: 1rem;
-      font-weight: bold;
-      font-size: 1rem;
-      text-align: center;
-      border-radius: 0 0 8px 8px;
-      background-color: #212254;
-      color: #C4499A;
-    }
+    .project-title {
+      padding: 1rem;
+      font-weight: bold;
+      font-size: 1rem;
+      text-align: center;
+      border-radius: 0 0 8px 8px;
+      background-color: #212254;
+      color: #C4499A;
+    }
 
-    /* Lightbox styling */
-    .lightbox {
-      position: fixed;
-      z-index: 1000;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: zoom-out;
-    }
-    .lightbox-img {
-      max-width: 90%;
-      max-height: 90%;
-    }
-    .lightbox .close {
-      position: absolute;
-      top: 20px;
-      right: 40px;
-      color: #fff;
-      font-size: 40px;
-      cursor: pointer;
-    }
-  </style>
+    /* Lightbox styling */
+    .lightbox {
+      position: fixed;
+      z-index: 1000;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .lightbox-img {
+      max-width: 90%;
+      max-height: 90%;
+    }
+    .lightbox .close {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      color: #fff;
+      font-size: 40px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <div class="sidebar">
-    <button class="menu-icon" onclick="toggleMenu()">☰</button>
-    <div class="menu-panel" id="menuPanel">
-      <h3>HOME</h3>
-      <a href="index.html">Home</a>
-      <h3>PROJECTS</h3>
-      <a href="architecture.html">Architectural Project</a>
-      <a href="illustration.html">Illustration</a>
-      <a href="artsncrafts.html">Arts n Crafts</a>
-      <h3>ABOUT</h3>
-      <a href="profile.html">Profile</a>
-      <a href="#">Contact</a>
-    </div>
-  </div>
+  <div class="sidebar">
+    <button class="menu-icon" onclick="toggleMenu()">☰</button>
+    <div class="menu-panel" id="menuPanel">
+      <h3>HOME</h3>
+      <a href="index.html">Home</a>
+      <h3>PROJECTS</h3>
+      <a href="architecture.html">Architectural Project</a>
+      <a href="illustration.html">Illustration</a>
+      <a href="artsncrafts.html">Arts n Crafts</a>
+      <a href="other.html">Other</a>
+      <h3>ABOUT</h3>
+      <a href="profile.html">Profile</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
 
-  <div class="content">
-    <header>
-      <div class="logo">
-        <img src="arch pro_1@3x.png" alt="Nichapa's Logo" />
-      </div>
-    </header>
+  <div class="content">
+    <header>
+      <div class="logo">
+        <img src="arch pro_1@3x.png" alt="Nichapa's Logo" />
+      </div>
+    </header>
 
-    <div class="flipbook-container">
-      <div class="wrap">
-        <div class="book" id="book">
-          <div class="page" data-index="0"><img src="pic1.png" alt="Project 1"><div class="title">Project 01</div></div>
-          <div class="page" data-index="1"><img src="pic2.png" alt="Project 2"><div class="title">Project 02</div></div>
-          <div class="page" data-index="2"><img src="full board flow-01.png" alt="Flow"><div class="title">Flow</div></div>
-          <div class="page" data-index="3"><img src="full board flow2-01.png" alt="Flow 2"><div class="title">Flow</div></div>
-          <div class="page" data-index="4"><img src="full board vil-03.png" alt="Village in a City"><div class="title">Village in a City</div></div>
-          <div class="page" data-index="5"><img src="full board vil2-01.png" alt="Village in a City 2"><div class="title">Village in a City</div></div>
-          <div class="page" data-index="6"><img src="full board in-01-min.png" alt="Invisible Boundaries"><div class="title">Invisible Boundaries</div></div>
-        </div>
-        <div class="nav left" id="prevBtn">&#9664;</div>
-        <div class="nav right" id="nextBtn">&#9654;</div>
-      </div>
-    </div>
+    <div class="flipbook-container">
+      <div class="wrap">
+        <div class="book" id="book">
+          <div class="page" data-index="0"><img src="pic1.png" alt="Project 1"><div class="title">Project 01</div></div>
+          <div class="page" data-index="1"><img src="pic2.png" alt="Project 2"><div class="title">Project 02</div></div>
+          <div class="page" data-index="2"><img src="full board flow-01.png" alt="Flow"><div class="title">Flow</div></div>
+          <div class="page" data-index="3"><img src="full board flow2-01.png" alt="Flow 2"><div class="title">Flow</div></div>
+          <div class="page" data-index="4"><img src="full board vil-03.png" alt="Village in a City"><div class="title">Village in a City</div></div>
+          <div class="page" data-index="5"><img src="full board vil2-01.png" alt="Village in a City 2"><div class="title">Village in a City</div></div>
+          <div class="page" data-index="6"><img src="full board in-01-min.png" alt="Invisible Boundaries"><div class="title">Invisible Boundaries</div></div>
+        </div>
+        <div class="nav left" id="prevBtn">&#9664;</div>
+        <div class="nav right" id="nextBtn">&#9654;</div>
+      </div>
+    </div>
 
-    <div class="projects">
-      <a class="project" href="life-in-soi.html">
-        <img src="life in soi blur.png" alt="01 Life in Soi" />
-        <div class="project-title">01 Life in Soi</div>
-      </a>
-      <a class="project" href="02 Let it Float.html">
-        <img src="let it float blur.png" alt="02 Let it Float" />
-        <div class="project-title">02 Let it Float</div>
-      </a>
-      <a class="project" href="Flow.html">
-        <img src="flow blur.png" alt="03 Flow" />
-        <div class="project-title">03 Flow</div>
-      </a>
-      <a class="project" href="Village-in-a-City.html">
-        <img src="village in a city blur.png" alt="Village in a City" />
-        <div class="project-title">04 Village in a City</div>
-      </a>
-      <a class="project" href="Invisible-boundaries.html">
-        <img src="Invisible Boundaries blur.png" alt="Invisible Boundaries" />
-        <div class="project-title">05 Invisible Boundaries</div>
-      </a>
-      <a class="project" href="nothing.html">
-        <img src="questioning-01.png" alt="Nothing" />
-        <div class="project-title">06 Nothing</div>
-      </a>
-    </div>
-  </div>
+    <div class="projects">
+      <a class="project" href="life-in-soi.html">
+        <img src="life in soi blur.png" alt="01 Life in Soi" />
+        <div class="project-title">01 Life in Soi</div>
+      </a>
+      <a class="project" href="02 Let it Float.html">
+        <img src="let it float blur.png" alt="02 Let it Float" />
+        <div class="project-title">02 Let it Float</div>
+      </a>
+      <a class="project" href="Flow.html">
+        <img src="flow blur.png" alt="03 Flow" />
+        <div class="project-title">03 Flow</div>
+      </a>
+      <a class="project" href="Village-in-a-City.html">
+        <img src="village in a city blur.png" alt="Village in a City" />
+        <div class="project-title">04 Village in a City</div>
+      </a>
+      <a class="project" href="Invisible-boundaries.html">
+        <img src="Invisible Boundaries blur.png" alt="Invisible Boundaries" />
+        <div class="project-title">05 Invisible Boundaries</div>
+      </a>
+      <a class="project" href="nothing.html">
+        <img src="questioning-01.png" alt="Nothing" />
+        <div class="project-title">06 Nothing</div>
+      </a>
+    </div>
+  </div>
 
-  <div id="lightbox" class="lightbox" style="display:none;">
-    <span class="close">&times;</span>
-    <img class="lightbox-img" id="lightbox-img" src="" alt="">
-  </div>
+  <div id="lightbox" class="lightbox" style="display:none;">
+    <span class="close">&times;</span>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  </div>
 
-  <script>
-    // All JavaScript is now in a single, well-structured block.
+  <script>
+    // Sidebar toggle
+    function toggleMenu() {
+      const panel = document.getElementById("menuPanel");
+      panel.classList.toggle("active");
+    }
 
-    // Sidebar JS
-    function toggleMenu() {
-      const panel = document.getElementById("menuPanel");
-      panel.classList.toggle("active");
-    }
+    document.addEventListener("click", function (event) {
+      const sidebar = document.querySelector(".sidebar");
+      const panel = document.getElementById("menuPanel");
+      const menuButton = document.querySelector(".menu-icon");
 
-    document.addEventListener("click", function (event) {
-      const sidebar = document.querySelector(".sidebar");
-      const panel = document.getElementById("menuPanel");
-      const menuButton = document.querySelector(".menu-icon");
+      // Check if the click is inside the sidebar or on the menu button
+      if (sidebar.contains(event.target) || menuButton.contains(event.target)) {
+        return;
+      }
+      
+      // Check if the click is inside the lightbox
+      if (event.target.closest(".lightbox")) {
+        return;
+      }
 
-      if (sidebar.contains(event.target) || menuButton.contains(event.target)) {
-        return;
-      }
-      
-      if (event.target.closest(".lightbox")) {
-        return;
-      }
+      panel.classList.remove("active");
+    });
+  </script>
 
-      panel.classList.remove("active");
-    });
+  <script>
+    // Flipbook JS
+    const pages = document.querySelectorAll('.page');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentPage = 0;
 
-    // Flipbook and Lightbox JS
-    const pages = document.querySelectorAll('.page');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const closeBtn = document.querySelector('.lightbox .close');
-    let currentPage = 4;
+    function layout() {
+      const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
+      const maxVisible = 3;
 
-    function layout() {
-      const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
-      const maxVisible = 3;
+      pages.forEach((el, idx) => {
+        const centerIndex = currentPage;
+        const pos = idx - centerIndex;
+        
+        if (Math.abs(pos) > maxVisible || idx < currentPage - 1 || idx > currentPage + 1) {
+          el.classList.add('dim');
+          el.style.setProperty('--offset', `${pos * gap}px`);
+          el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
+          el.style.setProperty('--scale', '0.7');
+          el.style.zIndex = 10;
+        } else {
+          el.classList.remove('dim');
+          const offset = pos * gap;
+          const rot = pos * -6;
+          const scale = 1 - Math.abs(pos) * 0.12;
+          el.style.setProperty('--offset', `${offset}px`);
+          el.style.setProperty('--rot', `${rot}deg`);
+          el.style.setProperty('--scale', scale.toString());
+          el.style.zIndex = 50 - Math.abs(pos);
+        }
+      });
+    }
 
-      pages.forEach((el, idx) => {
-        const pos = idx - currentPage;
+    function updateNavButtons() {
+      prevBtn.style.opacity = currentPage === 0 ? 0.3 : 1;
+      nextBtn.style.opacity = currentPage === pages.length - 1 ? 0.3 : 1;
+      prevBtn.style.pointerEvents = currentPage === 0 ? 'none' : 'auto';
+      nextBtn.style.pointerEvents = currentPage === pages.length - 1 ? 'none' : 'auto';
+    }
 
-        if (idx === currentPage) {
-          el.style.zIndex = 100;
-        } else {
-          el.style.zIndex = 50 - Math.abs(pos);
-        }
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        layout();
+        updateNavButtons();
+      }
+    });
 
-        if (Math.abs(pos) > maxVisible || idx < currentPage - 2 || idx > currentPage + 2) {
-          el.classList.add('dim');
-          el.style.setProperty('--offset', `${pos * gap}px`);
-          el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
-          el.style.setProperty('--scale', `0.7`);
-        } else {
-          el.classList.remove('dim');
-          const offset = pos * gap;
-          const rot = pos * -6;
-          const scale = 1 - Math.abs(pos) * 0.12;
-          el.style.setProperty('--offset', `${offset}px`);
-          el.style.setProperty('--rot', `${rot}deg`);
-          el.style.setProperty('--scale', scale.toString());
-        }
-      });
-    }
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        layout();
+        updateNavButtons();
+      }
+    });
 
-    function updateNavButtons() {
-      prevBtn.style.opacity = currentPage === 0 ? 0.3 : 1;
-      nextBtn.style.opacity = currentPage === pages.length - 1 ? 0.3 : 1;
-      prevBtn.style.pointerEvents = currentPage === 0 ? 'none' : 'auto';
-      nextBtn.style.pointerEvents = currentPage === pages.length - 1 ? 'none' : 'auto';
-    }
+    pages.forEach((el, idx) => {
+      el.addEventListener('click', () => {
+        // Only trigger flipbook movement if the clicked page is not the current one
+        if (idx !== currentPage) {
+          currentPage = idx;
+          layout();
+          updateNavButtons();
+        }
+      });
+    });
 
-    prevBtn.addEventListener('click', () => {
-      if (currentPage > 0) {
-        currentPage--;
-        layout();
-        updateNavButtons();
-      }
-    });
+    // Initial setup
+    layout();
+    updateNavButtons();
+    window.addEventListener('resize', () => setTimeout(layout, 120));
+  </script>
 
-    nextBtn.addEventListener('click', () => {
-      if (currentPage < pages.length - 1) {
-        currentPage++;
-        layout();
-        updateNavButtons();
-      }
-    });
+  <script>
+    // Lightbox JS
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.querySelector('.lightbox .close');
 
-    // Main click handler for pages
-    pages.forEach((el, idx) => {
-      el.addEventListener('click', () => {
-        if (idx === currentPage) {
-          const img = el.querySelector('img');
-          lightbox.style.display = 'flex';
-          lightboxImg.src = img.src;
-          lightboxImg.alt = img.alt;
-        } else {
-          currentPage = idx;
-          layout();
-          updateNavButtons();
-        }
-      });
-    });
+    document.querySelectorAll('.page img').forEach(img => {
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        lightbox.style.display = 'flex';
+        lightboxImg.src = img.src;
+        // The alt text for the lightbox image
+        lightboxImg.alt = img.alt; 
+      });
+    });
 
-    // Lightbox close handlers
-    closeBtn.addEventListener('click', () => {
-      lightbox.style.display = 'none';
-    });
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      lightbox.style.display = 'none';
+    });
 
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox || e.target === lightboxImg) {
-        lightbox.style.display = 'none';
-      }
-    });
-
-    // Initial setup
-    layout();
-    updateNavButtons();
-    window.addEventListener('resize', () => setTimeout(layout, 120));
-  </script>
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target === lightboxImg) {
+        lightbox.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
