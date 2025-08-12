@@ -269,7 +269,6 @@
       <a href="architecture.html">Architectural Project</a>
       <a href="illustration.html">Illustration</a>
       <a href="artsncrafts.html">Arts n Crafts</a>
-      <a href="other.html">Other</a>
       <h3>ABOUT</h3>
       <a href="profile.html">Profile</a>
       <a href="#">Contact</a>
@@ -333,7 +332,9 @@
   </div>
 
   <script>
-    // Sidebar toggle
+    // All JavaScript is now in a single, well-structured block.
+
+    // Sidebar JS
     function toggleMenu() {
       const panel = document.getElementById("menuPanel");
       panel.classList.toggle("active");
@@ -344,26 +345,25 @@
       const panel = document.getElementById("menuPanel");
       const menuButton = document.querySelector(".menu-icon");
 
-      // Check if the click is inside the sidebar or on the menu button
       if (sidebar.contains(event.target) || menuButton.contains(event.target)) {
         return;
       }
       
-      // Check if the click is inside the lightbox
       if (event.target.closest(".lightbox")) {
         return;
       }
 
       panel.classList.remove("active");
     });
-  </script>
 
-  <script>
-    // Flipbook JS
+    // Flipbook and Lightbox JS
     const pages = document.querySelectorAll('.page');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    let currentPage = 4; // Or whatever your starting page is
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.querySelector('.lightbox .close');
+    let currentPage = 4;
 
     function layout() {
       const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
@@ -372,14 +372,12 @@
       pages.forEach((el, idx) => {
         const pos = idx - currentPage;
 
-        // Set z-index for all pages first
         if (idx === currentPage) {
-          el.style.zIndex = 100; // Center page is always on top
+          el.style.zIndex = 100;
         } else {
-          el.style.zIndex = 50 - Math.abs(pos); // Other pages are layered behind
+          el.style.zIndex = 50 - Math.abs(pos);
         }
 
-        // Now apply other visual transformations
         if (Math.abs(pos) > maxVisible || idx < currentPage - 2 || idx > currentPage + 2) {
           el.classList.add('dim');
           el.style.setProperty('--offset', `${pos * gap}px`);
@@ -420,18 +418,15 @@
       }
     });
 
-    // Modified click handler for pages
+    // Main click handler for pages
     pages.forEach((el, idx) => {
       el.addEventListener('click', () => {
-        // Check if the clicked page is already the center page
         if (idx === currentPage) {
-          // If it is the center page, open the lightbox
           const img = el.querySelector('img');
           lightbox.style.display = 'flex';
           lightboxImg.src = img.src;
           lightboxImg.alt = img.alt;
         } else {
-          // If it is NOT the center page, move it to the center
           currentPage = idx;
           layout();
           updateNavButtons();
@@ -439,30 +434,8 @@
       });
     });
 
-    // Initial setup
-    layout();
-    updateNavButtons();
-    window.addEventListener('resize', () => setTimeout(layout, 120));
-  </script>
-
-  <script>
-    // Lightbox JS
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const closeBtn = document.querySelector('.lightbox .close');
-
-    document.querySelectorAll('.page img').forEach(img => {
-      img.addEventListener('click', (e) => {
-        e.stopPropagation();
-        lightbox.style.display = 'flex';
-        lightboxImg.src = img.src;
-        // The alt text for the lightbox image
-        lightboxImg.alt = img.alt; 
-      });
-    });
-
-    closeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
+    // Lightbox close handlers
+    closeBtn.addEventListener('click', () => {
       lightbox.style.display = 'none';
     });
 
@@ -471,6 +444,11 @@
         lightbox.style.display = 'none';
       }
     });
+
+    // Initial setup
+    layout();
+    updateNavButtons();
+    window.addEventListener('resize', () => setTimeout(layout, 120));
   </script>
 </body>
 </html>
