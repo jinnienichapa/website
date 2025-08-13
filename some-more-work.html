@@ -156,7 +156,7 @@
             max-height: 100%;
             border: 5px solid white;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            transition: transform 0.5s ease-in-out, z-index 0s 0.5s;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, z-index 0.5s;
             /* Added to hide images by default */
             visibility: hidden;
             opacity: 0;
@@ -167,17 +167,18 @@
             opacity: 1;
             z-index: 10;
             transform: translate(-50%, -50%) scale(1) rotate(0deg);
-            transition: transform 0.5s ease-in-out;
         }
 
-        .lightbox-image.prev-active {
+        /* Styles for the "inactive" cards in the stack */
+        .lightbox-image.inactive {
+            visibility: visible;
+            opacity: 0.8;
+            transform: translate(-50%, -50%) scale(0.9) rotate(-10deg);
             z-index: 9;
-            transform: translate(-50%, -50%) scale(0.9) rotate(-5deg);
         }
 
-        .lightbox-image.next-active {
-            z-index: 9;
-            transform: translate(-50%, -50%) scale(0.9) rotate(5deg);
+        .lightbox-image.inactive.next {
+            transform: translate(-50%, -50%) scale(0.9) rotate(10deg);
         }
 
         .close {
@@ -340,11 +341,13 @@
 
                 if (index === currentIndex) {
                     img.classList.add('active');
-                } else if (index === (currentIndex - 1 + currentSet.length) % currentSet.length) {
-                    img.classList.add('prev-active');
-                } else if (index === (currentIndex + 1) % currentSet.length) {
-                    img.classList.add('next-active');
+                } else {
+                    img.classList.add('inactive');
+                    // Add a slight random rotation for the stack effect
+                    const rotation = (Math.random() * 20 - 10) + 'deg'; // Random rotation between -10 and 10 degrees
+                    img.style.transform = `translate(-50%, -50%) scale(0.9) rotate(${rotation})`;
                 }
+
                 lightboxContainer.appendChild(img);
             });
         }
