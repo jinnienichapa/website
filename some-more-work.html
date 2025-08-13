@@ -133,22 +133,25 @@
             z-index: 2000;
         }
 
-        .card-stack {
+        .card-stack-wrapper {
             position: relative;
-            width: 50vmin; /* Adjusted size for a better view of the stack */
+            width: 50vmin;
             height: 65vmin;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .card {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            transition: transform 0.8s ease-in-out;
+            transition: transform 0.5s ease, z-index 0.3s;
             transform-origin: 50% 100%;
             overflow: hidden;
+            border-radius: 12px; /* Added rounded edges */
+            cursor: pointer;
         }
         
         .card img {
@@ -158,7 +161,7 @@
             display: block;
         }
 
-        /* Fanned-out card positions */
+        /* Default fanned-out card positions */
         .card:nth-child(1) { 
             transform: translate(0, -40px) rotate(-10deg);
             z-index: 3;
@@ -172,6 +175,17 @@
             z-index: 1;
         }
 
+        /* Single card view state */
+        .card.active-zoom {
+            transform: scale(1.2) translate(0, 0) rotate(0deg) !important;
+            z-index: 100;
+            cursor: default;
+        }
+        
+        .card:not(.active-zoom) {
+            pointer-events: none;
+        }
+        
         .close-btn {
             position: absolute;
             top: 20px;
@@ -186,6 +200,19 @@
 
         .close-btn:hover {
             color: #bbb;
+        }
+
+        .back-btn {
+            position: absolute;
+            bottom: 20px;
+            padding: 10px 20px;
+            background: #2c1d5a;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none; /* Hide by default */
+            z-index: 2020;
         }
     </style>
 </head>
@@ -233,9 +260,10 @@
     </div>
 
     <div class="card-stack-overlay" id="cardStackOverlay">
-      <div class="card-stack" id="cardStack">
+      <div class="card-stack-wrapper" id="cardStack">
         </div>
       <span class="close-btn" id="closeBtn">&times;</span>
+      <button class="back-btn" id="backBtn" style="display:none;">Back to Stack</button>
     </div>
 
     <script>
@@ -255,6 +283,7 @@
         const cardStackOverlay = document.getElementById('cardStackOverlay');
         const cardStack = document.getElementById('cardStack');
         const closeBtn = document.getElementById('closeBtn');
+        const backBtn = document.getElementById('backBtn');
 
         const imageSets = {
             "blender node-01.png": [
@@ -289,37 +318,72 @@
             ]
         };
 
+        let currentActiveCard = null;
+
+        function renderCardStack(set) {
+            cardStack.innerHTML = '';
+            set.forEach((src) => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                const img = document.createElement('img');
+                img.src = src;
+                card.appendChild(img);
+                cardStack.appendChild(card);
+            });
+            backBtn.style.display = 'none';
+        }
+
+        function zoomInCard(cardElement) {
+            // Reset any currently zoomed-in card
+            if (currentActiveCard) {
+                currentActiveCard.classList.remove('active-zoom');
+            }
+
+            // Zoom in on the clicked card
+            cardElement.classList.add('active-zoom');
+            currentActiveCard = cardElement;
+            backBtn.style.display = 'block';
+        }
+
         document.querySelectorAll('.grid-item img').forEach(img => {
             img.addEventListener('click', () => {
                 const fileName = img.getAttribute('src');
                 const currentSet = imageSets[fileName] || [fileName];
-
-                cardStack.innerHTML = '';
-                
-                // Create and append all cards in the set
-                currentSet.forEach((src, index) => {
-                    const card = document.createElement('div');
-                    card.classList.add('card');
-                    
-                    const img = document.createElement('img');
-                    img.src = src;
-                    img.alt = 'Card Stack Image ' + (index + 1);
-                    
-                    card.appendChild(img);
-                    cardStack.appendChild(card);
-                });
-
+                renderCardStack(currentSet);
                 cardStackOverlay.style.display = 'flex';
             });
         });
 
+        cardStack.addEventListener('click', (event) => {
+            const cardElement = event.target.closest('.card');
+            if (cardElement) {
+                zoomInCard(cardElement);
+            }
+        });
+
+        backBtn.addEventListener('click', () => {
+            if (currentActiveCard) {
+                currentActiveCard.classList.remove('active-zoom');
+                currentActiveCard = null;
+            }
+            backBtn.style.display = 'none';
+        });
+
         closeBtn.addEventListener('click', () => {
             cardStackOverlay.style.display = 'none';
+            if (currentActiveCard) {
+                currentActiveCard.classList.remove('active-zoom');
+                currentActiveCard = null;
+            }
         });
 
         cardStackOverlay.addEventListener('click', (event) => {
             if (event.target === cardStackOverlay) {
                 cardStackOverlay.style.display = 'none';
+                if (currentActiveCard) {
+                    currentActiveCard.classList.remove('active-zoom');
+                    currentActiveCard = null;
+                }
             }
         });
     </script>
