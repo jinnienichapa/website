@@ -209,9 +209,11 @@
   </div>
 
   <div id="lightbox" class="lightbox">
-    <span class="close">&times;</span>
-    <img class="lightbox-content" id="lightbox-img" alt="">
-  </div>
+  <span class="close">&times;</span>
+  <span class="prev">&#10094;</span>
+  <img class="lightbox-content" id="lightbox-img" alt="">
+  <span class="next">&#10095;</span>
+</div>
 
   <script>
     function toggleMenu() {
@@ -227,30 +229,87 @@
       }
     });
   </script>
+
   
   <script>
     const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const closeBtn = document.querySelector('.close');
-    const gridItems = document.querySelectorAll('.grid-item img');
+const lightboxImg = document.getElementById('lightbox-img');
+const closeBtn = document.querySelector('.close');
+const prevBtn = document.querySelector('.prev');
+const nextBtn = document.querySelector('.next');
 
-    gridItems.forEach(item => {
-      item.addEventListener('click', () => {
-        lightbox.style.display = 'flex';
-        lightboxImg.src = item.src;
-        lightboxImg.alt = item.alt;
-      });
-    });
+let currentSet = [];
+let currentIndex = 0;
 
-    closeBtn.addEventListener('click', () => {
-      lightbox.style.display = 'none';
-    });
+// Map each thumbnail to a set of images
+const imageSets = {
+  "C09_ST2W3_3.2_Axon Overview Diagram.jpg": [
+    "C09_ST2W3_3.2_Axon Overview Diagram.jpg",
+    "related1.jpg",
+    "related2.jpg"
+  ],
+  "[C09]_WK3_3.2_Perspective.png": [
+    "[C09]_WK3_3.2_Perspective.png",
+    "related3.jpg",
+    "related4.jpg"
+  ]
+  // Add more sets here...
+};
 
-    lightbox.addEventListener('click', (event) => {
-        if (event.target === lightbox || event.target === lightboxImg) {
-            lightbox.style.display = 'none';
-        }
-    });
-  </script>
+    .prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 12px;
+  user-select: none;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.prev:hover, .next:hover {
+  color: #bbb;
+}
+
+
+// Add click event to thumbnails
+document.querySelectorAll('.grid-item img').forEach(img => {
+  img.addEventListener('click', () => {
+    const fileName = img.getAttribute('src');
+    currentSet = imageSets[fileName] || [fileName];
+    currentIndex = 0;
+    showImage();
+    lightbox.style.display = 'flex';
+  });
+});
+
+function showImage() {
+  lightboxImg.src = currentSet[currentIndex];
+}
+
+prevBtn.addEventListener('click', () => {
+  currentIndex = (currentIndex - 1 + currentSet.length) % currentSet.length;
+  showImage();
+});
+
+nextBtn.addEventListener('click', () => {
+  currentIndex = (currentIndex + 1) % currentSet.length;
+  showImage();
+});
+
+closeBtn.addEventListener('click', () => {
+  lightbox.style.display = 'none';
+});
+
+lightbox.addEventListener('click', (event) => {
+  if (event.target === lightbox) {
+    lightbox.style.display = 'none';
+  }
+});
+
 </body>
 </html>
