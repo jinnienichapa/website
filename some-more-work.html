@@ -159,9 +159,13 @@
                 scale(calc(1 - (abs(var(--progress, 0)) * 0.2)))
                 translateZ(calc((var(--progress, 0)) * -10vmin));
             opacity: calc(1.5 - (abs(var(--progress, 0)) * 1.5));
-            border: 5px solid white;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            /* Tarot card styling starts here */
+            border: 5px solid #E0C09B; /* A subtle golden border color */
+            border-radius: 8px; /* Slightly rounded corners */
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5); /* Stronger shadow for depth */
+            /* Tarot card styling ends here */
             pointer-events: none;
+            overflow: hidden;
         }
         
         .card img {
@@ -342,10 +346,8 @@
         };
 
         function updateCards() {
-            // Clear previous cards
             cardStack.innerHTML = '';
             
-            // Create and append all cards in the set
             currentSet.forEach((src, index) => {
                 const card = document.createElement('div');
                 card.classList.add('card');
@@ -359,7 +361,6 @@
                 cardStack.appendChild(card);
             });
             
-            // Re-apply the active/prev/next classes
             const cards = cardStack.querySelectorAll('.card');
             cards.forEach(card => {
                 card.classList.remove('active', 'prev', 'next');
@@ -377,7 +378,6 @@
             }
         }
 
-        // Add click event to thumbnails
         document.querySelectorAll('.grid-item img').forEach(img => {
             img.addEventListener('click', () => {
                 const fileName = img.getAttribute('src');
