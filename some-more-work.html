@@ -1,315 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Other – Nichapa</title>
-  <style>
-    /* Sidebar */
-    .sidebar {
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      z-index: 1000;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Other – Nichapa</title>
+    <style>
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1000;
+        }
 
-    .menu-icon {
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: #2c1d5a;
-      background-color: transparent;
-      border: none;
-      padding: 0;
-    }
+        .menu-icon {
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #2c1d5a;
+            background-color: transparent;
+            border: none;
+            padding: 0;
+        }
 
-    .menu-panel {
-      position: absolute;
-      top: 0;
-      left: 2.5rem;
-      background-color: white;
-      border: 1px solid #ddd;
-      padding: 1rem;
-      border-radius: 6px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-      min-width: 180px;
-      display: none;
-    }
+        .menu-panel {
+            position: absolute;
+            top: 0;
+            left: 2.5rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            min-width: 180px;
+            display: none;
+        }
 
-    .menu-panel.active {
-      display: block;
-    }
+        .menu-panel.active {
+            display: block;
+        }
 
-    .menu-panel h3 {
-      text-transform: uppercase;
-      font-size: 0.8rem;
-      margin: 0.5rem 0;
-      color: #f48ab6;
-    }
+        .menu-panel h3 {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
+            color: #f48ab6;
+        }
 
-    .menu-panel a {
-      display: block;
-      text-decoration: none;
-      color: #333;
-      font-size: 0.85rem;
-      margin: 0.25rem 0;
-    }
+        .menu-panel a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            font-size: 0.85rem;
+            margin: 0.25rem 0;
+        }
 
-    .menu-panel a:hover {
-      color: #f48ab6;
-    }
-    
-    /* Main layout */
-    body {
-      margin: 0;
-      font-family: Helvetica, Arial, sans-serif;
-      background-color: #f3f4f6; /* Changed to a lighter grey for the background */
-      color: #000;
-      overflow-x: hidden;
-    }
+        .menu-panel a:hover {
+            color: #f48ab6;
+        }
+        
+        /* Main layout */
+        body {
+            margin: 0;
+            font-family: Helvetica, Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #000;
+            overflow-x: hidden;
+        }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    
-    /* Header for the page */
-    .page-header {
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-    
-    .page-header h1 {
-        font-size: 2.5rem;
-        color: #212254;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Header for the page */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: #212254;
+        }
 
-    /* Image grid */
-    .image-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      /* Use masonry-like columns for uneven heights */
-      /* This is a more modern approach for this type of layout */
-    }
+        /* Image grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
 
-    .grid-item {
-        overflow: hidden;
-        border-radius: 8px;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-    }
+        .grid-item {
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
 
-    .grid-item img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: transform 0.3s ease;
-    }
+        .grid-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
 
-    .grid-item img:hover {
-      transform: scale(1.05);
-    }
-    
-    /* Responsive design for the grid */
-    /* Tablet: 2 images per row */
-    @media (max-width: 768px) {
-      .image-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+        .grid-item img:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Responsive design for the grid */
+        @media (max-width: 768px) {
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
 
-    /* Mobile: 1 image per row */
-    @media (max-width: 480px) {
-      .image-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    /* Lightbox styling */
-    .lightbox {
-      position: fixed;
-      z-index: 2000;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.9);
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
+        @media (max-width: 480px) {
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Lightbox styling */
+        .lightbox {
+            position: fixed;
+            z-index: 2000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .lightbox-content {
-      max-width: 90%;
-      max-height: 90%;
-    }
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            user-select: none; /* Prevents text selection on image */
+        }
 
-    .close {
-      position: absolute;
-      top: 20px;
-      right: 40px;
-      color: #fff;
-      font-size: 40px;
-      font-weight: bold;
-      transition: 0.3s;
-      cursor: pointer;
-    }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
 
-    .close:hover,
-    .close:focus {
-      color: #bbb;
-      text-decoration: none;
-    }
-  </style>
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+        }
+        
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0 12px;
+            user-select: none;
+        }
+
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        .prev:hover, .next:hover {
+            color: #bbb;
+        }
+    </style>
 </head>
 
 <body>
-  <div class="sidebar">
-    <button class="menu-icon" onclick="toggleMenu()">☰</button>
-    <div class="menu-panel" id="menuPanel">
-      <h3>HOME</h3>
-      <a href="index.html">Home</a>
-      <h3>PROJECTS</h3>
-      <a href="architecture.html">Architectural Project</a>
-      <a href="illustration.html">Illustration</a>
-      <a href="artsncrafts.html">Arts n Crafts</a>
-      <a href="other.html">Other</a>
-      <h3>ABOUT</h3>
-      <a href="profile.html">Profile</a>
-      <a href="#">Contact</a>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="page-header">
-        <h1>Other</h1>
+    <div class="sidebar">
+        <button class="menu-icon" onclick="toggleMenu()">☰</button>
+        <div class="menu-panel" id="menuPanel">
+            <h3>HOME</h3>
+            <a href="index.html">Home</a>
+            <h3>PROJECTS</h3>
+            <a href="architecture.html">Architectural Project</a>
+            <a href="illustration.html">Illustration</a>
+            <a href="artsncrafts.html">Arts n Crafts</a>
+            <a href="other.html">Other</a>
+            <h3>ABOUT</h3>
+            <a href="profile.html">Profile</a>
+            <a href="#">Contact</a>
+        </div>
     </div>
 
-    <div class="image-grid">
-      <div class="grid-item">
-        <img src="C09_ST2W3_3.2_Axon Overview Diagram.jpg" alt="Description of art 1">
-      </div>
-      <div class="grid-item">
-        <img src="[C09]_WK3_3.2_Perspective.png" alt="Description of art 2">
-      </div>
-      <div class="grid-item">
-        <img src="art-crafts-3.jpg" alt="Description of art 3">
-      </div>
-      <div class="grid-item">
-        <img src="art-crafts-4.jpg" alt="Description of art 4">
-      </div>
-      <div class="grid-item">
-        <img src="art-crafts-5.jpg" alt="Description of art 5">
-      </div>
-      <div class="grid-item">
-        <img src="art-crafts-6.jpg" alt="Description of art 6">
-      </div>
-      </div>
-  </div>
+    <div class="container">
+        <div class="page-header">
+            <h1>Other</h1>
+        </div>
+        <div class="image-grid">
+            <div class="grid-item">
+                <img src="C09_ST2W3_3.2_Axon Overview Diagram.jpg" alt="Description of art 1">
+            </div>
+            <div class="grid-item">
+                <img src="[C09]_WK3_3.2_Perspective.png" alt="Description of art 2">
+            </div>
+            <div class="grid-item">
+                <img src="art-crafts-3.jpg" alt="Description of art 3">
+            </div>
+            <div class="grid-item">
+                <img src="art-crafts-4.jpg" alt="Description of art 4">
+            </div>
+            <div class="grid-item">
+                <img src="art-crafts-5.jpg" alt="Description of art 5">
+            </div>
+            <div class="grid-item">
+                <img src="art-crafts-6.jpg" alt="Description of art 6">
+            </div>
+        </div>
+    </div>
 
-  <div id="lightbox" class="lightbox">
-  <span class="close">&times;</span>
-  <span class="prev">&#10094;</span>
-  <img class="lightbox-content" id="lightbox-img" alt="">
-  <span class="next">&#10095;</span>
-</div>
+    <div id="lightbox" class="lightbox">
+        <span class="close">&times;</span>
+        <span class="prev">&#10094;</span>
+        <img class="lightbox-content" id="lightbox-img" alt="">
+        <span class="next">&#10095;</span>
+    </div>
 
-  <script>
-    function toggleMenu() {
-      const panel = document.getElementById("menuPanel");
-      panel.classList.toggle("active");
-    }
+    <script>
+        function toggleMenu() {
+            const panel = document.getElementById("menuPanel");
+            panel.classList.toggle("active");
+        }
 
-    document.addEventListener("click", function (event) {
-      const sidebar = document.querySelector(".sidebar");
-      const panel = document.getElementById("menuPanel");
-      if (!sidebar.contains(event.target)) {
-        panel.classList.remove("active");
-      }
-    });
-  </script>
+        document.addEventListener("click", function (event) {
+            const sidebar = document.querySelector(".sidebar");
+            const panel = document.getElementById("menuPanel");
+            if (!sidebar.contains(event.target)) {
+                panel.classList.remove("active");
+            }
+        });
 
-  
-  <script>
-    const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
-const closeBtn = document.querySelector('.close');
-const prevBtn = document.querySelector('.prev');
-const nextBtn = document.querySelector('.next');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeBtn = document.querySelector('.close');
+        const prevBtn = document.querySelector('.prev');
+        const nextBtn = document.querySelector('.next');
 
-let currentSet = [];
-let currentIndex = 0;
+        let currentSet = [];
+        let currentIndex = 0;
 
-// Map each thumbnail to a set of images
-const imageSets = {
-  "C09_ST2W3_3.2_Axon Overview Diagram.jpg": [
-    "C09_ST2W3_3.2_Axon Overview Diagram.jpg",
-    "related1.jpg",
-    "related2.jpg"
-  ],
-  "[C09]_WK3_3.2_Perspective.png": [
-    "[C09]_WK3_3.2_Perspective.png",
-    "related3.jpg",
-    "related4.jpg"
-  ]
-  // Add more sets here...
-};
+        // Map each thumbnail to a set of images
+        const imageSets = {
+            "C09_ST2W3_3.2_Axon Overview Diagram.jpg": [
+                "C09_ST2W3_3.2_Axon Overview Diagram.jpg",
+                "related1.jpg",
+                "related2.jpg"
+            ],
+            "[C09]_WK3_3.2_Perspective.png": [
+                "[C09]_WK3_3.2_Perspective.png",
+                "related3.jpg",
+                "related4.jpg"
+            ],
+            "art-crafts-3.jpg": [
+                "art-crafts-3.jpg",
+                "related5.jpg",
+                "related6.jpg"
+            ],
+            "art-crafts-4.jpg": [
+                "art-crafts-4.jpg",
+                "related7.jpg",
+                "related8.jpg"
+            ],
+            "art-crafts-5.jpg": [
+                "art-crafts-5.jpg",
+                "related9.jpg",
+                "related10.jpg"
+            ],
+            "art-crafts-6.jpg": [
+                "art-crafts-6.jpg",
+                "related11.jpg",
+                "related12.jpg"
+            ]
+        };
 
-    .prev, .next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: white;
-  font-size: 40px;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 0 12px;
-  user-select: none;
-}
+        // Add click event to thumbnails
+        document.querySelectorAll('.grid-item img').forEach(img => {
+            img.addEventListener('click', () => {
+                const fileName = img.getAttribute('src');
+                currentSet = imageSets[fileName] || [fileName]; // Get the set, or default to a single image
+                currentIndex = 0;
+                showImage();
+                lightbox.style.display = 'flex';
 
-.prev { left: 10px; }
-.next { right: 10px; }
+                // Show/hide navigation buttons based on the number of images in the set
+                if (currentSet.length > 1) {
+                    prevBtn.style.display = 'block';
+                    nextBtn.style.display = 'block';
+                } else {
+                    prevBtn.style.display = 'none';
+                    nextBtn.style.display = 'none';
+                }
+            });
+        });
 
-.prev:hover, .next:hover {
-  color: #bbb;
-}
+        function showImage() {
+            lightboxImg.src = currentSet[currentIndex];
+        }
 
+        prevBtn.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevents the lightbox from closing
+            currentIndex = (currentIndex - 1 + currentSet.length) % currentSet.length;
+            showImage();
+        });
 
-// Add click event to thumbnails
-document.querySelectorAll('.grid-item img').forEach(img => {
-  img.addEventListener('click', () => {
-    const fileName = img.getAttribute('src');
-    currentSet = imageSets[fileName] || [fileName];
-    currentIndex = 0;
-    showImage();
-    lightbox.style.display = 'flex';
-  });
-});
+        nextBtn.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevents the lightbox from closing
+            currentIndex = (currentIndex + 1) % currentSet.length;
+            showImage();
+        });
 
-function showImage() {
-  lightboxImg.src = currentSet[currentIndex];
-}
+        closeBtn.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+        });
 
-prevBtn.addEventListener('click', () => {
-  currentIndex = (currentIndex - 1 + currentSet.length) % currentSet.length;
-  showImage();
-});
-
-nextBtn.addEventListener('click', () => {
-  currentIndex = (currentIndex + 1) % currentSet.length;
-  showImage();
-});
-
-closeBtn.addEventListener('click', () => {
-  lightbox.style.display = 'none';
-});
-
-lightbox.addEventListener('click', (event) => {
-  if (event.target === lightbox) {
-    lightbox.style.display = 'none';
-  }
-});
-
+        lightbox.addEventListener('click', (event) => {
+            if (event.target === lightbox) {
+                lightbox.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
