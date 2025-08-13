@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Other – Nichapa</title>
     <style>
-        /* Sidebar */
+        /* ... (Your existing CSS for sidebar, layout, and grid) ... */
+        
         .sidebar {
             position: fixed;
             top: 1rem;
@@ -58,7 +59,6 @@
             color: #f48ab6;
         }
         
-        /* Main layout */
         body {
             margin: 0;
             font-family: Helvetica, Arial, sans-serif;
@@ -73,7 +73,6 @@
             padding: 2rem;
         }
         
-        /* Header for the page */
         .page-header {
             text-align: center;
             margin-bottom: 2rem;
@@ -84,7 +83,6 @@
             color: #212254;
         }
 
-        /* Image grid */
         .image-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -109,7 +107,6 @@
             transform: scale(1.05);
         }
         
-        /* Responsive design for the grid */
         @media (max-width: 768px) {
             .image-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -122,7 +119,7 @@
             }
         }
         
-        /* Lightbox styling */
+        /* New Lightbox styling for card stack effect */
         .lightbox {
             position: fixed;
             z-index: 2000;
@@ -132,14 +129,55 @@
             height: 100%;
             background: rgba(0,0,0,0.9);
             display: none;
-            align-items: center;
             justify-content: center;
+            align-items: center;
         }
 
-        .lightbox-content {
-            max-width: 90%;
-            max-height: 90%;
-            user-select: none; /* Prevents text selection on image */
+        .lightbox-container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            height: 90%;
+            max-height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Added for the card stack effect */
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .lightbox-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            max-width: 100%;
+            max-height: 100%;
+            border: 5px solid white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: transform 0.5s ease-in-out, z-index 0s 0.5s;
+            /* Added to hide images by default */
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .lightbox-image.active {
+            visibility: visible;
+            opacity: 1;
+            z-index: 10;
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .lightbox-image.prev-active {
+            z-index: 9;
+            transform: translate(-50%, -50%) scale(0.9) rotate(-5deg);
+        }
+
+        .lightbox-image.next-active {
+            z-index: 9;
+            transform: translate(-50%, -50%) scale(0.9) rotate(5deg);
         }
 
         .close {
@@ -151,6 +189,7 @@
             font-weight: bold;
             transition: 0.3s;
             cursor: pointer;
+            z-index: 20;
         }
 
         .close:hover,
@@ -169,6 +208,7 @@
             cursor: pointer;
             padding: 0 12px;
             user-select: none;
+            z-index: 20;
         }
 
         .prev { left: 10px; }
@@ -179,7 +219,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="sidebar">
         <button class="menu-icon" onclick="toggleMenu()">☰</button>
@@ -226,7 +265,8 @@
     <div id="lightbox" class="lightbox">
         <span class="close">&times;</span>
         <span class="prev">&#10094;</span>
-        <img class="lightbox-content" id="lightbox-img" alt="">
+        <div class="lightbox-container">
+            </div>
         <span class="next">&#10095;</span>
     </div>
 
@@ -245,10 +285,10 @@
         });
 
         const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
         const closeBtn = document.querySelector('.close');
         const prevBtn = document.querySelector('.prev');
         const nextBtn = document.querySelector('.next');
+        const lightboxContainer = document.querySelector('.lightbox-container');
 
         let currentSet = [];
         let currentIndex = 0;
@@ -287,16 +327,38 @@
             ]
         };
 
+        function updateLightboxImages() {
+            // Clear previous images
+            lightboxContainer.innerHTML = '';
+            
+            // Create and append all images in the set
+            currentSet.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Lightbox Image';
+                img.classList.add('lightbox-image');
+
+                if (index === currentIndex) {
+                    img.classList.add('active');
+                } else if (index === (currentIndex - 1 + currentSet.length) % currentSet.length) {
+                    img.classList.add('prev-active');
+                } else if (index === (currentIndex + 1) % currentSet.length) {
+                    img.classList.add('next-active');
+                }
+                lightboxContainer.appendChild(img);
+            });
+        }
+
         // Add click event to thumbnails
         document.querySelectorAll('.grid-item img').forEach(img => {
             img.addEventListener('click', () => {
                 const fileName = img.getAttribute('src');
-                currentSet = imageSets[fileName] || [fileName]; // Get the set, or default to a single image
+                currentSet = imageSets[fileName] || [fileName];
                 currentIndex = 0;
-                showImage();
+                updateLightboxImages();
                 lightbox.style.display = 'flex';
 
-                // Show/hide navigation buttons based on the number of images in the set
+                // Show/hide navigation buttons based on the number of images
                 if (currentSet.length > 1) {
                     prevBtn.style.display = 'block';
                     nextBtn.style.display = 'block';
@@ -307,20 +369,16 @@
             });
         });
 
-        function showImage() {
-            lightboxImg.src = currentSet[currentIndex];
-        }
-
         prevBtn.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevents the lightbox from closing
+            event.stopPropagation();
             currentIndex = (currentIndex - 1 + currentSet.length) % currentSet.length;
-            showImage();
+            updateLightboxImages();
         });
 
         nextBtn.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevents the lightbox from closing
+            event.stopPropagation();
             currentIndex = (currentIndex + 1) % currentSet.length;
-            showImage();
+            updateLightboxImages();
         });
 
         closeBtn.addEventListener('click', () => {
