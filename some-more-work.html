@@ -119,10 +119,9 @@
             }
         }
         
-        /* New Lightbox styling for card stack effect */
-        .lightbox {
+        /* New Styles for the 3D card stack */
+        .card-stack-overlay {
             position: fixed;
-            z-index: 2000;
             top: 0;
             left: 0;
             width: 100%;
@@ -131,53 +130,77 @@
             display: none;
             justify-content: center;
             align-items: center;
+            z-index: 2000;
         }
 
-        .lightbox-container {
+        .card-stack {
             position: relative;
-            width: 90%;
-            max-width: 800px;
-            height: 90%;
-            max-height: 600px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* Added for the card stack effect */
+            width: 80vmin;
+            height: 60vmin;
+            display: grid;
+            place-items: center;
             transform-style: preserve-3d;
-            perspective: 1000px;
+            perspective: 2000px;
+            -webkit-perspective: 2000px;
         }
-
-        .lightbox-image {
+        
+        .card {
+            --index: 0;
+            --active-index: 0;
+            --progress: 0;
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(0deg);
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+            transform-origin: 50% 100%;
+            transform:
+                translate3d(calc(var(--progress, 0) * -100%), 0, 0)
+                rotate(calc(var(--progress, 0) * 90deg))
+                scale(calc(1 - (abs(var(--progress, 0)) * 0.2)))
+                translateZ(calc((var(--progress, 0)) * -10vmin));
+            opacity: calc(1.5 - (abs(var(--progress, 0)) * 1.5));
             border: 5px solid white;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, z-index 0.5s;
-            visibility: hidden;
-            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
-        /* Styles for the active card */
-        .lightbox-image.active {
-            visibility: visible;
+        .card.active {
+            --progress: 0;
             opacity: 1;
-            z-index: 10;
-            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            z-index: 100;
+            transform: translate3d(0, 0, 0) rotate(0deg) scale(1) translateZ(10vmin);
+            pointer-events: auto;
+        }
+        
+        .card.prev {
+            --progress: -1;
+            z-index: 99;
+        }
+        
+        .card.next {
+            --progress: 1;
+            z-index: 99;
         }
 
-        /* Styles for the "inactive" cards in the stack */
-        .lightbox-image:not(.active) {
-            visibility: visible;
-            opacity: 0.8;
-            z-index: 9;
-            transform: translate(-50%, -50%) scale(0.9) rotate(calc(var(--stack-rotation, 0deg)));
+        .controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2010;
         }
-
-        .close {
+        
+        .close-btn {
             position: absolute;
             top: 20px;
             right: 40px;
@@ -186,32 +209,25 @@
             font-weight: bold;
             transition: 0.3s;
             cursor: pointer;
-            z-index: 20;
+            z-index: 2020;
         }
 
-        .close:hover,
-        .close:focus {
+        .close-btn:hover {
             color: #bbb;
-            text-decoration: none;
         }
         
-        .prev, .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            color: white;
+        .controls button {
             font-size: 40px;
             font-weight: bold;
+            color: white;
+            background: none;
+            border: none;
             cursor: pointer;
-            padding: 0 12px;
+            padding: 0 20px;
             user-select: none;
-            z-index: 20;
         }
-
-        .prev { left: 10px; }
-        .next { right: 10px; }
-
-        .prev:hover, .next:hover {
+        
+        .controls button:hover {
             color: #bbb;
         }
     </style>
@@ -239,13 +255,13 @@
         </div>
         <div class="image-grid">
             <div class="grid-item">
-                <img src="C09_ST2W3_3.2_Axon Overview Diagram.jpg" alt="Description of art 1">
+                <img src="blender node-01.png" alt="Description of art 1">
             </div>
             <div class="grid-item">
                 <img src="[C09]_WK3_3.2_Perspective.png" alt="Description of art 2">
             </div>
             <div class="grid-item">
-                <img src="art-crafts-3.jpg" alt="Description of art 3">
+                <img src="grasshopper-01.png" alt="Description of art 3">
             </div>
             <div class="grid-item">
                 <img src="art-crafts-4.jpg" alt="Description of art 4">
@@ -259,12 +275,14 @@
         </div>
     </div>
 
-    <div id="lightbox" class="lightbox">
-        <span class="close">&times;</span>
-        <span class="prev">&#10094;</span>
-        <div class="lightbox-container">
-            </div>
-        <span class="next">&#10095;</span>
+    <div class="card-stack-overlay" id="cardStackOverlay">
+      <div class="card-stack" id="cardStack">
+        </div>
+      <span class="close-btn" id="closeBtn">&times;</span>
+      <div class="controls">
+        <button class="prev-btn" id="prevBtn">&#10094;</button>
+        <button class="next-btn" id="nextBtn">&#10095;</button>
+      </div>
     </div>
 
     <script>
@@ -281,20 +299,19 @@
             }
         });
 
-        const lightbox = document.getElementById('lightbox');
-        const closeBtn = document.querySelector('.close');
-        const prevBtn = document.querySelector('.prev');
-        const nextBtn = document.querySelector('.next');
-        const lightboxContainer = document.querySelector('.lightbox-container');
+        const cardStackOverlay = document.getElementById('cardStackOverlay');
+        const cardStack = document.getElementById('cardStack');
+        const closeBtn = document.getElementById('closeBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
 
         let currentSet = [];
         let currentIndex = 0;
 
-        // Map each thumbnail to a set of images
         const imageSets = {
-            "C09_ST2W3_3.2_Axon Overview Diagram.jpg": [
-                "C09_ST2W3_3.2_Axon Overview Diagram.jpg",
-                "related1.jpg",
+            "blender node-01.png": [
+                "blender node-01.png",
+                "C09_ST2W4_4.2_keydetails-01.jpg",
                 "related2.jpg"
             ],
             "[C09]_WK3_3.2_Perspective.png": [
@@ -302,8 +319,8 @@
                 "related3.jpg",
                 "related4.jpg"
             ],
-            "art-crafts-3.jpg": [
-                "art-crafts-3.jpg",
+            "grasshopper-01.png": [
+                "grasshopper-01.png",
                 "related5.jpg",
                 "related6.jpg"
             ],
@@ -324,27 +341,40 @@
             ]
         };
 
-        function updateLightboxImages() {
-            // Clear previous images
-            lightboxContainer.innerHTML = '';
+        function updateCards() {
+            // Clear previous cards
+            cardStack.innerHTML = '';
             
-            // Create and append all images in the set
+            // Create and append all cards in the set
             currentSet.forEach((src, index) => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.style.setProperty('--index', index);
+                
                 const img = document.createElement('img');
                 img.src = src;
-                img.alt = 'Lightbox Image';
-                img.classList.add('lightbox-image');
-
-                if (index === currentIndex) {
-                    img.classList.add('active');
-                } else {
-                    // Set a unique random rotation for each inactive card
-                    const randomRotation = (Math.random() * 20 - 10) + 'deg';
-                    img.style.setProperty('--stack-rotation', randomRotation);
-                }
-
-                lightboxContainer.appendChild(img);
+                img.alt = 'Card Stack Image';
+                
+                card.appendChild(img);
+                cardStack.appendChild(card);
             });
+            
+            // Re-apply the active/prev/next classes
+            const cards = cardStack.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.classList.remove('active', 'prev', 'next');
+                card.style.setProperty('--active-index', currentIndex);
+            });
+
+            if (cards[currentIndex]) {
+                cards[currentIndex].classList.add('active');
+            }
+            if (cards[(currentIndex - 1 + currentSet.length) % currentSet.length]) {
+                cards[(currentIndex - 1 + currentSet.length) % currentSet.length].classList.add('prev');
+            }
+            if (cards[(currentIndex + 1) % currentSet.length]) {
+                cards[(currentIndex + 1) % currentSet.length].classList.add('next');
+            }
         }
 
         // Add click event to thumbnails
@@ -353,39 +383,30 @@
                 const fileName = img.getAttribute('src');
                 currentSet = imageSets[fileName] || [fileName];
                 currentIndex = 0;
-                updateLightboxImages();
-                lightbox.style.display = 'flex';
-
-                // Show/hide navigation buttons based on the number of images
-                if (currentSet.length > 1) {
-                    prevBtn.style.display = 'block';
-                    nextBtn.style.display = 'block';
-                } else {
-                    prevBtn.style.display = 'none';
-                    nextBtn.style.display = 'none';
-                }
+                updateCards();
+                cardStackOverlay.style.display = 'flex';
             });
         });
 
         prevBtn.addEventListener('click', (event) => {
             event.stopPropagation();
             currentIndex = (currentIndex - 1 + currentSet.length) % currentSet.length;
-            updateLightboxImages();
+            updateCards();
         });
 
         nextBtn.addEventListener('click', (event) => {
             event.stopPropagation();
             currentIndex = (currentIndex + 1) % currentSet.length;
-            updateLightboxImages();
+            updateCards();
         });
 
         closeBtn.addEventListener('click', () => {
-            lightbox.style.display = 'none';
+            cardStackOverlay.style.display = 'none';
         });
 
-        lightbox.addEventListener('click', (event) => {
-            if (event.target === lightbox) {
-                lightbox.style.display = 'none';
+        cardStackOverlay.addEventListener('click', (event) => {
+            if (event.target === cardStackOverlay) {
+                cardStackOverlay.style.display = 'none';
             }
         });
     </script>
