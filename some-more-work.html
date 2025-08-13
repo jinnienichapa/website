@@ -34,9 +34,9 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             min-width: 180px;
             display: none;
-            /* FIX: Limits the menu panel height and adds a scrollbar */
-            max-height: calc(100vh - 2rem);
-            overflow-y: auto;
+            max-height: 90vh; 
+            overflow-y: auto; 
+            box-sizing: border-box;
         }
 
         .menu-panel.active {
@@ -150,7 +150,7 @@
             width: 100%;
             height: 100%;
             box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            transition: transform 0.5s ease, z-index 0.3s;
+            transition: transform 0.5s ease, z-index 0.3s, box-shadow 0.3s;
             transform-origin: 50% 100%;
             overflow: hidden;
             border-radius: 12px;
@@ -176,6 +176,13 @@
         .card:nth-child(3) { 
             transform: translate(0, 0) rotate(10deg);
             z-index: 1;
+        }
+
+        /* Add hover effect to the cards in the stack */
+        .card:hover {
+            transform: translate(0, -50px) scale(1.1); /* Lifts the card up and scales it slightly */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7); /* Adds a stronger shadow */
+            z-index: 4; /* Brings the hovered card to the front */
         }
 
         /* Single card view state */
