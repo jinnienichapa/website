@@ -1,398 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Other – Nichapa</title>
-    <style>
-        /* ... (Your existing CSS for sidebar, layout, and grid) ... */
-        
-        .sidebar {
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1000;
-        }
-
-        .menu-icon {
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: #2c1d5a;
-            background-color: transparent;
-            border: none;
-            padding: 0;
-        }
-
-        .menu-panel {
-            position: absolute;
-            top: 0;
-            left: 2.5rem;
-            background-color: white;
-            border: 1px solid #ddd;
-            padding: 1rem;
-            border-radius: 6px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            min-width: 180px;
-            display: none;
-        }
-
-        .menu-panel.active {
-            display: block;
-        }
-
-        .menu-panel h3 {
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            margin: 0.5rem 0;
-            color: #f48ab6;
-        }
-
-        .menu-panel a {
-            display: block;
-            text-decoration: none;
-            color: #333;
-            font-size: 0.85rem;
-            margin: 0.25rem 0;
-        }
-
-        .menu-panel a:hover {
-            color: #f48ab6;
-        }
-        
-        body {
-            margin: 0;
-            font-family: Helvetica, Arial, sans-serif;
-            background-color: #f3f4f6;
-            color: #000;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .page-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .page-header h1 {
-            font-size: 2.5rem;
-            color: #212254;
-        }
-
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .grid-item {
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-        }
-
-        .grid-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.3s ease;
-        }
-
-        .grid-item img:hover {
-            transform: scale(1.05);
-        }
-        
-        @media (max-width: 768px) {
-            .image-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .image-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* New Lightbox styling for card stack effect */
-        .lightbox {
-            position: fixed;
-            z-index: 2000;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .lightbox-container {
-            position: relative;
-            width: 90%;
-            max-width: 800px;
-            height: 90%;
-            max-height: 600px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* Added for the card stack effect */
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        .lightbox-image {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(0deg);
-            max-width: 100%;
-            max-height: 100%;
-            border: 5px solid white;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, z-index 0.5s;
-            /* Added to hide images by default */
-            visibility: hidden;
-            opacity: 0;
-        }
-
-        .lightbox-image.active {
-            visibility: visible;
-            opacity: 1;
-            z-index: 10;
-            transform: translate(-50%, -50%) scale(1) rotate(0deg);
-        }
-
-        /* Styles for the "inactive" cards in the stack */
-        .lightbox-image.inactive {
-            visibility: visible;
-            opacity: 0.8;
-            transform: translate(-50%, -50%) scale(0.9) rotate(-10deg);
-            z-index: 9;
-        }
-
-        .lightbox-image.inactive.next {
-            transform: translate(-50%, -50%) scale(0.9) rotate(10deg);
-        }
-
-        .close {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            color: #fff;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-            z-index: 20;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #bbb;
-            text-decoration: none;
-        }
-        
-        .prev, .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            padding: 0 12px;
-            user-select: none;
-            z-index: 20;
-        }
-
-        .prev { left: 10px; }
-        .next { right: 10px; }
-
-        .prev:hover, .next:hover {
-            color: #bbb;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Some More Work</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+    }
+    .page-title {
+      text-align: center;
+      padding: 20px;
+    }
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+    .image-grid img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+    }
+    .image-grid img:hover {
+      transform: scale(1.05);
+    }
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    /* Stack container */
+    .stack {
+      position: relative;
+      perspective: 1000px;
+      width: 400px;
+      height: 300px;
+    }
+    .card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transform-style: preserve-3d;
+    }
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Layers for 3D stack */
+    .layer1 { transform: rotateY(0deg) translateZ(0); z-index: 3; }
+    .layer2 { background: #fff; transform: rotateY(-8deg) translateZ(-30px); z-index: 2; opacity: 0.6; }
+    .layer3 { background: #fff; transform: rotateY(8deg) translateZ(-60px); z-index: 1; opacity: 0.3; }
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <div class="sidebar">
-        <button class="menu-icon" onclick="toggleMenu()">☰</button>
-        <div class="menu-panel" id="menuPanel">
-            <h3>HOME</h3>
-            <a href="index.html">Home</a>
-            <h3>PROJECTS</h3>
-            <a href="architecture.html">Architectural Project</a>
-            <a href="illustration.html">Illustration</a>
-            <a href="artsncrafts.html">Arts n Crafts</a>
-            <a href="other.html">Other</a>
-            <h3>ABOUT</h3>
-            <a href="profile.html">Profile</a>
-            <a href="#">Contact</a>
-        </div>
-    </div>
 
-    <div class="container">
-        <div class="page-header">
-            <h1>Other</h1>
-        </div>
-        <div class="image-grid">
-            <div class="grid-item">
-                <img src="C09_ST2W3_3.2_Axon Overview Diagram.jpg" alt="Description of art 1">
-            </div>
-            <div class="grid-item">
-                <img src="[C09]_WK3_3.2_Perspective.png" alt="Description of art 2">
-            </div>
-            <div class="grid-item">
-                <img src="art-crafts-3.jpg" alt="Description of art 3">
-            </div>
-            <div class="grid-item">
-                <img src="art-crafts-4.jpg" alt="Description of art 4">
-            </div>
-            <div class="grid-item">
-                <img src="art-crafts-5.jpg" alt="Description of art 5">
-            </div>
-            <div class="grid-item">
-                <img src="art-crafts-6.jpg" alt="Description of art 6">
-            </div>
-        </div>
-    </div>
+<h1 class="page-title">Some More Work</h1>
 
-    <div id="lightbox" class="lightbox">
-        <span class="close">&times;</span>
-        <span class="prev">&#10094;</span>
-        <div class="lightbox-container">
-            </div>
-        <span class="next">&#10095;</span>
-    </div>
+<!-- Grid of images -->
+<div class="image-grid">
+  <img src="https://picsum.photos/id/1015/400/300" alt="Work 1">
+  <img src="https://picsum.photos/id/1016/400/300" alt="Work 2">
+  <img src="https://picsum.photos/id/1018/400/300" alt="Work 3">
+  <img src="https://picsum.photos/id/1020/400/300" alt="Work 4">
+  <img src="https://picsum.photos/id/1024/400/300" alt="Work 5">
+  <img src="https://picsum.photos/id/1025/400/300" alt="Work 6">
+</div>
 
-    <script>
-        function toggleMenu() {
-            const panel = document.getElementById("menuPanel");
-            panel.classList.toggle("active");
-        }
+<!-- Popup lightbox with 3D stack -->
+<div id="lightbox" class="lightbox">
+  <div class="stack">
+    <div class="card layer1"><img id="lightbox-img" src="" alt=""></div>
+    <div class="card layer2"></div>
+    <div class="card layer3"></div>
+  </div>
+  <span class="close">&times;</span>
+</div>
 
-        document.addEventListener("click", function (event) {
-            const sidebar = document.querySelector(".sidebar");
-            const panel = document.getElementById("menuPanel");
-            if (!sidebar.contains(event.target)) {
-                panel.classList.remove("active");
-            }
-        });
+<script>
+  const images = document.querySelectorAll('.image-grid img');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const closeBtn = document.querySelector('.close');
 
-        const lightbox = document.getElementById('lightbox');
-        const closeBtn = document.querySelector('.close');
-        const prevBtn = document.querySelector('.prev');
-        const nextBtn = document.querySelector('.next');
-        const lightboxContainer = document.querySelector('.lightbox-container');
+  images.forEach(img => {
+    img.addEventListener('click', () => {
+      lightbox.style.display = 'flex';
+      lightboxImg.src = img.src; // set clicked image
+    });
+  });
 
-        let currentSet = [];
-        let currentIndex = 0;
+  closeBtn.addEventListener('click', () => {
+    lightbox.style.display = 'none';
+  });
 
-        // Map each thumbnail to a set of images
-        const imageSets = {
-            "C09_ST2W3_3.2_Axon Overview Diagram.jpg": [
-                "C09_ST2W3_3.2_Axon Overview Diagram.jpg",
-                "related1.jpg",
-                "related2.jpg"
-            ],
-            "[C09]_WK3_3.2_Perspective.png": [
-                "[C09]_WK3_3.2_Perspective.png",
-                "related3.jpg",
-                "related4.jpg"
-            ],
-            "art-crafts-3.jpg": [
-                "art-crafts-3.jpg",
-                "related5.jpg",
-                "related6.jpg"
-            ],
-            "art-crafts-4.jpg": [
-                "art-crafts-4.jpg",
-                "related7.jpg",
-                "related8.jpg"
-            ],
-            "art-crafts-5.jpg": [
-                "art-crafts-5.jpg",
-                "related9.jpg",
-                "related10.jpg"
-            ],
-            "art-crafts-6.jpg": [
-                "art-crafts-6.jpg",
-                "related11.jpg",
-                "related12.jpg"
-            ]
-        };
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      lightbox.style.display = 'none';
+    }
+  });
+</script>
 
-        function updateLightboxImages() {
-            // Clear previous images
-            lightboxContainer.innerHTML = '';
-            
-            // Create and append all images in the set
-            currentSet.forEach((src, index) => {
-                const img = document.createElement('img');
-                img.src = src;
-                img.alt = 'Lightbox Image';
-                img.classList.add('lightbox-image');
-
-                if (index === currentIndex) {
-                    img.classList.add('active');
-                } else {
-                    img.classList.add('inactive');
-                    // Add a slight random rotation for the stack effect
-                    const rotation = (Math.random() * 20 - 10) + 'deg'; // Random rotation between -10 and 10 degrees
-                    img.style.transform = `translate(-50%, -50%) scale(0.9) rotate(${rotation})`;
-                }
-
-                lightboxContainer.appendChild(img);
-            });
-        }
-
-        // Add click event to thumbnails
-        document.querySelectorAll('.grid-item img').forEach(img => {
-            img.addEventListener('click', () => {
-                const fileName = img.getAttribute('src');
-                currentSet = imageSets[fileName] || [fileName];
-                currentIndex = 0;
-                updateLightboxImages();
-                lightbox.style.display = 'flex';
-
-                // Show/hide navigation buttons based on the number of images
-                if (currentSet.length > 1) {
-                    prevBtn.style.display = 'block';
-                    nextBtn.style.display = 'block';
-                } else {
-                    prevBtn.style.display = 'none';
-                    nextBtn.style.display = 'none';
-                }
-            });
-        });
-
-        prevBtn.addEventListener('click', (event) => {
-            event.stopPropagation();
-            currentIndex = (currentIndex - 1 + currentSet.length) % currentSet.length;
-            updateLightboxImages();
-        });
-
-        nextBtn.addEventListener('click', (event) => {
-            event.stopPropagation();
-            currentIndex = (currentIndex + 1) % currentSet.length;
-            updateLightboxImages();
-        });
-
-        closeBtn.addEventListener('click', () => {
-            lightbox.style.display = 'none';
-        });
-
-        lightbox.addEventListener('click', (event) => {
-            if (event.target === lightbox) {
-                lightbox.style.display = 'none';
-            }
-        });
-    </script>
 </body>
 </html>
