@@ -191,8 +191,9 @@
             z-index: 100;
             cursor: default;
         }
-        
-        .card:not(.active-zoom) {
+
+        /* FIX: New rule to disable pointer events only when a card is zoomed */
+        .card-stack-wrapper.zoomed-state .card:not(.active-zoom) {
             pointer-events: none;
         }
         
@@ -291,7 +292,7 @@
         });
 
         const cardStackOverlay = document.getElementById('cardStackOverlay');
-        const cardStack = document.getElementById('cardStack');
+        const cardStackWrapper = document.getElementById('cardStack'); // Renamed for clarity
         const closeBtn = document.getElementById('closeBtn');
         const backBtn = document.getElementById('backBtn');
 
@@ -331,16 +332,17 @@
         let currentActiveCard = null;
 
         function renderCardStack(set) {
-            cardStack.innerHTML = '';
+            cardStackWrapper.innerHTML = '';
             set.forEach((src) => {
                 const card = document.createElement('div');
                 card.classList.add('card');
                 const img = document.createElement('img');
                 img.src = src;
                 card.appendChild(img);
-                cardStack.appendChild(card);
+                cardStackWrapper.appendChild(card);
             });
             backBtn.style.display = 'none';
+            cardStackWrapper.classList.remove('zoomed-state'); // Ensure this is removed on initial open
         }
 
         function zoomInCard(cardElement) {
@@ -350,6 +352,7 @@
             cardElement.classList.add('active-zoom');
             currentActiveCard = cardElement;
             backBtn.style.display = 'block';
+            cardStackWrapper.classList.add('zoomed-state'); // Add this class when a card is clicked
         }
 
         document.querySelectorAll('.grid-item img').forEach(img => {
@@ -361,7 +364,7 @@
             });
         });
 
-        cardStack.addEventListener('click', (event) => {
+        cardStackWrapper.addEventListener('click', (event) => {
             const cardElement = event.target.closest('.card');
             if (cardElement) {
                 zoomInCard(cardElement);
@@ -374,6 +377,7 @@
                 currentActiveCard = null;
             }
             backBtn.style.display = 'none';
+            cardStackWrapper.classList.remove('zoomed-state'); // Remove this class on back
         });
 
         closeBtn.addEventListener('click', () => {
@@ -382,6 +386,7 @@
                 currentActiveCard.classList.remove('active-zoom');
                 currentActiveCard = null;
             }
+            cardStackWrapper.classList.remove('zoomed-state'); // Remove this class on close
         });
 
         cardStackOverlay.addEventListener('click', (event) => {
@@ -391,6 +396,7 @@
                     currentActiveCard.classList.remove('active-zoom');
                     currentActiveCard = null;
                 }
+                cardStackWrapper.classList.remove('zoomed-state'); // Remove this class on close
             }
         });
     </script>
