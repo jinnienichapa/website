@@ -34,6 +34,9 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             min-width: 180px;
             display: none;
+            /* FIX: Limits the menu panel height and adds a scrollbar */
+            max-height: calc(100vh - 2rem);
+            overflow-y: auto;
         }
 
         .menu-panel.active {
@@ -150,7 +153,7 @@
             transition: transform 0.5s ease, z-index 0.3s;
             transform-origin: 50% 100%;
             overflow: hidden;
-            border-radius: 12px; /* Added rounded edges */
+            border-radius: 12px;
             cursor: pointer;
         }
         
@@ -211,7 +214,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            display: none; /* Hide by default */
+            display: none;
             z-index: 2020;
         }
     </style>
@@ -334,12 +337,9 @@
         }
 
         function zoomInCard(cardElement) {
-            // Reset any currently zoomed-in card
             if (currentActiveCard) {
                 currentActiveCard.classList.remove('active-zoom');
             }
-
-            // Zoom in on the clicked card
             cardElement.classList.add('active-zoom');
             currentActiveCard = cardElement;
             backBtn.style.display = 'block';
