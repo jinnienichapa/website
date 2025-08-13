@@ -84,47 +84,47 @@
         color: #212254;
     }
 
-    /* Image grid */
-    .image-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      /* Use masonry-like columns for uneven heights */
-      /* This is a more modern approach for this type of layout */
-    }
+    /* Image grid - Pinterest style */
+.image-grid {
+  column-count: 3; /* Number of columns */
+  column-gap: 1.5rem;
+}
 
-    .grid-item {
-        overflow: hidden;
-        border-radius: 8px;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-    }
+.grid-item {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  break-inside: avoid; /* Prevent item splitting */
+}
 
-    .grid-item img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: transform 0.3s ease;
-    }
+.grid-item img {
+  width: 100%;
+  height: auto; /* Keep original aspect ratio */
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
 
-    .grid-item img:hover {
-      transform: scale(1.05);
-    }
-    
-    /* Responsive design for the grid */
-    /* Tablet: 2 images per row */
-    @media (max-width: 768px) {
-      .image-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+.grid-item img:hover {
+  transform: scale(1.05);
+}
 
-    /* Mobile: 1 image per row */
-    @media (max-width: 480px) {
-      .image-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+/* Tablet */
+@media (max-width: 768px) {
+  .image-grid {
+    column-count: 2;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .image-grid {
+    column-count: 1;
+  }
+}
+
     
     /* Lightbox styling */
     .lightbox {
