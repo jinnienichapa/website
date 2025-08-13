@@ -5,8 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Other – Nichapa</title>
     <style>
-        /* ... (Your existing CSS for sidebar, layout, and grid) ... */
+        /* --- General and Layout Styles --- */
+        body {
+            margin: 0;
+            font-family: Helvetica, Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #000;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
         
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: #212254;
+        }
+
+        /* --- Sidebar Menu Styles --- */
         .sidebar {
             position: fixed;
             top: 1rem;
@@ -34,8 +58,9 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             min-width: 180px;
             display: none;
-            max-height: 90vh; 
-            overflow-y: auto; 
+            /* Fix for unclickable links */
+            max-height: 90vh;
+            overflow-y: auto;
             box-sizing: border-box;
         }
 
@@ -61,31 +86,8 @@
         .menu-panel a:hover {
             color: #f48ab6;
         }
-        
-        body {
-            margin: 0;
-            font-family: Helvetica, Arial, sans-serif;
-            background-color: #f3f4f6;
-            color: #000;
-            overflow-x: hidden;
-        }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .page-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .page-header h1 {
-            font-size: 2.5rem;
-            color: #212254;
-        }
-
+        /* --- Image Grid Styles --- */
         .image-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -122,7 +124,7 @@
             }
         }
         
-        /* New Styles for the fanned card stack pop-up */
+        /* --- Card Stack Pop-up Styles --- */
         .card-stack-overlay {
             position: fixed;
             top: 0;
@@ -131,6 +133,7 @@
             height: 100%;
             background: rgba(0,0,0,0.9);
             display: none;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 2000;
@@ -178,11 +181,11 @@
             z-index: 1;
         }
 
-        /* Add hover effect to the cards in the stack */
+        /* Hover effect for cards */
         .card:hover {
-            transform: translate(0, -50px) scale(1.1); /* Lifts the card up and scales it slightly */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7); /* Adds a stronger shadow */
-            z-index: 4; /* Brings the hovered card to the front */
+            transform: translate(0, -50px) scale(1.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            z-index: 4;
         }
 
         /* Single card view state */
@@ -191,12 +194,13 @@
             z-index: 100;
             cursor: default;
         }
-
-        /* FIX: New rule to disable pointer events only when a card is zoomed */
+        
+        /* Fix for unclickable cards: disables pointer-events only when a card is zoomed */
         .card-stack-wrapper.zoomed-state .card:not(.active-zoom) {
             pointer-events: none;
         }
         
+        /* --- Pop-up Controls and Caption Styles --- */
         .close-btn {
             position: absolute;
             top: 20px;
@@ -224,6 +228,22 @@
             cursor: pointer;
             display: none;
             z-index: 2020;
+        }
+
+        #card-caption {
+            color: #fff;
+            text-align: center;
+            width: 80%;
+            font-size: 1rem;
+            max-width: 600px;
+            margin-top: 2rem; /* Separates the caption from the card stack */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 2010;
+        }
+
+        .card-stack-wrapper.zoomed-state ~ #card-caption {
+            opacity: 1; /* Show caption when in zoomed state */
         }
     </style>
 </head>
@@ -271,13 +291,15 @@
     </div>
 
     <div class="card-stack-overlay" id="cardStackOverlay">
-      <div class="card-stack-wrapper" id="cardStack">
-        </div>
-      <span class="close-btn" id="closeBtn">&times;</span>
-      <button class="back-btn" id="backBtn" style="display:none;">Back to Stack</button>
+        <div class="card-stack-wrapper" id="cardStack">
+            </div>
+        <p id="card-caption"></p>
+        <span class="close-btn" id="closeBtn">&times;</span>
+        <button class="back-btn" id="backBtn" style="display:none;">Back to Stack</button>
     </div>
 
     <script>
+        // --- Sidebar Menu JavaScript ---
         function toggleMenu() {
             const panel = document.getElementById("menuPanel");
             panel.classList.toggle("active");
@@ -291,41 +313,43 @@
             }
         });
 
+        // --- Card Stack JavaScript ---
         const cardStackOverlay = document.getElementById('cardStackOverlay');
-        const cardStackWrapper = document.getElementById('cardStack'); // Renamed for clarity
+        const cardStackWrapper = document.getElementById('cardStack');
         const closeBtn = document.getElementById('closeBtn');
         const backBtn = document.getElementById('backBtn');
+        const cardCaption = document.getElementById('card-caption');
 
         const imageSets = {
             "blender node-01.png": [
-                "blender node-01.png",
-                "C09_ST2W4_4.2_keydetails-01.jpg",
-                "related2.jpg"
+                { src: "blender node-01.png", caption: "3D Blender node creation." },
+                { src: "render pic dts3.png", caption: "Detailed modeling process." },
+                { src: "render pic dts8.png", caption: "Rendering of a 3D model." }
             ],
             "[C09]_WK3_3.2_Perspective.png": [
-                "[C09]_WK3_3.2_Perspective.png",
-                "related3.jpg",
-                "related4.jpg"
+                { src: "[C09]_WK3_3.2_Perspective.png", caption: "Architectural perspective drawing." },
+                { src: "related3.jpg", caption: "Sketching with two-point perspective." },
+                { src: "related4.jpg", caption: "Diagram of a building layout." }
             ],
             "grasshopper-01.png": [
-                "grasshopper-01.png",
-                "related5.jpg",
-                "related6.jpg"
+                { src: "grasshopper-01.png", caption: "Parametric design in Grasshopper." },
+                { src: "related5.jpg", caption: "Generating complex geometries." },
+                { src: "related6.jpg", caption: "Algorithmic architecture patterns." }
             ],
             "art-crafts-4.jpg": [
-                "art-crafts-4.jpg",
-                "related7.jpg",
-                "related8.jpg"
+                { src: "art-crafts-4.jpg", caption: "Handmade ceramic sculpture." },
+                { src: "related7.jpg", caption: "Close-up of a textured clay piece." },
+                { src: "related8.jpg", caption: "Glazing a pottery item." }
             ],
             "art-crafts-5.jpg": [
-                "art-crafts-5.jpg",
-                "related9.jpg",
-                "related10.jpg"
+                { src: "art-crafts-5.jpg", caption: "Hand-stitched textile art." },
+                { src: "related9.jpg", caption: "Embroidery pattern detail." },
+                { src: "related10.jpg", caption: "Finished woven fabric piece." }
             ],
             "art-crafts-6.jpg": [
-                "art-crafts-6.jpg",
-                "related11.jpg",
-                "related12.jpg"
+                { src: "art-crafts-6.jpg", caption: "Detailed paper craft work." },
+                { src: "related11.jpg", caption: "Layered paper-cut design." },
+                { src: "related12.jpg", caption: "Origami folding technique." }
             ]
         };
 
@@ -333,16 +357,18 @@
 
         function renderCardStack(set) {
             cardStackWrapper.innerHTML = '';
-            set.forEach((src) => {
+            set.forEach((imgData) => {
                 const card = document.createElement('div');
                 card.classList.add('card');
                 const img = document.createElement('img');
-                img.src = src;
+                img.src = imgData.src;
+                img.dataset.caption = imgData.caption;
                 card.appendChild(img);
                 cardStackWrapper.appendChild(card);
             });
             backBtn.style.display = 'none';
-            cardStackWrapper.classList.remove('zoomed-state'); // Ensure this is removed on initial open
+            cardStackWrapper.classList.remove('zoomed-state');
+            cardCaption.textContent = '';
         }
 
         function zoomInCard(cardElement) {
@@ -352,7 +378,10 @@
             cardElement.classList.add('active-zoom');
             currentActiveCard = cardElement;
             backBtn.style.display = 'block';
-            cardStackWrapper.classList.add('zoomed-state'); // Add this class when a card is clicked
+            cardStackWrapper.classList.add('zoomed-state');
+            
+            const captionText = cardElement.querySelector('img').dataset.caption;
+            cardCaption.textContent = captionText;
         }
 
         document.querySelectorAll('.grid-item img').forEach(img => {
@@ -371,32 +400,27 @@
             }
         });
 
-        backBtn.addEventListener('click', () => {
+        function resetState() {
             if (currentActiveCard) {
                 currentActiveCard.classList.remove('active-zoom');
                 currentActiveCard = null;
             }
             backBtn.style.display = 'none';
-            cardStackWrapper.classList.remove('zoomed-state'); // Remove this class on back
-        });
+            cardStackWrapper.classList.remove('zoomed-state');
+            cardCaption.textContent = '';
+        }
+
+        backBtn.addEventListener('click', resetState);
 
         closeBtn.addEventListener('click', () => {
+            resetState();
             cardStackOverlay.style.display = 'none';
-            if (currentActiveCard) {
-                currentActiveCard.classList.remove('active-zoom');
-                currentActiveCard = null;
-            }
-            cardStackWrapper.classList.remove('zoomed-state'); // Remove this class on close
         });
 
         cardStackOverlay.addEventListener('click', (event) => {
             if (event.target === cardStackOverlay) {
+                resetState();
                 cardStackOverlay.style.display = 'none';
-                if (currentActiveCard) {
-                    currentActiveCard.classList.remove('active-zoom');
-                    currentActiveCard = null;
-                }
-                cardStackWrapper.classList.remove('zoomed-state'); // Remove this class on close
             }
         });
     </script>
