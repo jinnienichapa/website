@@ -359,72 +359,78 @@
   </script>
 
   <script>
-    // Flipbook JS
-    const pages = document.querySelectorAll('.page');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    let currentPage = 3;
+    // Flipbook JS
+    const pages = document.querySelectorAll('.page');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentPage = 3;
 
-    function layout() {
-      const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
-      const maxVisible = 3;
+    function layout() {
+      const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
+      const maxVisible = 3;
 
-      pages.forEach((el, idx) => {
-        const centerIndex = currentPage;
-        const pos = idx - centerIndex;
-        
-        if (Math.abs(pos) > maxVisible || idx < currentPage - 1 || idx > currentPage + 1) {
-          el.classList.add('dim');
-          el.style.setProperty('--offset', `${pos * gap}px`);
-          el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
-          el.style.setProperty('--scale', '0.7');
-          el.style.zIndex = 10;
-        } else {
-          el.classList.remove('dim');
-          const offset = pos * gap;
-          const rot = pos * -6;
-          const scale = 1 - Math.abs(pos) * 0.12;
-          el.style.setProperty('--offset', `${offset}px`);
-          el.style.setProperty('--rot', `${rot}deg`);
-          el.style.setProperty('--scale', scale.toString());
-          el.style.zIndex = 50 - Math.abs(pos);
-        }
-      });
-    }
+      pages.forEach((el, idx) => {
+        const centerIndex = currentPage;
+        const pos = idx - centerIndex;
+        
+        if (Math.abs(pos) > maxVisible || idx < currentPage - 1 || idx > currentPage + 1) {
+          el.classList.add('dim');
+          el.style.setProperty('--offset', `${pos * gap}px`);
+          el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
+          el.style.setProperty('--scale', '0.7');
+          el.style.zIndex = 10;
+        } else {
+          el.classList.remove('dim');
+          const offset = pos * gap;
+          const rot = pos * -6;
+          const scale = 1 - Math.abs(pos) * 0.12;
+          el.style.setProperty('--offset', `${offset}px`);
+          el.style.setProperty('--rot', `${rot}deg`);
+          el.style.setProperty('--scale', scale.toString());
+          // FIX: Explicitly set z-index to ensure center page is always on top
+          el.style.zIndex = idx === currentPage ? 100 : 50 - Math.abs(pos);
+        }
+      });
+    }
 
-    function updateNavButtons() {
-      prevBtn.style.opacity = currentPage === 0 ? 0.3 : 1;
-      nextBtn.style.opacity = currentPage === pages.length - 1 ? 0.3 : 1;
-      prevBtn.style.pointerEvents = currentPage === 0 ? 'none' : 'auto';
-      nextBtn.style.pointerEvents = currentPage === pages.length - 1 ? 'none' : 'auto';
-    }
+    function updateNavButtons() {
+      prevBtn.style.opacity = currentPage === 0 ? 0.3 : 1;
+      nextBtn.style.opacity = currentPage === pages.length - 1 ? 0.3 : 1;
+      prevBtn.style.pointerEvents = currentPage === 0 ? 'none' : 'auto';
+      nextBtn.style.pointerEvents = currentPage === pages.length - 1 ? 'none' : 'auto';
+    }
 
-    prevBtn.addEventListener('click', () => {
-      if (currentPage > 0) {
-        currentPage--;
-        layout();
-        updateNavButtons();
-      }
-    });
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        layout();
+        updateNavButtons();
+      }
+    });
 
-    nextBtn.addEventListener('click', () => {
-      if (currentPage < pages.length - 1) {
-        currentPage++;
-        layout();
-        updateNavButtons();
-      }
-    });
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        layout();
+        updateNavButtons();
+      }
+    });
 
-    pages.forEach((el, idx) => {
-      el.addEventListener('click', () => {
-        // Only trigger flipbook movement if the clicked page is not the current one
-        if (idx !== currentPage) {
-          currentPage = idx;
-          layout();
-          updateNavButtons();
-        }
-      });
-    });
+    pages.forEach((el, idx) => {
+      el.addEventListener('click', () => {
+        if (idx !== currentPage) {
+          currentPage = idx;
+          layout();
+          updateNavButtons();
+        }
+      });
+    });
+
+    // Initial setup
+    layout();
+    updateNavButtons();
+    window.addEventListener('resize', () => setTimeout(layout, 120));
+  </script>
 
     // Initial setup
     layout();
