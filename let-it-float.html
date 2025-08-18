@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Let it Float – Nichapa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      background-color: #fff;
+      color: #000;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .top-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .left-image {
+      flex: 1 1 65%;
+    }
+
+    .left-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .right-text {
+      flex: 1 1 30%;
+    }
+
+    .right-text h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #212254;
+    }
+
+    .right-text h3 {
+      font-weight: normal;
+      font-size: 1rem;
+      color: #666;
+      margin-top: 0;
+    }
+
+    .right-text p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-top: 1rem;
+      text-align: justify;
+    }
+
+    .section-title {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin: 3rem 0 1.5rem;
+      color: #C4499A;
+      font-size: 1.2rem;
+    }
+
+    /* Large Drawing List */
+    .detail-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .detail-list img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+   /* Grid of Smaller Details */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .detail-grid img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Tablet: 2 images per row */
+    @media (max-width: 768px) {
+      .detail-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Mobile: 1 image per row */
+    @media (max-width: 480px) {
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1000;
+    }
+
+    .menu-icon {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #2c1d5a;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+    }
+
+    .menu-panel {
+      position: absolute;
+      top: 0;
+      left: 2.5rem;
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      min-width: 180px;
+      display: none;
+    }
+
+    .menu-panel.active {
+      display: block;
+    }
+
+    .menu-panel h3 {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+      color: #f48ab6;
+    }
+
+    .menu-panel a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      font-size: 0.85rem;
+      margin: 0.25rem 0;
+    }
+
+    .menu-panel a:hover {
+      color: #f48ab6;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <button class="menu-icon" onclick="toggleMenu()">☰</button>
+    <div class="menu-panel" id="menuPanel">
+      <h3>HOME</h3>
+      <a href="index.html">Home</a>
+      <h3>PROJECTS</h3>
+      <a href="architecture.html">Architectural Project</a>
+      <a href="illustration.html">Illustration</a>
+      <a href="artsncrafts.html">Arts n Crafts</a>
+      <a href="other.html">Other</a>
+      <h3>ABOUT</h3>
+      <a href="profile.html">Profile</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+
+    <!-- Top Section -->
+    <div class="top-section">
+      <div class="left-image">
+        <img src="collage people render3.png" alt="Main Render of Project">
+      </div>
+      <div class="right-text">
+        <h1>Let it Float</h1>
+        <h3>Y2 S1</h3>
+        <p><strong>Brief:</strong> Spatial Relations ; Context ≈ Concept</p>
+        <p><strong>Description:</strong> Life in Soi located in Talat noi or Talak Kie is a historic neighborhood in Bangkok, famous for its mechanics, street art, street food, and shrine. The project questioned whether the area is public or not, does it serve tourists or locals, and how can we share these spaces. The installation serves as a physical divider between the two agents. It consists of a display that uses fabric and wires to cast shadows and showcase local life. As many tourists visit the area to experience the local culture. Thus, this device serves as a bridge between these two groups.</p>
+        <p><strong>Program:</strong> Rhino, Blender, Ai, Ps</p>
+      </div>
+    </div>
+
+    <!-- Large Drawings -->
+    <div class="section-title">Other Drawings & Details</div>
+    <div class="detail-list">
+      <img src="shading.png" alt="Section">
+      <img src="2023-2024_Y2S2_ARCH_DSGN_1_TAKANAO_TODO_JINNIE_NICHAPA_EAMCHAROEN_01_P4FR_72dpi.jpg">
+      <img src="2023-2024_Y2S2_ARCH_DSGN_1_TAKANAO_TODO_JINNIE_NICHAPA_EAMCHAROEN_02_P4FR_72dpi.jpg" alt="Exploded Axon">
+      <img src="fl2@3x.png" alt="Section">
+      <img src="fl3@3x.png" alt="Plan">
+      <img src="fl4@3x.png" alt="Plan">
+    </div>
+
+    <!-- Grid of Smaller Details -->
+    <div class="section-title">Additional Views</div>
+    <div class="detail-grid">
+      <img src="f1@3x.png" alt="Physical Model">
+      <img src="f5@3x.png" alt="Concept Diagram">
+      <img src="f8@3x.png" alt="Concept Diagram">
+      <img src="f2@3x.png" alt="Render View">
+      <img src="f6@3x.png" alt="Concept Diagram">
+      <img src="f1v1-01.png" alt="Site Overview">
+      <img src="slide p4 fr1-16.png" alt="Site Overview">
+      <img src="f7@3x.png" alt="Concept Diagram">
+      <img src="slide p4 fr1-36.png" alt="Site Overview">
+      <img src="slide p4 fr1-28.png" alt="Site Overview">
+      <img src="slide p4 fr1-31.png" alt="Site Overview">
+      <img src="slide p4 fr1-33.png" alt="Site Overview">
+      <img src="slide p4 fr1-29.png" alt="Site Overview">
+      <img src="slide p4 fr1-37.png" alt="Site Overview">
+      <img src="slide p4 fr1-34.png" alt="Site Overview">
+    </div>
+
+  </div>
+
+  <!-- Sidebar JS -->
+  <script>
+    function toggleMenu() {
+      const panel = document.getElementById("menuPanel");
+      panel.classList.toggle("active");
+    }
+
+    document.addEventListener("click", function (event) {
+      const sidebar = document.querySelector(".sidebar");
+      const panel = document.getElementById("menuPanel");
+      if (!sidebar.contains(event.target)) {
+        panel.classList.remove("active");
+      }
+    });
+  </script>
+</body>
+</html>
