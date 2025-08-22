@@ -10,7 +10,8 @@
       font-family: Helvetica, Arial, sans-serif;
       background-image: url('nAsset 2@3x.png');
       background-size: cover;
-      background-repeat: repeat;
+      background-repeat: no-repeat;
+      background-position: center;
       color: #000;
       overflow-x: hidden;
     }
@@ -70,6 +71,7 @@
     header {
       padding: 2rem;
       text-align: center;
+      position: relative;
     }
 
     .logo img {
@@ -78,13 +80,15 @@
       height: auto;
     }
 
-    .nav {
+    .desktop-nav {
       position: absolute;
       top: 2rem;
       right: 2rem;
+      /* Add transition for smoother effect on resize */
+      transition: opacity 0.3s ease;
     }
 
-    .nav a {
+    .desktop-nav a {
       margin-left: 2rem;
       text-decoration: none;
       color: #000;
@@ -94,7 +98,7 @@
       border-bottom: 1px solid transparent;
     }
 
-    .nav a:hover {
+    .desktop-nav a:hover {
       border-bottom: 1px solid #000;
     }
 
@@ -156,12 +160,66 @@
       width: 80px;
     }
 
+    /* --- Media Queries for Mobile Responsiveness --- */
+    @media (max-width: 768px) {
+      body {
+        background-size: auto 100%; /* Fit wallpaper vertically on mobile */
+      }
+      
+      header {
+        padding: 1rem;
+      }
+      
+      .logo img {
+        max-width: 300px; /* Make the logo slightly smaller */
+      }
+      
+      .desktop-nav {
+        display: none; /* Hide the desktop navigation bar */
+      }
+      
+      .sidebar {
+        top: 0.5rem;
+        left: 0.5rem;
+      }
+      
+      .graphic-wrapper {
+        width: 95%; /* Adjust the width of the main graphic */
+      }
+      
+      /* Adjust floating icon sizes and positions for mobile */
+      .floating-icon {
+        width: 15% !important; /* Make icons responsive to screen size */
+      }
+      
+      .float-illustration {
+        top: 35%;
+        left: 5%;
+      }
+      
+      .float-artsncrafts {
+        top: 20%;
+        right: 50%;
+      }
+      
+      .float-architecture {
+        top: 25%;
+        right: 5%;
+      }
+      
+      .float-profile {
+        top: 45%;
+        left: 20%;
+      }
+      
+      .float-other {
+        top: 60%;
+        left: 75%;
+      }
+    }
   </style>
 </head>
-
 <body>
-
-  <!-- Sidebar -->
   <div class="sidebar">
     <div class="menu-icon" onclick="toggleMenu()">☰</div>
     <div class="menu-panel" id="menuPanel">
@@ -178,24 +236,20 @@
     </div>
   </div>
 
-  <!-- Header -->
   <header>
     <div class="logo">
       <img src="illus2@3x.png" alt="Nichapa's Logo" />
     </div>
-    <div class="nav">
+    <div class="desktop-nav">
       <a href="index.html">Home</a>
       <a href="project.html">Project</a>
       <a href="about.html">About</a>
     </div>
   </header>
 
-  <!-- Hero Section -->
   <div class="hero">
     <div class="graphic-wrapper">
       <img src="home asset@3x.png" class="main-graphic" alt="Main Graphic" />
-
-      <!-- Floating Icons -->
       <a href="illustration.html">
         <img src="nAsset 5@3x.png" class="floating-icon float-illustration" alt="Illustration" />
       </a>
@@ -214,7 +268,6 @@
     </div>
   </div>
 
-  <!-- Sidebar JS -->
   <script>
     function toggleMenu() {
       const panel = document.getElementById("menuPanel");
@@ -230,6 +283,5 @@
       }
     });
   </script>
-
 </body>
 </html>
