@@ -1,293 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NICHAPA'S PORTFOLIO</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Helvetica, Arial, sans-serif;
-      background-image: url('nAsset 2@3x.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      color: #000;
-      overflow-x: hidden;
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NICHAPA'S PORTFOLIO</title>
+  <style>
+    /* This ensures the background fills the entire screen */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
 
-    /* --- Sidebar Styles --- */
-    .sidebar {
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      z-index: 1000;
-    }
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      background-image: url('nAsset 2@3x.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      color: #000;
+      overflow-x: hidden;
+    }
 
-    .menu-icon {
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: #2c1d5a;
-      transition: color 0.3s ease;
-    }
+    /* --- Sidebar Styles --- */
+    .sidebar {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1000;
+    }
 
-    .menu-panel {
-      position: absolute;
-      top: 0;
-      left: 2.5rem;
-      background-color: white;
-      border: 1px solid #ddd;
-      padding: 1rem;
-      border-radius: 6px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      min-width: 180px;
-      display: none;
-    }
+    .menu-icon {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #2c1d5a;
+      transition: color 0.3s ease;
+    }
 
-    .menu-panel.active {
-      display: block;
-    }
+    .menu-panel {
+      position: absolute;
+      top: 0;
+      left: 2.5rem;
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      min-width: 180px;
+      display: none;
+    }
 
-    .menu-panel h3 {
-      text-transform: uppercase;
-      font-size: 0.8rem;
-      margin: 0.5rem 0;
-      color: #C4499A;
-    }
+    .menu-panel.active {
+      display: block;
+    }
 
-    .menu-panel a {
-      display: block;
-      text-decoration: none;
-      color: #333;
-      font-size: 0.85rem;
-      margin: 0.25rem 0;
-    }
+    .menu-panel h3 {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+      color: #C4499A;
+    }
 
-    .menu-panel a:hover {
-      color: #C4499A;
-    }
+    .menu-panel a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      font-size: 0.85rem;
+      margin: 0.25rem 0;
+    }
 
-    /* --- Header & Navigation --- */
-    header {
-      padding: 2rem;
-      text-align: center;
-      position: relative;
-    }
+    .menu-panel a:hover {
+      color: #C4499A;
+    }
 
-    .logo img {
-      width: 100%;
-      max-width: 400px;
-      height: auto;
-    }
+    /* --- Header & Navigation --- */
+    header {
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
 
-    .desktop-nav {
-      position: absolute;
-      top: 2rem;
-      right: 2rem;
-      /* Add transition for smoother effect on resize */
-      transition: opacity 0.3s ease;
-    }
+    .logo img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+    }
 
-    .desktop-nav a {
-      margin-left: 2rem;
-      text-decoration: none;
-      color: #000;
-      font-weight: bold;
-      text-transform: uppercase;
-      font-size: 1rem;
-      border-bottom: 1px solid transparent;
-    }
+    .desktop-nav {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      transition: opacity 0.3s ease;
+    }
 
-    .desktop-nav a:hover {
-      border-bottom: 1px solid #000;
-    }
+    .desktop-nav a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1rem;
+      border-bottom: 1px solid transparent;
+    }
 
-    /* --- Hero Section --- */
-    .hero {
-      display: flex;
-      justify-content: center;
-      margin: 3rem auto;
-    }
+    .desktop-nav a:hover {
+      border-bottom: 1px solid #000;
+    }
 
-    .graphic-wrapper {
-      position: relative;
-      width: 80%;
-      max-width: 800px;
-    }
+    /* --- Hero Section --- */
+    .hero {
+      display: flex;
+      justify-content: center;
+      margin: 3rem auto;
+    }
 
-    .graphic-wrapper .main-graphic {
-      width: 100%;
-      display: block;
-    }
+    .graphic-wrapper {
+      position: relative;
+      width: 80%;
+      max-width: 800px;
+    }
 
-    .floating-icon {
-      position: absolute;
-      transition: transform 0.3s ease;
-    }
+    .graphic-wrapper .main-graphic {
+      width: 100%;
+      display: block;
+    }
 
-    .floating-icon:hover {
-      transform: scale(1.1);
-    }
+    .floating-icon {
+      position: absolute;
+      transition: transform 0.3s ease;
+    }
 
-    /* --- Floating Labels with Sizes & Positioning --- */
-    .float-illustration {
-      top: 40%;
-      left: -4%;
-      width: 120px;
-    }
+    .floating-icon:hover {
+      transform: scale(1.1);
+    }
 
-    .float-artsncrafts {
-      top: 26%;
-      right: 58%;
-      width: 130px;
-    }
+    /* --- Floating Labels with Sizes & Positioning --- */
+    .float-illustration {
+      top: 40%;
+      left: -4%;
+      width: 120px;
+    }
 
-    .float-architecture {
-      top: 33%;
-      right: -5%;
-      width: 180px;
-    }
+    .float-artsncrafts {
+      top: 26%;
+      right: 58%;
+      width: 130px;
+    }
 
-    .float-profile {
-      top: 52%;
-      left: 20%;
-      width: 90px;
-    }
+    .float-architecture {
+      top: 33%;
+      right: -5%;
+      width: 180px;
+    }
 
-    .float-other {
-      top: 65%;
-      left: 80%;
-      width: 80px;
-    }
+    .float-profile {
+      top: 52%;
+      left: 20%;
+      width: 90px;
+    }
 
-    /* --- Media Queries for Mobile Responsiveness --- */
-    @media (max-width: 768px) {
+    .float-other {
+      top: 65%;
+      left: 80%;
+      width: 80px;
+    }
+
+    /* --- Media Queries for Mobile Responsiveness --- */
+    @media (max-width: 768px) {
       header {
         padding: 1rem;
       }
-      
-      .logo img {
-        max-width: 300px; /* Make the logo slightly smaller */
-      }
-      
-      .desktop-nav {
-        display: none; /* Hide the desktop navigation bar */
-      }
-      
-      .sidebar {
-        top: 0.5rem;
-        left: 0.5rem;
-      }
-      
-      .graphic-wrapper {
-        width: 95%; /* Adjust the width of the main graphic */
-      }
-      
-     .floating-icon {
-      position: absolute;
-      transition: transform 0.3s ease;
-    }
-
-    .floating-icon:hover {
-      transform: scale(1.1);
-    }
-
-    /* --- Floating Labels with Sizes & Positioning --- */
-    .float-illustration {
-      top: 40%;
-      left: -4%;
-      width: 120px;
-    }
-
-    .float-artsncrafts {
-      top: 26%;
-      right: 58%;
-      width: 130px;
-    }
-
-    .float-architecture {
-      top: 33%;
-      right: -5%;
-      width: 180px;
-    }
-
-    .float-profile {
-      top: 52%;
-      left: 20%;
-      width: 90px;
-    }
-
-    .float-other {
-      top: 65%;
-      left: 80%;
-      width: 80px;
-    }
-    }
-  </style>
+      
+      .logo img {
+        max-width: 300px;
+      }
+      
+      .desktop-nav {
+        display: none;
+      }
+      
+      .sidebar {
+        top: 0.5rem;
+        left: 0.5rem;
+      }
+      
+      .graphic-wrapper {
+        width: 95%;
+      }
+      
+      /* The floating icon rules are now correctly placed outside the media query. */
+    }
+  </style>
 </head>
 <body>
-  <div class="sidebar">
-    <div class="menu-icon" onclick="toggleMenu()">☰</div>
-    <div class="menu-panel" id="menuPanel">
-      <h3>HOME</h3>
-      <a href="index.html">Home</a>
-      <h3>PROJECTS</h3>
-      <a href="project.html">Architecture</a>
-      <a href="illustration.html">Illustration</a>
-      <a href="arts-n-crafts.html">Arts & Crafts</a>
-      <a href="some-more-work.html">Other</a>
-      <h3>ABOUT</h3>
-      <a href="profile.html">Profile</a>
-      <a href="#">Contact</a>
-    </div>
-  </div>
+  <div class="sidebar">
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <div class="menu-panel" id="menuPanel">
+      <h3>HOME</h3>
+      <a href="index.html">Home</a>
+      <h3>PROJECTS</h3>
+      <a href="project.html">Architecture</a>
+      <a href="illustration.html">Illustration</a>
+      <a href="arts-n-crafts.html">Arts & Crafts</a>
+      <a href="some-more-work.html">Other</a>
+      <h3>ABOUT</h3>
+      <a href="profile.html">Profile</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
 
-  <header>
-    <div class="logo">
-      <img src="illus2@3x.png" alt="Nichapa's Logo" />
-    </div>
-    <div class="desktop-nav">
-      <a href="index.html">Home</a>
-      <a href="project.html">Project</a>
-      <a href="about.html">About</a>
-    </div>
-  </header>
+  <header>
+    <div class="logo">
+      <img src="illus2@3x.png" alt="Nichapa's Logo" />
+    </div>
+    <div class="desktop-nav">
+      <a href="index.html">Home</a>
+      <a href="project.html">Project</a>
+      <a href="about.html">About</a>
+    </div>
+  </header>
 
-  <div class="hero">
-    <div class="graphic-wrapper">
-      <img src="home asset@3x.png" class="main-graphic" alt="Main Graphic" />
-      <a href="illustration.html">
-        <img src="nAsset 5@3x.png" class="floating-icon float-illustration" alt="Illustration" />
-      </a>
-      <a href="arts-n-crafts.html">
-        <img src="nAsset 4@3x.png" class="floating-icon float-artsncrafts" alt="Arts n Crafts" />
-      </a>
-      <a href="project.html">
-        <img src="nAsset 7@3x.png" class="floating-icon float-architecture" alt="Architecture" />
-      </a>
-      <a href="about.html">
-        <img src="nAsset 6@3x.png" class="floating-icon float-profile" alt="Profile" />
-      </a>
-      <a href="some-more-work.html">
-        <img src="nAsset 8@3x.png" class="floating-icon float-other" alt="Other" />
-      </a>
-    </div>
-  </div>
+  <div class="hero">
+    <div class="graphic-wrapper">
+      <img src="home asset@3x.png" class="main-graphic" alt="Main Graphic" />
+      <a href="illustration.html">
+        <img src="nAsset 5@3x.png" class="floating-icon float-illustration" alt="Illustration" />
+      </a>
+      <a href="arts-n-crafts.html">
+        <img src="nAsset 4@3x.png" class="floating-icon float-artsncrafts" alt="Arts n Crafts" />
+      </a>
+      <a href="project.html">
+        <img src="nAsset 7@3x.png" class="floating-icon float-architecture" alt="Architecture" />
+      </a>
+      <a href="about.html">
+        <img src="nAsset 6@3x.png" class="floating-icon float-profile" alt="Profile" />
+      </a>
+      <a href="some-more-work.html">
+        <img src="nAsset 8@3x.png" class="floating-icon float-other" alt="Other" />
+      </a>
+    </div>
+  </div>
 
-  <script>
-    function toggleMenu() {
-      const panel = document.getElementById("menuPanel");
-      panel.classList.toggle("active");
-    }
+  <script>
+    function toggleMenu() {
+      const panel = document.getElementById("menuPanel");
+      panel.classList.toggle("active");
+    }
 
-    // Optional: Close sidebar when clicking outside
-    document.addEventListener("click", function(event) {
-      const sidebar = document.querySelector(".sidebar");
-      const panel = document.getElementById("menuPanel");
-      if (!sidebar.contains(event.target)) {
-        panel.classList.remove("active");
-      }
-    });
-  </script>
+    // Optional: Close sidebar when clicking outside
+    document.addEventListener("click", function(event) {
+      const sidebar = document.querySelector(".sidebar");
+      const panel = document.getElementById("menuPanel");
+      if (!sidebar.contains(event.target)) {
+        panel.classList.remove("active");
+      }
+    });
+  </script>
 </body>
 </html>
