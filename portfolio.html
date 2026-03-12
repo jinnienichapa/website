@@ -9,9 +9,10 @@
     <style>
         body {
             margin: 0;
-            background-color: #f4f4f4; /* Light grey background looks better for portfolios */
+            background-color: #ffffff;
             color: #212254;
             font-family: 'Helvetica Neue', Arial, sans-serif;
+            overflow-x: hidden;
         }
 
         header {
@@ -20,14 +21,14 @@
             justify-content: space-between;
             align-items: center;
             background-color: #fff;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eeeeee;
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
         .title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -39,7 +40,7 @@
             color: #212254;
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             transition: 0.3s;
         }
 
@@ -50,41 +51,28 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem 0;
-            gap: 20px;
+            padding: 0;
+            background-color: #ffffff;
         }
 
         /* Styling for each individual page */
         canvas {
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            background-color: white;
-            max-width: 95%;
-            height: auto !important; /* Ensures responsiveness */
-        }
-
-        .download {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            text-decoration: none;
-            color: white;
-            background: #212254;
-            padding: 12px 20px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-radius: 4px;
-            z-index: 1001;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: block;
+            width: 100%;
+            max-width: 1200px; /* Limits size on ultra-wide screens */
+            height: auto !important;
         }
 
         /* Loading State */
         #loading-info {
-            text-align: center;
-            padding: 50px;
-            font-weight: bold;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            color: #ccc;
         }
     </style>
 </head>
@@ -99,29 +87,26 @@
     </div>
 </header>
 
-<div id="loading-info">Preparing Portfolio...</div>
+<div id="loading-info">Loading Portfolio Content...</div>
 <div id="pdf-viewer"></div>
 
-<a class="download" href="jinnie portfolio.pdf" download>Download PDF</a>
-
 <script>
-    // Point this to your actual PDF file location
-    const url = 'jinnie portfolio.pdf';
+    // Updated to match your specific filename
+    const url = "jinnie's portfolio.pdf";
 
-    // Set PDF.js worker
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
     const viewer = document.getElementById('pdf-viewer');
     const loadingInfo = document.getElementById('loading-info');
 
-    // Load the PDF
     pdfjsLib.getDocument(url).promise.then(pdf => {
-        loadingInfo.style.display = 'none'; // Hide loading text
+        loadingInfo.style.display = 'none';
         
-        // Loop through every page in your PDF
+        // Render all pages in sequence
         for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
             pdf.getPage(pageNum).then(page => {
-                const viewport = page.getViewport({ scale: 1.5 }); // High resolution scale
+                // Adjust scale for high resolution rendering
+                const viewport = page.getViewport({ scale: 2 });
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
                 
@@ -138,7 +123,7 @@
             });
         }
     }).catch(err => {
-        loadingInfo.textContent = "Error loading portfolio. Please check file path.";
+        loadingInfo.textContent = "Unable to display portfolio.";
         console.error(err);
     });
 </script>
