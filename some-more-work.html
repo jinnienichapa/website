@@ -1,8 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Other – Nichapa</title>
 
 <style>
@@ -11,7 +13,6 @@ body{
 margin:0;
 font-family:Helvetica, Arial, sans-serif;
 background:#f3f4f6;
-color:#000;
 overflow-x:hidden;
 }
 
@@ -45,7 +46,6 @@ font-size:1.8rem;
 cursor:pointer;
 border:none;
 background:none;
-color:#2c1d5a;
 }
 
 .menu-panel{
@@ -59,8 +59,6 @@ border-radius:6px;
 box-shadow:0 3px 10px rgba(0,0,0,0.1);
 min-width:180px;
 display:none;
-max-height:90vh;
-overflow-y:auto;
 }
 
 .menu-panel.active{
@@ -68,7 +66,6 @@ display:block;
 }
 
 .menu-panel h3{
-text-transform:uppercase;
 font-size:.8rem;
 margin:.5rem 0;
 color:#f48ab6;
@@ -80,10 +77,6 @@ text-decoration:none;
 color:#333;
 font-size:.85rem;
 margin:.25rem 0;
-}
-
-.menu-panel a:hover{
-color:#f48ab6;
 }
 
 /* GRID */
@@ -106,7 +99,6 @@ aspect-ratio:1/1;
 width:100%;
 height:100%;
 object-fit:cover;
-display:block;
 transition:transform .3s;
 }
 
@@ -114,7 +106,7 @@ transition:transform .3s;
 transform:scale(1.05);
 }
 
-/* CARD STACK */
+/* CARD POPUP */
 
 .card-stack-overlay{
 position:fixed;
@@ -124,31 +116,30 @@ width:100%;
 height:100%;
 background:rgba(0,0,0,.9);
 display:none;
-flex-direction:column;
 justify-content:center;
 align-items:center;
+flex-direction:column;
 z-index:2000;
 }
 
 .card-stack-wrapper{
 position:relative;
-width:50vmin;
-height:65vmin;
-display:flex;
-justify-content:center;
-align-items:center;
+width:320px;
+height:420px;
+perspective:1200px;
 }
+
+/* CARD */
 
 .card{
 position:absolute;
 width:100%;
 height:100%;
-box-shadow:0 5px 20px rgba(0,0,0,.5);
-transition:transform .5s, box-shadow .3s;
-transform-origin:50% 100%;
-overflow:hidden;
 border-radius:12px;
+overflow:hidden;
 cursor:pointer;
+transition:transform .5s, box-shadow .3s;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
 }
 
 .card img{
@@ -157,28 +148,7 @@ height:100%;
 object-fit:cover;
 }
 
-/* stack positions */
-
-.card:nth-child(1){
-transform:translateY(-40px) rotate(-10deg);
-z-index:3;
-}
-
-.card:nth-child(2){
-transform:translateY(-20px) rotate(0deg);
-z-index:2;
-}
-
-.card:nth-child(3){
-transform:translateY(0) rotate(10deg);
-z-index:1;
-}
-
-.card:hover{
-transform:translateY(-50px) scale(1.1);
-box-shadow:0 10px 30px rgba(0,0,0,.7);
-z-index:4;
-}
+/* ZOOM */
 
 .card.active{
 transform:scale(1.2) !important;
@@ -186,24 +156,19 @@ z-index:100;
 cursor:default;
 }
 
-.card-stack-wrapper.zoomed .card:not(.active){
-pointer-events:none;
-}
-
-/* CONTROLS */
+/* BUTTONS */
 
 .close-btn{
 position:absolute;
-top:20px;
+top:30px;
 right:40px;
-color:white;
 font-size:40px;
+color:white;
 cursor:pointer;
 }
 
 .back-btn{
-position:absolute;
-bottom:20px;
+margin-top:20px;
 padding:10px 20px;
 background:#2c1d5a;
 color:white;
@@ -215,15 +180,9 @@ display:none;
 
 #card-caption{
 color:white;
-margin-top:2rem;
+margin-top:20px;
 text-align:center;
-max-width:600px;
-opacity:0;
-transition:opacity .4s;
-}
-
-.card-stack-wrapper.zoomed ~ #card-caption{
-opacity:1;
+max-width:500px;
 }
 
 </style>
@@ -231,21 +190,26 @@ opacity:1;
 
 <body>
 
+<!-- SIDEBAR -->
+
 <div class="sidebar">
+
 <button class="menu-icon" onclick="toggleMenu()">☰</button>
 
 <div class="menu-panel" id="menuPanel">
+
 <h3>HOME</h3>
 <a href="index.html">Home</a>
 
 <h3>PROJECTS</h3>
-<a href="architecture.html">Architectural Project</a>
+<a href="architecture.html">Architecture</a>
 <a href="illustration.html">Illustration</a>
 <a href="arts-n-crafts.html">Arts n Crafts</a>
 <a href="some-more-work.html">Other</a>
 
 <h3>ABOUT</h3>
 <a href="about.html">Profile</a>
+
 </div>
 </div>
 
@@ -253,7 +217,7 @@ opacity:1;
 <div class="container">
 
 <div class="page-header">
-<h1>Other</h1>
+<h1>Other Works</h1>
 </div>
 
 <div class="image-grid">
@@ -286,22 +250,24 @@ opacity:1;
 </div>
 
 
+<!-- POPUP -->
+
 <div class="card-stack-overlay" id="overlay">
+
+<span class="close-btn" id="close">&times;</span>
 
 <div class="card-stack-wrapper" id="stack"></div>
 
 <p id="card-caption"></p>
 
-<span class="close-btn" id="close">&times;</span>
-
-<button class="back-btn" id="back">Back to Stack</button>
+<button class="back-btn" id="back">Back</button>
 
 </div>
 
 
 <script>
 
-/* sidebar */
+/* SIDEBAR */
 
 function toggleMenu(){
 document.getElementById("menuPanel").classList.toggle("active");
@@ -318,7 +284,7 @@ panel.classList.remove("active");
 
 });
 
-/* card stack */
+/* ELEMENTS */
 
 const overlay=document.getElementById("overlay");
 const stack=document.getElementById("stack");
@@ -334,51 +300,51 @@ const imageSets={
 
 "blender node-01.png":[
 {src:"blender node-01.png",caption:"Blender node exploration"},
-{src:"render pic dts3.png",caption:"Blender node exploration"},
-{src:"render pic dts8.png",caption:"Blender node exploration"}
+{src:"render pic dts3.png",caption:"Blender render"},
+{src:"render pic dts8.png",caption:"Lighting test"}
 ],
 
 "[C09]_WK3_3.2_Perspective.png":[
-{src:"[C09]_WK3_3.2_Perspective.png",caption:"Blender scene workshop"},
-{src:"scene character other2.jpg",caption:"Blender scene workshop"},
-{src:"scene character other.jpg",caption:"Blender scene workshop"}
+{src:"[C09]_WK3_3.2_Perspective.png",caption:"Perspective study"},
+{src:"scene character other.jpg",caption:"Scene composition"},
+{src:"scene character other2.jpg",caption:"Lighting test"}
 ],
 
 "grasshopper-01.png":[
-{src:"grasshopper-01.png",caption:"Parametric design in Grasshopper"},
-{src:"grasshopper2.png",caption:"3D print workshop"}
+{src:"grasshopper-01.png",caption:"Grasshopper parametric design"},
+{src:"grasshopper2.png",caption:"Parametric exploration"}
 ],
 
 "devinska tower.png":[
-{src:"devinska tower.png",caption:"Devinska Kobyla tower analysis"},
-{src:"devinska model.png",caption:"Model analysis"},
-{src:"devinska draw.png",caption:"Drawing analysis"}
+{src:"devinska tower.png",caption:"Devinska tower analysis"},
+{src:"devinska model.png",caption:"Model study"},
+{src:"devinska draw.png",caption:"Architectural drawing"}
 ],
 
 "facade sq.jpg":[
-{src:"facade.png",caption:"Facade design"},
-{src:"Image2_0001.png",caption:"Facade workshop"},
-{src:"IMG_7988.JPG",caption:"Facade rendering"}
+{src:"facade.png",caption:"Facade study"},
+{src:"Image2_0001.png",caption:"Facade iteration"},
+{src:"IMG_7988.JPG",caption:"Render test"}
 ],
 
 "animal crossing3.jpeg":[
-{src:"animal crossing1.jpg",caption:"Community design"},
-{src:"animal crossing2.jpg",caption:"Parametric bridge"},
-{src:"animal crossing3.jpeg",caption:"Project overview"}
+{src:"animal crossing1.jpg",caption:"Concept scene"},
+{src:"animal crossing2.jpg",caption:"Bridge design"},
+{src:"animal crossing3.jpeg",caption:"Final composition"}
 ]
 
 };
 
-/* RENDER STACK */
+
+/* CREATE STACK */
 
 function renderStack(set){
 
 stack.innerHTML="";
 caption.textContent="";
 backBtn.style.display="none";
-stack.classList.remove("zoomed");
 
-set.forEach(item=>{
+set.forEach((item,index)=>{
 
 const card=document.createElement("div");
 card.classList.add("card");
@@ -388,28 +354,18 @@ img.src=item.src;
 img.dataset.caption=item.caption;
 
 card.appendChild(img);
+
+/* STACK POSITION */
+
+const rotate=(index-1)*10;
+const offset=(1-index)*20;
+
+card.style.transform=`translateY(${offset}px) rotate(${rotate}deg)`;
+card.style.zIndex=10-index;
+
 stack.appendChild(card);
 
 });
-
-}
-
-/* ZOOM CARD */
-
-function zoomCard(card){
-
-if(activeCard){
-activeCard.classList.remove("active");
-}
-
-card.classList.add("active");
-activeCard=card;
-
-stack.classList.add("zoomed");
-
-caption.textContent=card.querySelector("img").dataset.caption;
-
-backBtn.style.display="block";
 
 }
 
@@ -431,50 +387,51 @@ overlay.style.display="flex";
 
 });
 
-/* STACK CLICK */
+/* CARD CLICK */
 
 stack.addEventListener("click",e=>{
 
 const card=e.target.closest(".card");
 
-if(card){
-zoomCard(card);
+if(!card)return;
+
+if(activeCard){
+activeCard.classList.remove("active");
 }
+
+card.classList.add("active");
+activeCard=card;
+
+caption.textContent=card.querySelector("img").dataset.caption;
+
+backBtn.style.display="block";
 
 });
 
-/* RESET */
+/* BACK */
 
-function reset(){
+backBtn.onclick=()=>{
 
 if(activeCard){
 activeCard.classList.remove("active");
 activeCard=null;
 }
 
-stack.classList.remove("zoomed");
-
 caption.textContent="";
 backBtn.style.display="none";
 
-}
+};
 
-/* BUTTONS */
-
-backBtn.onclick=reset;
+/* CLOSE */
 
 closeBtn.onclick=()=>{
-reset();
 overlay.style.display="none";
 };
 
 overlay.addEventListener("click",e=>{
-
 if(e.target===overlay){
-reset();
 overlay.style.display="none";
 }
-
 });
 
 </script>
