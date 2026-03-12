@@ -10,95 +10,146 @@
       background-color: #fff;
       color: #212254;
       font-family: Helvetica, Arial, sans-serif;
+      padding-top: 2rem;
     }
 
-    header {
-      padding: 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-bottom: 1px solid #ddd;
-      position: relative;
+    /* Sidebar Styles */
+    .sidebar {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1000;
     }
 
-    .title {
-      font-size: 2.5rem;
-      font-weight: bold;
-      text-transform: uppercase;
+    .menu-icon {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #2c1d5a;
+      background-color: transparent;
+      border: none;
+      padding: 0;
     }
 
-    .nav {
+    .menu-panel {
       position: absolute;
-      top: 2rem;
-      right: 2rem;
+      top: 0;
+      left: 2.5rem;
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      min-width: 180px;
+      display: none;
     }
 
-    .nav a {
-      margin-left: 2rem;
-      text-decoration: none;
-      color: #212254;
-      font-weight: bold;
+    .menu-panel.active {
+      display: block;
+    }
+
+    .menu-panel h3 {
       text-transform: uppercase;
-      font-size: 1rem;
-      border-bottom: 1px solid transparent;
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+      color: #f48ab6;
     }
 
-    .nav a:hover {
-      border-bottom: 1px solid #000;
+    .menu-panel a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      font-size: 0.85rem;
+      margin: 0.25rem 0;
     }
 
+    .menu-panel a:hover {
+      color: #f48ab6;
+    }
+
+    /* Main Content */
     main {
       max-width: 700px;
       margin: 3rem auto;
-      padding: 0 1rem;
+      padding: 0 2rem;
       line-height: 1.6;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
     }
 
     .contact a {
       color: #212254;
       text-decoration: underline;
     }
+
+    .portfolio-link {
+        display: block;
+        margin-top: 2rem;
+        color: #C4499A;
+        font-weight: bold;
+        text-decoration: none;
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="title">About</div>
-    <div class="nav">
+  <div class="sidebar">
+    <button class="menu-icon" onclick="toggleMenu()">☰</button>
+    <div class="menu-panel" id="menuPanel">
+      <h3>HOME</h3>
       <a href="index.html">Home</a>
-      <a href="about.html">About</a>
+      <h3>PROJECTS</h3>
+      <a href="project.html">Architectural Project</a>
+      <a href="illustration.html">Illustration</a>
+      <a href="artsncrafts.html">Arts n Crafts</a>
+      <a href="some-more-work.html">Other</a>
+      <h3>ABOUT</h3>
+      <a href="about.html">Profile</a>
+      <a href="portfolio.html">Portfolio</a>
     </div>
-  </header>
+  </div>
 
   <main>
+    <h1>About</h1>
     <p>
-  Hi! I’m Nichapa Eamcharoen (Jinnie), an architecture student at INDA, Chulalongkorn University, Bangkok, with international academic experience through an exchange program at Meiji University, Tokyo.
-</p>
+      Hi! I’m Nichapa Eamcharoen (Jinnie), an architecture student at INDA, Chulalongkorn University, Bangkok, with international academic experience through an exchange program at Meiji University, Tokyo.
+    </p>
 
-<p>
-Architecture has always fascinated me because of its ability to shape the atmosphere and influence the behavior of visitors, from the smallest spatial scale to the scale of the city. As an architecture student, I explore the city from a new perspective, observing how cultural context and local characteristics are reflected in everyday spaces and urban environments.
+    <p>
+      Architecture has always fascinated me because of its ability to shape the atmosphere and influence the behavior of visitors, from the smallest spatial scale to the scale of the city. As an architecture student, I explore the city from a new perspective, observing how cultural context and local characteristics are reflected in everyday spaces and urban environments.
+    </p>
+    
+    <p>
+      I enjoy experimenting with different design approaches and digital tools to achieve the best outcomes. Researching and understanding the site is an important part of my process, while design programs allow me to explore multiple possibilities in order to achieve the most suitable design solutions. I am particularly interested in parametric design, spatial experimentation, and exploring unique forms and geometries that can create new spatial experiences.
+    </p>
 
-  I enjoy experimenting with different design approaches and digital tools to achieve the best outcomes. Researching and understanding the site is an important part of my process, while design programs allow me to explore multiple possibilities in order to achieve the most suitable design solutions. I am particularly interested in parametric design, spatial experimentation, and exploring unique forms and  geometries that can create new spatial experiences.
-</p>
-
-<p>
-  This portfolio is a collection of my projects, sketches, and explorations.
-</p>
-
-<p>
-  Thank you for visiting — I hope you enjoy it, and feel free to contact me.
-</p>
-
+    <p>This portfolio is a collection of my projects, sketches, and explorations. Thank you for visiting — I hope you enjoy it, and feel free to contact me.</p>
 
     <div class="contact">
       <p>Email: <a href="mailto:nichapa.jinnie@gmail.com">nichapa.jinnie@gmail.com</a></p>
-      <p>Instagram: <a href="https://instagram.com/yourusername" target="_blank">@_jnnez</a></p>
+      <p>Instagram: <a href="https://instagram.com/_jnnez" target="_blank">@_jnnez</a></p>
     </div>
 
-    <a class="Portfolio" href="jinnie's portfolio.pdf" download>
-Portfolio
-</a>
+    <a class="portfolio-link" href="portfolio.html">View Full Portfolio</a>
   </main>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menuPanel").classList.toggle("active");
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener("click", function (event) {
+      const sidebar = document.querySelector(".sidebar");
+      const panel = document.getElementById("menuPanel");
+      if (!sidebar.contains(event.target)) {
+        panel.classList.remove("active");
+      }
+    });
+  </script>
 
 </body>
 </html>
