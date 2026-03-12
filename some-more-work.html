@@ -1,440 +1,370 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Other – Nichapa</title>
+    <style>
+        /* --- General and Layout Styles --- */
+        body {
+            margin: 0;
+            font-family: Helvetica, Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #000;
+            overflow-x: hidden;
+        }
 
-<title>Other – Nichapa</title>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: #212254;
+        }
 
-<style>
+        /* --- Sidebar Menu Styles --- */
+        .sidebar {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1000;
+        }
 
-body{
-margin:0;
-font-family:Helvetica, Arial, sans-serif;
-background:#f3f4f6;
-overflow-x:hidden;
-}
+        .menu-icon {
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #2c1d5a;
+            background-color: transparent;
+            border: none;
+            padding: 0;
+        }
 
-.container{
-max-width:1200px;
-margin:auto;
-padding:2rem;
-}
+        .menu-panel {
+            position: absolute;
+            top: 0;
+            left: 2.5rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            min-width: 180px;
+            display: none;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
 
-.page-header{
-text-align:center;
-margin-bottom:2rem;
-}
+        .menu-panel.active {
+            display: block;
+        }
 
-.page-header h1{
-font-size:2.5rem;
-color:#212254;
-}
+        .menu-panel h3 {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
+            color: #f48ab6;
+        }
 
-/* SIDEBAR */
+        .menu-panel a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            font-size: 0.85rem;
+            margin: 0.25rem 0;
+        }
 
-.sidebar{
-position:fixed;
-top:1rem;
-left:1rem;
-z-index:1000;
-}
+        .menu-panel a:hover {
+            color: #f48ab6;
+        }
 
-.menu-icon{
-font-size:1.8rem;
-cursor:pointer;
-border:none;
-background:none;
-}
+        /* --- Image Grid Styles --- */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
 
-.menu-panel{
-position:absolute;
-top:0;
-left:2.5rem;
-background:white;
-border:1px solid #ddd;
-padding:1rem;
-border-radius:6px;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
-min-width:180px;
-display:none;
-}
+        .grid-item {
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            aspect-ratio: 1 / 1;
+        }
 
-.menu-panel.active{
-display:block;
-}
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
 
-.menu-panel h3{
-font-size:.8rem;
-margin:.5rem 0;
-color:#f48ab6;
-}
+        .grid-item img:hover {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .image-grid { grid-template-columns: repeat(2, 1fr); }
+        }
 
-.menu-panel a{
-display:block;
-text-decoration:none;
-color:#333;
-font-size:.85rem;
-margin:.25rem 0;
-}
+        @media (max-width: 480px) {
+            .image-grid { grid-template-columns: 1fr; }
+        }
+        
+        /* --- Card Stack Pop-up Styles --- */
+        .card-stack-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
 
-/* GRID */
+        .card-stack-wrapper {
+            position: relative;
+            width: 50vmin;
+            height: 65vmin;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.image-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:1.5rem;
-}
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            transition: transform 0.5s ease, z-index 0.3s, box-shadow 0.3s;
+            transform-origin: 50% 100%;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+            background: #000;
+        }
+        
+        .card img, .card iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border: none;
+        }
 
-.grid-item{
-overflow:hidden;
-border-radius:8px;
-box-shadow:0 3px 8px rgba(0,0,0,0.1);
-cursor:pointer;
-aspect-ratio:1/1;
-}
+        .card:nth-child(1) { transform: translate(0, -40px) rotate(-10deg); z-index: 3; }
+        .card:nth-child(2) { transform: translate(0, -20px) rotate(0deg); z-index: 2; }
+        .card:nth-child(3) { transform: translate(0, 0) rotate(10deg); z-index: 1; }
 
-.grid-item img{
-width:100%;
-height:100%;
-object-fit:cover;
-transition:transform .3s;
-}
+        .card:hover {
+            transform: translate(0, -50px) scale(1.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            z-index: 10;
+        }
 
-.grid-item img:hover{
-transform:scale(1.05);
-}
+        .card.active-zoom {
+            transform: scale(1.4) translate(0, -10%) rotate(0deg) !important;
+            z-index: 100;
+            cursor: default;
+        }
+        
+        .card-stack-wrapper.zoomed-state .card:not(.active-zoom) {
+            pointer-events: none;
+            opacity: 0.2;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2020;
+        }
 
-/* CARD POPUP */
+        .back-btn {
+            position: absolute;
+            bottom: 40px;
+            padding: 10px 20px;
+            background: #f48ab6;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 2020;
+        }
 
-.card-stack-overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.9);
-display:none;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:2000;
-}
+        #card-caption {
+            color: #fff;
+            text-align: center;
+            width: 80%;
+            font-size: 1.1rem;
+            margin-top: 2rem;
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 2010;
+        }
 
-.card-stack-wrapper{
-position:relative;
-width:320px;
-height:420px;
-perspective:1200px;
-}
-
-/* CARD */
-
-.card{
-position:absolute;
-width:100%;
-height:100%;
-border-radius:12px;
-overflow:hidden;
-cursor:pointer;
-transition:transform .5s, box-shadow .3s;
-box-shadow:0 10px 25px rgba(0,0,0,0.4);
-}
-
-.card img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-/* ZOOM */
-
-.card.active{
-transform:scale(1.2) !important;
-z-index:100;
-cursor:default;
-}
-
-/* BUTTONS */
-
-.close-btn{
-position:absolute;
-top:30px;
-right:40px;
-font-size:40px;
-color:white;
-cursor:pointer;
-}
-
-.back-btn{
-margin-top:20px;
-padding:10px 20px;
-background:#2c1d5a;
-color:white;
-border:none;
-border-radius:5px;
-cursor:pointer;
-display:none;
-}
-
-#card-caption{
-color:white;
-margin-top:20px;
-text-align:center;
-max-width:500px;
-}
-
-</style>
+        .card-stack-wrapper.zoomed-state ~ #card-caption {
+            opacity: 1;
+        }
+    </style>
 </head>
-
 <body>
-
-<!-- SIDEBAR -->
-
-<div class="sidebar">
-
-<button class="menu-icon" onclick="toggleMenu()">☰</button>
-
-<div class="menu-panel" id="menuPanel">
-
-<h3>HOME</h3>
-<a href="index.html">Home</a>
-
-<h3>PROJECTS</h3>
-<a href="architecture.html">Architecture</a>
-<a href="illustration.html">Illustration</a>
-<a href="arts-n-crafts.html">Arts n Crafts</a>
-<a href="some-more-work.html">Other</a>
-
-<h3>ABOUT</h3>
-<a href="about.html">Profile</a>
-
-</div>
-</div>
-
-
-<div class="container">
-
-<div class="page-header">
-<h1>Other Works</h1>
-</div>
-
-<div class="image-grid">
-
-<div class="grid-item">
-<img src="blender node-01.png">
-</div>
-
-<div class="grid-item">
-<img src="[C09]_WK3_3.2_Perspective.png">
-</div>
-
-<div class="grid-item">
-<img src="grasshopper-01.png">
-</div>
-
-<div class="grid-item">
-<img src="devinska tower.png">
-</div>
-
-<div class="grid-item">
-<img src="facade sq.jpg">
-</div>
-
-<div class="grid-item">
-<img src="animal crossing3.jpeg">
-</div>
-
-</div>
-</div>
-
-
-<!-- POPUP -->
-
-<div class="card-stack-overlay" id="overlay">
-
-<span class="close-btn" id="close">&times;</span>
-
-<div class="card-stack-wrapper" id="stack"></div>
-
-<p id="card-caption"></p>
-
-<button class="back-btn" id="back">Back</button>
-
-</div>
-
-
-<script>
-
-/* SIDEBAR */
-
-function toggleMenu(){
-document.getElementById("menuPanel").classList.toggle("active");
-}
-
-document.addEventListener("click",function(e){
-
-const sidebar=document.querySelector(".sidebar");
-const panel=document.getElementById("menuPanel");
-
-if(!sidebar.contains(e.target)){
-panel.classList.remove("active");
-}
-
-});
-
-/* ELEMENTS */
-
-const overlay=document.getElementById("overlay");
-const stack=document.getElementById("stack");
-const closeBtn=document.getElementById("close");
-const backBtn=document.getElementById("back");
-const caption=document.getElementById("card-caption");
-
-let activeCard=null;
-
-/* IMAGE SETS */
-
-const imageSets={
-
-"blender node-01.png":[
-{src:"blender node-01.png",caption:"Blender node exploration"},
-{src:"render pic dts3.png",caption:"Blender render"},
-{src:"render pic dts8.png",caption:"Lighting test"}
-],
-
-"[C09]_WK3_3.2_Perspective.png":[
-{src:"[C09]_WK3_3.2_Perspective.png",caption:"Perspective study"},
-{src:"scene character other.jpg",caption:"Scene composition"},
-{src:"scene character other2.jpg",caption:"Lighting test"}
-],
-
-"grasshopper-01.png":[
-{src:"grasshopper-01.png",caption:"Grasshopper parametric design"},
-{src:"grasshopper2.png",caption:"Parametric exploration"}
-],
-
-"devinska tower.png":[
-{src:"devinska tower.png",caption:"Devinska tower analysis"},
-{src:"devinska model.png",caption:"Model study"},
-{src:"devinska draw.png",caption:"Architectural drawing"}
-],
-
-"facade sq.jpg":[
-{src:"facade.png",caption:"Facade study"},
-{src:"Image2_0001.png",caption:"Facade iteration"},
-{src:"IMG_7988.JPG",caption:"Render test"}
-],
-
-"animal crossing3.jpeg":[
-{src:"animal crossing1.jpg",caption:"Concept scene"},
-{src:"animal crossing2.jpg",caption:"Bridge design"},
-{src:"animal crossing3.jpeg",caption:"Final composition"}
-]
-
-};
-
-
-/* CREATE STACK */
-
-function renderStack(set){
-
-stack.innerHTML="";
-caption.textContent="";
-backBtn.style.display="none";
-
-set.forEach((item,index)=>{
-
-const card=document.createElement("div");
-card.classList.add("card");
-
-const img=document.createElement("img");
-img.src=item.src;
-img.dataset.caption=item.caption;
-
-card.appendChild(img);
-
-/* STACK POSITION */
-
-const rotate=(index-1)*10;
-const offset=(1-index)*20;
-
-card.style.transform=`translateY(${offset}px) rotate(${rotate}deg)`;
-card.style.zIndex=10-index;
-
-stack.appendChild(card);
-
-});
-
-}
-
-/* GRID CLICK */
-
-document.querySelectorAll(".grid-item img").forEach(img=>{
-
-img.addEventListener("click",()=>{
-
-const name=img.getAttribute("src");
-
-const set=imageSets[name]||[{src:name,caption:""}];
-
-renderStack(set);
-
-overlay.style.display="flex";
-
-});
-
-});
-
-/* CARD CLICK */
-
-stack.addEventListener("click",e=>{
-
-const card=e.target.closest(".card");
-
-if(!card)return;
-
-if(activeCard){
-activeCard.classList.remove("active");
-}
-
-card.classList.add("active");
-activeCard=card;
-
-caption.textContent=card.querySelector("img").dataset.caption;
-
-backBtn.style.display="block";
-
-});
-
-/* BACK */
-
-backBtn.onclick=()=>{
-
-if(activeCard){
-activeCard.classList.remove("active");
-activeCard=null;
-}
-
-caption.textContent="";
-backBtn.style.display="none";
-
-};
-
-/* CLOSE */
-
-closeBtn.onclick=()=>{
-overlay.style.display="none";
-};
-
-overlay.addEventListener("click",e=>{
-if(e.target===overlay){
-overlay.style.display="none";
-}
-});
-
-</script>
-
+    <div class="sidebar">
+        <button class="menu-icon" onclick="toggleMenu()">☰</button>
+        <div class="menu-panel" id="menuPanel">
+            <h3>HOME</h3>
+            <a href="index.html">Home</a>
+            <h3>PROJECTS</h3>
+            <a href="architecture.html">Architectural Project</a>
+            <a href="illustration.html">Illustration</a>
+            <a href="arts-n-crafts.html">Arts n Crafts</a>
+            <a href="some-more-work.html">Other</a>
+            <h3>ABOUT</h3>
+            <a href="about.html">Profile</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Other</h1>
+        </div>
+        <div class="image-grid">
+            <div class="grid-item"><img src="blender node-01.png" alt="Art 1"></div>
+            <div class="grid-item"><img src="[C09]_WK3_3.2_Perspective.png" alt="Art 2"></div>
+            <div class="grid-item"><img src="grasshopper-01.png" alt="Art 3"></div>
+            <div class="grid-item"><img src="devinska tower.png" alt="Art 4"></div>
+            <div class="grid-item"><img src="facade sq.jpg" alt="Art 5"></div>
+            <div class="grid-item"><img src="animal crossing3.jpeg" alt="Art 6"></div>
+        </div>
+    </div>
+
+    <div class="card-stack-overlay" id="cardStackOverlay">
+        <div class="card-stack-wrapper" id="cardStack"></div>
+        <p id="card-caption"></p>
+        <span class="close-btn" id="closeBtn">&times;</span>
+        <button class="back-btn" id="backBtn" style="display:none;">Back to Stack</button>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("menuPanel").classList.toggle("active");
+        }
+
+        document.addEventListener("click", (e) => {
+            if (!document.querySelector(".sidebar").contains(e.target)) {
+                document.getElementById("menuPanel").classList.remove("active");
+            }
+        });
+
+        const imageSets = {
+            "blender node-01.png": [
+                { src: "blender node-01.png", caption: "Blender node exploration" },
+                { src: "render pic dts3.png", caption: "Rendering Detail A" },
+                { src: "render pic dts8.png", caption: "Rendering Detail B" }
+            ],
+            "[C09]_WK3_3.2_Perspective.png": [
+                { src: "[C09]_WK3_3.2_Perspective.png", caption: "Blender scene workshop" },
+                { src: "scene character other2.jpg", caption: "Character Design" },
+                { src: "scene character other.jpg", caption: "Environment Layout" }
+            ],
+            "grasshopper-01.png": [
+                { src: "grasshopper-01.png", caption: "Parametric design in Grasshopper." },
+                { src: "grasshopper2.png", caption: "3d print workshop" }
+            ],
+            "devinska tower.png": [
+                { src: "devinska tower.png", caption: "Analysis - Group Work" },
+                { src: "devinska model.png", caption: "Model Analysis" },
+                { src: "devinska draw.png", caption: "Drawing Set" }
+            ],
+            "facade sq.jpg": [
+                { src: "facade.png", caption: "Facade Design ; group work" },
+                { src: "Image2_0001.png", caption: "Construction Detail" },
+                { src: "IMG_7988.JPG", caption: "Final Rendering" }
+            ],
+            "animal crossing3.jpeg": [
+                { src: "animal crossing1.jpg", caption: "Design for community" },
+                { src: "animal crossing2.jpg", caption: "Parametric bridge design" },
+                { src: "https://www.youtube.com/embed/dF8oPhPk8zE", caption: "Animal crossing video: Editing & 3D Work", type: "video" }
+            ]
+        };
+
+        const wrapper = document.getElementById('cardStack');
+        const overlay = document.getElementById('cardStackOverlay');
+        const caption = document.getElementById('card-caption');
+        const backBtn = document.getElementById('backBtn');
+        let currentActiveCard = null;
+
+        function renderCardStack(set) {
+            wrapper.innerHTML = '';
+            set.forEach((imgData) => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                
+                if(imgData.type === "video") {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = imgData.src;
+                    iframe.allow = "autoplay; encrypted-media";
+                    card.appendChild(iframe);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = imgData.src;
+                    card.appendChild(img);
+                }
+                
+                card.dataset.caption = imgData.caption;
+                wrapper.appendChild(card);
+            });
+        }
+
+        document.querySelectorAll('.grid-item img').forEach(img => {
+            img.onclick = () => {
+                const src = img.getAttribute('src');
+                renderCardStack(imageSets[src] || [{src: src, caption: "Project Image"}]);
+                overlay.style.display = 'flex';
+            };
+        });
+
+        wrapper.onclick = (e) => {
+            const card = e.target.closest('.card');
+            if (card && !card.classList.contains('active-zoom')) {
+                if (currentActiveCard) currentActiveCard.classList.remove('active-zoom');
+                card.classList.add('active-zoom');
+                currentActiveCard = card;
+                wrapper.classList.add('zoomed-state');
+                caption.textContent = card.dataset.caption;
+                backBtn.style.display = 'block';
+            }
+        };
+
+        function reset() {
+            if (currentActiveCard) currentActiveCard.classList.remove('active-zoom');
+            currentActiveCard = null;
+            wrapper.classList.remove('zoomed-state');
+            backBtn.style.display = 'none';
+            caption.textContent = '';
+        }
+
+        backBtn.onclick = reset;
+        document.getElementById('closeBtn').onclick = () => { reset(); overlay.style.display = 'none'; };
+        overlay.onclick = (e) => { if(e.target === overlay) { reset(); overlay.style.display = 'none'; } };
+    </script>
 </body>
 </html>
