@@ -1,428 +1,483 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Other – Nichapa</title>
-    <style>
-        /* --- General and Layout Styles --- */
-        body {
-            margin: 0;
-            font-family: Helvetica, Arial, sans-serif;
-            background-color: #f3f4f6;
-            color: #000;
-            overflow-x: hidden;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Other – Nichapa</title>
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .page-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .page-header h1 {
-            font-size: 2.5rem;
-            color: #212254;
-        }
+<style>
 
-        /* --- Sidebar Menu Styles --- */
-        .sidebar {
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1000;
-        }
+body{
+margin:0;
+font-family:Helvetica, Arial, sans-serif;
+background:#f3f4f6;
+color:#000;
+overflow-x:hidden;
+}
 
-        .menu-icon {
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: #2c1d5a;
-            background-color: transparent;
-            border: none;
-            padding: 0;
-        }
+.container{
+max-width:1200px;
+margin:auto;
+padding:2rem;
+}
 
-        .menu-panel {
-            position: absolute;
-            top: 0;
-            left: 2.5rem;
-            background-color: white;
-            border: 1px solid #ddd;
-            padding: 1rem;
-            border-radius: 6px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            min-width: 180px;
-            display: none;
-            /* Fix for unclickable links */
-            max-height: 90vh;
-            overflow-y: auto;
-            box-sizing: border-box;
-        }
+.page-header{
+text-align:center;
+margin-bottom:2rem;
+}
 
-        .menu-panel.active {
-            display: block;
-        }
+.page-header h1{
+font-size:2.5rem;
+color:#212254;
+}
 
-        .menu-panel h3 {
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            margin: 0.5rem 0;
-            color: #f48ab6;
-        }
+/* SIDEBAR */
 
-        .menu-panel a {
-            display: block;
-            text-decoration: none;
-            color: #333;
-            font-size: 0.85rem;
-            margin: 0.25rem 0;
-        }
+.sidebar{
+position:fixed;
+top:1rem;
+left:1rem;
+z-index:1000;
+}
 
-        .menu-panel a:hover {
-            color: #f48ab6;
-        }
+.menu-icon{
+font-size:1.8rem;
+cursor:pointer;
+border:none;
+background:none;
+color:#2c1d5a;
+}
 
-        /* --- Image Grid Styles --- */
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
+.menu-panel{
+position:absolute;
+top:0;
+left:2.5rem;
+background:white;
+border:1px solid #ddd;
+padding:1rem;
+border-radius:6px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+min-width:180px;
+display:none;
+max-height:90vh;
+overflow-y:auto;
+}
 
-        .grid-item {
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            aspect-ratio: 1 / 1; /* square shape for all items */
-        }
+.menu-panel.active{
+display:block;
+}
 
-        .grid-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* fills the box without distortion */
-        display: block;
-        transition: transform 0.3s ease;
-        }
+.menu-panel h3{
+text-transform:uppercase;
+font-size:.8rem;
+margin:.5rem 0;
+color:#f48ab6;
+}
 
-        .grid-item img:hover {
-            transform: scale(1.05);
-        }
-        
-        @media (max-width: 768px) {
-            .image-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
+.menu-panel a{
+display:block;
+text-decoration:none;
+color:#333;
+font-size:.85rem;
+margin:.25rem 0;
+}
 
-        @media (max-width: 480px) {
-            .image-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* --- Card Stack Pop-up Styles --- */
-        .card-stack-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
+.menu-panel a:hover{
+color:#f48ab6;
+}
 
-        .card-stack-wrapper {
-            position: relative;
-            width: 50vmin;
-            height: 65vmin;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+/* GRID */
 
-        .card {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            transition: transform 0.5s ease, z-index 0.3s, box-shadow 0.3s;
-            transform-origin: 50% 100%;
-            overflow: hidden;
-            border-radius: 12px;
-            cursor: pointer;
-        }
-        
-        .card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+.image-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:1.5rem;
+}
 
-        /* Default fanned-out card positions */
-        .card:nth-child(1) { 
-            transform: translate(0, -40px) rotate(-10deg);
-            z-index: 3;
-        }
-        .card:nth-child(2) { 
-            transform: translate(0, -20px) rotate(0deg);
-            z-index: 2;
-        }
-        .card:nth-child(3) { 
-            transform: translate(0, 0) rotate(10deg);
-            z-index: 1;
-        }
+.grid-item{
+overflow:hidden;
+border-radius:8px;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
+cursor:pointer;
+aspect-ratio:1/1;
+}
 
-        /* Hover effect for cards */
-        .card:hover {
-            transform: translate(0, -50px) scale(1.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-            z-index: 4;
-        }
+.grid-item img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+transition:transform .3s;
+}
 
-        /* Single card view state */
-        .card.active-zoom {
-            transform: scale(1.2) translate(0, 0) rotate(0deg) !important;
-            z-index: 100;
-            cursor: default;
-        }
-        
-        /* Fix for unclickable cards: disables pointer-events only when a card is zoomed */
-        .card-stack-wrapper.zoomed-state .card:not(.active-zoom) {
-            pointer-events: none;
-        }
-        
-        /* --- Pop-up Controls and Caption Styles --- */
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            color: #fff;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-            z-index: 2020;
-        }
+.grid-item img:hover{
+transform:scale(1.05);
+}
 
-        .close-btn:hover {
-            color: #bbb;
-        }
+/* CARD STACK */
 
-        .back-btn {
-            position: absolute;
-            bottom: 20px;
-            padding: 10px 20px;
-            background: #2c1d5a;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: none;
-            z-index: 2020;
-        }
+.card-stack-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.9);
+display:none;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:2000;
+}
 
-        #card-caption {
-            color: #fff;
-            text-align: center;
-            width: 80%;
-            font-size: 1rem;
-            max-width: 600px;
-            margin-top: 2rem; /* Separates the caption from the card stack */
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            z-index: 2010;
-        }
+.card-stack-wrapper{
+position:relative;
+width:50vmin;
+height:65vmin;
+display:flex;
+justify-content:center;
+align-items:center;
+}
 
-        .card-stack-wrapper.zoomed-state ~ #card-caption {
-            opacity: 1; /* Show caption when in zoomed state */
-        }
-    </style>
+.card{
+position:absolute;
+width:100%;
+height:100%;
+box-shadow:0 5px 20px rgba(0,0,0,.5);
+transition:transform .5s, box-shadow .3s;
+transform-origin:50% 100%;
+overflow:hidden;
+border-radius:12px;
+cursor:pointer;
+}
+
+.card img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+/* stack positions */
+
+.card:nth-child(1){
+transform:translateY(-40px) rotate(-10deg);
+z-index:3;
+}
+
+.card:nth-child(2){
+transform:translateY(-20px) rotate(0deg);
+z-index:2;
+}
+
+.card:nth-child(3){
+transform:translateY(0) rotate(10deg);
+z-index:1;
+}
+
+.card:hover{
+transform:translateY(-50px) scale(1.1);
+box-shadow:0 10px 30px rgba(0,0,0,.7);
+z-index:4;
+}
+
+.card.active{
+transform:scale(1.2) !important;
+z-index:100;
+cursor:default;
+}
+
+.card-stack-wrapper.zoomed .card:not(.active){
+pointer-events:none;
+}
+
+/* CONTROLS */
+
+.close-btn{
+position:absolute;
+top:20px;
+right:40px;
+color:white;
+font-size:40px;
+cursor:pointer;
+}
+
+.back-btn{
+position:absolute;
+bottom:20px;
+padding:10px 20px;
+background:#2c1d5a;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+display:none;
+}
+
+#card-caption{
+color:white;
+margin-top:2rem;
+text-align:center;
+max-width:600px;
+opacity:0;
+transition:opacity .4s;
+}
+
+.card-stack-wrapper.zoomed ~ #card-caption{
+opacity:1;
+}
+
+</style>
 </head>
+
 <body>
-    <div class="sidebar">
-        <button class="menu-icon" onclick="toggleMenu()">☰</button>
-        <div class="menu-panel" id="menuPanel">
-            <h3>HOME</h3>
-            <a href="index.html">Home</a>
-            <h3>PROJECTS</h3>
-            <a href="architecture.html">Architectural Project</a>
-            <a href="illustration.html">Illustration</a>
-            <a href="arts-n-crafts.html">Arts n Crafts</a>
-            <a href="some-more-work.html">Other</a>
-            <h3>ABOUT</h3>
-            <a href="about.html">Profile</a>
-        </div>
-    </div>
 
-    <div class="container">
-        <div class="page-header">
-            <h1>Other</h1>
-        </div>
-        <div class="image-grid">
-            <div class="grid-item">
-                <img src="blender node-01.png" alt="Description of art 1">
-            </div>
-            <div class="grid-item">
-                <img src="[C09]_WK3_3.2_Perspective.png" alt="Description of art 2">
-            </div>
-            <div class="grid-item">
-                <img src="grasshopper-01.png" alt="Description of art 3">
-            </div>
-            <div class="grid-item">
-                <img src="devinska tower.png" alt="Description of art 4">
-            </div>
-            <div class="grid-item">
-                <img src="facade sq.jpg" alt="Description of art 5">
-            </div>
-            <div class="grid-item">
-                <img src="animal crossing3.jpeg" alt="Description of art 6">
-            </div>
-        </div>
-    </div>
+<div class="sidebar">
+<button class="menu-icon" onclick="toggleMenu()">☰</button>
 
-    <div class="card-stack-overlay" id="cardStackOverlay">
-        <div class="card-stack-wrapper" id="cardStack">
-            </div>
-        <p id="card-caption"></p>
-        <span class="close-btn" id="closeBtn">&times;</span>
-        <button class="back-btn" id="backBtn" style="display:none;">Back to Stack</button>
-    </div>
+<div class="menu-panel" id="menuPanel">
+<h3>HOME</h3>
+<a href="index.html">Home</a>
 
-    <script>
-        // --- Sidebar Menu JavaScript ---
-        function toggleMenu() {
-            const panel = document.getElementById("menuPanel");
-            panel.classList.toggle("active");
-        }
+<h3>PROJECTS</h3>
+<a href="architecture.html">Architectural Project</a>
+<a href="illustration.html">Illustration</a>
+<a href="arts-n-crafts.html">Arts n Crafts</a>
+<a href="some-more-work.html">Other</a>
 
-        document.addEventListener("click", function (event) {
-            const sidebar = document.querySelector(".sidebar");
-            const panel = document.getElementById("menuPanel");
-            if (!sidebar.contains(event.target)) {
-                panel.classList.remove("active");
-            }
-        });
+<h3>ABOUT</h3>
+<a href="about.html">Profile</a>
+</div>
+</div>
 
-        // --- Card Stack JavaScript ---
-        const cardStackOverlay = document.getElementById('cardStackOverlay');
-        const cardStackWrapper = document.getElementById('cardStack');
-        const closeBtn = document.getElementById('closeBtn');
-        const backBtn = document.getElementById('backBtn');
-        const cardCaption = document.getElementById('card-caption');
 
-        const imageSets = {
-            "blender node-01.png": [
-                { src: "blender node-01.png", caption: "Blender node exploration" },
-                { src: "render pic dts3.png", caption: "Blender node exploration" },
-                { src: "render pic dts8.png", caption: "Blender node exploration" }
-            ],
-            "[C09]_WK3_3.2_Perspective.png": [
-                { src: "[C09]_WK3_3.2_Perspective.png", caption: "Blender scene workshop" },
-                { src: "scene character other2.jpg", caption: "Blender scene workshop" },
-                { src: "scene character other.jpg", caption: "Blender scene workshop" }
-            ],
-            "grasshopper-01.png": [
-                { src: "grasshopper-01.png", caption: "Parametric design in Grasshopper." },
-                { src: "grasshopper2.png", caption: "3d print workshop" },
-            ],
-            "devinska tower.png": [
-                { src: "devinska tower.png", caption: "Devínska Kobyla Observation Tower Analysis ; group work ; Panisara Sainiam, Nattaphat Chotananwut, Nichapa Eamcharoen " },
-                { src: "devinska model.png", caption: "Devínska Kobyla Observation Tower Model Analysis ; group work" },
-                { src: "devinska draw.png", caption: "Devínska Kobyla Observation Tower Drawing Analysis" }
-            ],
-            "facade sq.jpg": [
-                { src: "facade.png", caption: "Facade Design ; group work ; Panisara Sainiam, Nattaphat Chotananwut, Nichapa Eamcharoen" },
-                { src: "Image2_0001.png", caption: "Facade Design ; group work" },
-                { src: "IMG_7988.JPG", caption: "Facade Design Rendering" }
-            ],
-            "art-crafts-6.jpg": [
-                { src: "animal crossing1.jpg", caption: "Design for community ; group work ; Nichapa Eamcharoen, Vanesa Tomic, Paphada Koolhiran" },
-                { src: "animal crossing2.jpg", caption: "Animal crossing ; parametric bridge design in Khaoyai" },
-                { src: "https://youtu.be/dF8oPhPk8zE", caption: "Animal crossing video", Role-Video editing, 3D Grasshoper, Unreal Engine }
-            ]
-        };
+<div class="container">
 
-        let currentActiveCard = null;
+<div class="page-header">
+<h1>Other</h1>
+</div>
 
-        function renderCardStack(set) {
-            cardStackWrapper.innerHTML = '';
-            set.forEach((imgData) => {
-                const card = document.createElement('div');
-                card.classList.add('card');
-                const img = document.createElement('img');
-                img.src = imgData.src;
-                img.dataset.caption = imgData.caption;
-                card.appendChild(img);
-                cardStackWrapper.appendChild(card);
-            });
-            backBtn.style.display = 'none';
-            cardStackWrapper.classList.remove('zoomed-state');
-            cardCaption.textContent = '';
-        }
+<div class="image-grid">
 
-        function zoomInCard(cardElement) {
-            if (currentActiveCard) {
-                currentActiveCard.classList.remove('active-zoom');
-            }
-            cardElement.classList.add('active-zoom');
-            currentActiveCard = cardElement;
-            backBtn.style.display = 'block';
-            cardStackWrapper.classList.add('zoomed-state');
-            
-            const captionText = cardElement.querySelector('img').dataset.caption;
-            cardCaption.textContent = captionText;
-        }
+<div class="grid-item">
+<img src="blender node-01.png">
+</div>
 
-        document.querySelectorAll('.grid-item img').forEach(img => {
-            img.addEventListener('click', () => {
-                const fileName = img.getAttribute('src');
-                const currentSet = imageSets[fileName] || [fileName];
-                renderCardStack(currentSet);
-                cardStackOverlay.style.display = 'flex';
-            });
-        });
+<div class="grid-item">
+<img src="[C09]_WK3_3.2_Perspective.png">
+</div>
 
-        cardStackWrapper.addEventListener('click', (event) => {
-            const cardElement = event.target.closest('.card');
-            if (cardElement) {
-                zoomInCard(cardElement);
-            }
-        });
+<div class="grid-item">
+<img src="grasshopper-01.png">
+</div>
 
-        function resetState() {
-            if (currentActiveCard) {
-                currentActiveCard.classList.remove('active-zoom');
-                currentActiveCard = null;
-            }
-            backBtn.style.display = 'none';
-            cardStackWrapper.classList.remove('zoomed-state');
-            cardCaption.textContent = '';
-        }
+<div class="grid-item">
+<img src="devinska tower.png">
+</div>
 
-        backBtn.addEventListener('click', resetState);
+<div class="grid-item">
+<img src="facade sq.jpg">
+</div>
 
-        closeBtn.addEventListener('click', () => {
-            resetState();
-            cardStackOverlay.style.display = 'none';
-        });
+<div class="grid-item">
+<img src="animal crossing3.jpeg">
+</div>
 
-        cardStackOverlay.addEventListener('click', (event) => {
-            if (event.target === cardStackOverlay) {
-                resetState();
-                cardStackOverlay.style.display = 'none';
-            }
-        });
-    </script>
+</div>
+</div>
+
+
+<div class="card-stack-overlay" id="overlay">
+
+<div class="card-stack-wrapper" id="stack"></div>
+
+<p id="card-caption"></p>
+
+<span class="close-btn" id="close">&times;</span>
+
+<button class="back-btn" id="back">Back to Stack</button>
+
+</div>
+
+
+<script>
+
+/* sidebar */
+
+function toggleMenu(){
+document.getElementById("menuPanel").classList.toggle("active");
+}
+
+document.addEventListener("click",function(e){
+
+const sidebar=document.querySelector(".sidebar");
+const panel=document.getElementById("menuPanel");
+
+if(!sidebar.contains(e.target)){
+panel.classList.remove("active");
+}
+
+});
+
+/* card stack */
+
+const overlay=document.getElementById("overlay");
+const stack=document.getElementById("stack");
+const closeBtn=document.getElementById("close");
+const backBtn=document.getElementById("back");
+const caption=document.getElementById("card-caption");
+
+let activeCard=null;
+
+/* IMAGE SETS */
+
+const imageSets={
+
+"blender node-01.png":[
+{src:"blender node-01.png",caption:"Blender node exploration"},
+{src:"render pic dts3.png",caption:"Blender node exploration"},
+{src:"render pic dts8.png",caption:"Blender node exploration"}
+],
+
+"[C09]_WK3_3.2_Perspective.png":[
+{src:"[C09]_WK3_3.2_Perspective.png",caption:"Blender scene workshop"},
+{src:"scene character other2.jpg",caption:"Blender scene workshop"},
+{src:"scene character other.jpg",caption:"Blender scene workshop"}
+],
+
+"grasshopper-01.png":[
+{src:"grasshopper-01.png",caption:"Parametric design in Grasshopper"},
+{src:"grasshopper2.png",caption:"3D print workshop"}
+],
+
+"devinska tower.png":[
+{src:"devinska tower.png",caption:"Devinska Kobyla tower analysis"},
+{src:"devinska model.png",caption:"Model analysis"},
+{src:"devinska draw.png",caption:"Drawing analysis"}
+],
+
+"facade sq.jpg":[
+{src:"facade.png",caption:"Facade design"},
+{src:"Image2_0001.png",caption:"Facade workshop"},
+{src:"IMG_7988.JPG",caption:"Facade rendering"}
+],
+
+"animal crossing3.jpeg":[
+{src:"animal crossing1.jpg",caption:"Community design"},
+{src:"animal crossing2.jpg",caption:"Parametric bridge"},
+{src:"animal crossing3.jpeg",caption:"Project overview"}
+]
+
+};
+
+/* RENDER STACK */
+
+function renderStack(set){
+
+stack.innerHTML="";
+caption.textContent="";
+backBtn.style.display="none";
+stack.classList.remove("zoomed");
+
+set.forEach(item=>{
+
+const card=document.createElement("div");
+card.classList.add("card");
+
+const img=document.createElement("img");
+img.src=item.src;
+img.dataset.caption=item.caption;
+
+card.appendChild(img);
+stack.appendChild(card);
+
+});
+
+}
+
+/* ZOOM CARD */
+
+function zoomCard(card){
+
+if(activeCard){
+activeCard.classList.remove("active");
+}
+
+card.classList.add("active");
+activeCard=card;
+
+stack.classList.add("zoomed");
+
+caption.textContent=card.querySelector("img").dataset.caption;
+
+backBtn.style.display="block";
+
+}
+
+/* GRID CLICK */
+
+document.querySelectorAll(".grid-item img").forEach(img=>{
+
+img.addEventListener("click",()=>{
+
+const name=img.getAttribute("src");
+
+const set=imageSets[name]||[{src:name,caption:""}];
+
+renderStack(set);
+
+overlay.style.display="flex";
+
+});
+
+});
+
+/* STACK CLICK */
+
+stack.addEventListener("click",e=>{
+
+const card=e.target.closest(".card");
+
+if(card){
+zoomCard(card);
+}
+
+});
+
+/* RESET */
+
+function reset(){
+
+if(activeCard){
+activeCard.classList.remove("active");
+activeCard=null;
+}
+
+stack.classList.remove("zoomed");
+
+caption.textContent="";
+backBtn.style.display="none";
+
+}
+
+/* BUTTONS */
+
+backBtn.onclick=reset;
+
+closeBtn.onclick=()=>{
+reset();
+overlay.style.display="none";
+};
+
+overlay.addEventListener("click",e=>{
+
+if(e.target===overlay){
+reset();
+overlay.style.display="none";
+}
+
+});
+
+</script>
+
 </body>
 </html>
