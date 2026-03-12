@@ -6,32 +6,33 @@
 <title>Portfolio - Nichapa</title>
 
 <style>
+/* Reset and Base Styles */
 body {
   margin: 0;
-  background-color: #fff;
+  background-color: #ffffff;
   color: #212254;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.6;
 }
 
+/* Header and Navigation */
 header {
   padding: 2rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ddd;
-  position: relative;
+  border-bottom: 1px solid #eeeeee;
+  position: sticky;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  z-index: 1000;
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   font-weight: bold;
   text-transform: uppercase;
-}
-
-.nav {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
+  letter-spacing: 2px;
 }
 
 .nav a {
@@ -40,35 +41,74 @@ header {
   color: #212254;
   font-weight: bold;
   text-transform: uppercase;
-  font-size: 1rem;
-  border-bottom: 1px solid transparent;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  transition: opacity 0.3s ease;
 }
 
 .nav a:hover {
-  border-bottom: 1px solid #000;
+  opacity: 0.6;
 }
 
-.viewer {
+/* Portfolio Gallery Container */
+/* Using an image gallery instead of an iframe prevents loading bars and ensures 
+   your layout appears exactly as designed across all devices. */
+.portfolio-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 1rem;
+  background-color: #f9f9f9;
+}
+
+.portfolio-page {
   width: 100%;
-  height: calc(100vh - 120px);
+  max-width: 1100px;
+  height: auto;
+  margin-bottom: 4rem;
+  background-color: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
 }
 
-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
+/* Footer Action */
+.footer-actions {
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: #ffffff;
 }
 
-.download {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
+.download-btn {
+  display: inline-block;
   text-decoration: none;
   color: white;
   background: #212254;
-  padding: 12px 18px;
-  font-size: 14px;
-  border-radius: 5px;
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 2px;
+  letter-spacing: 1px;
+  transition: background 0.3s ease;
+}
+
+.download-btn:hover {
+  background: #3a3b7a;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  .nav a {
+    margin: 0 1rem;
+  }
+  .portfolio-gallery {
+    padding: 2rem 0.5rem;
+  }
 }
 </style>
 </head>
@@ -76,20 +116,27 @@ iframe {
 <body>
 
 <header>
-  <div class="title">Portfolio</div>
+  <div class="title">Nichapa Eamcharoen</div>
   <div class="nav">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
   </div>
 </header>
 
-<div class="viewer">
-  <iframe src="jinnie portfolio.pdf"></iframe>
-</div>
+<main class="portfolio-gallery">
+  <img src="page1.jpg" alt="Portfolio Cover" class="portfolio-page">
+  <img src="page2.jpg" alt="CV and Profile" class="portfolio-page">
+  <img src="page3.jpg" alt="Personal Statement" class="portfolio-page">
+  <img src="page4.jpg" alt="Table of Contents" class="portfolio-page">
+  <img src="page5.jpg" alt="Village in a City - Project 01" class="portfolio-page">
+  </main>
 
-<a class="download" href="jinnie portfolio.pdf" download>
-Download PDF
-</a>
+<section class="footer-actions">
+  <p>Interested in a physical copy?</p>
+  <a class="download-btn" href="jinnie portfolio.pdf" download>
+    Download Full PDF Portfolio
+  </a>
+</section>
 
 </body>
 </html>
