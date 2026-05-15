@@ -171,11 +171,17 @@
     .nav.right { right: 18px; }
 
     @media (max-width: 980px) {
-      :root { --page-w: 300px; --page-h: 460px; --gap-x: 150px; }
+      :root { --page-w: 300px; --page-h: 460px; --gap-x: 140px; }
     }
+
     @media (max-width: 620px) {
-      :root { --page-w: 220px; --page-h: 360px; --gap-x: 100px; }
-      .nav { display: none; }
+      :root { 
+        --page-w: 75vw; 
+        --page-h: 55vh; 
+        --gap-x: 60px; 
+        --perspective: 1000px; 
+      }
+      .nav { display: none !important; }
     }
 
     .page .title {
@@ -368,32 +374,34 @@
     let currentPage = 3;
 
     function layout() {
-      const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
-      const maxVisible = 3;
+      const isMobile = window.innerWidth <= 620;
+      const gapValue = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
+      
+      pages.forEach((el, idx) => {
+        const pos = idx - currentPage;
+        const absPos = Math.abs(pos);
 
-      pages.forEach((el, idx) => {
-        const centerIndex = currentPage;
-        const pos = idx - centerIndex;
-        
-        if (Math.abs(pos) > maxVisible || idx < currentPage - 1 || idx > currentPage + 1) {
-          el.classList.add('dim');
-          el.style.setProperty('--offset', `${pos * gap}px`);
-          el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
-          el.style.setProperty('--scale', '0.7');
-          el.style.zIndex = 10;
-        } else {
-          el.classList.remove('dim');
-          const offset = pos * gap;
-          const rot = pos * -6;
-          const scale = 1 - Math.abs(pos) * 0.12;
-          el.style.setProperty('--offset', `${offset}px`);
-          el.style.setProperty('--rot', `${rot}deg`);
-          el.style.setProperty('--scale', scale.toString());
-          // FIX: Explicitly set z-index to ensure center page is always on top
-          el.style.zIndex = idx === currentPage ? 100 : 50 - Math.abs(pos);
-        }
-      });
-    }
+        if (absPos > 2 && isMobile) {
+          el.style.opacity = "0";
+          el.style.pointerEvents = "none";
+        } else {
+          el.style.opacity = absPos > 1 ? "0.4" : "1";
+          el.style.pointerEvents = "auto";
+        }
+
+        const offset = pos * gapValue;
+        const rot = pos * -10;
+        const scale = 1 - (absPos * 0.15);
+        
+        el.style.setProperty('--offset', `${offset}px`);
+        el.style.setProperty('--rot', `${rot}deg`);
+        el.style.setProperty('--scale', scale.toString());
+        el.style.zIndex = 100 - absPos;
+
+        if (pos === 0) el.classList.remove('dim');
+        else el.classList.add('dim');
+      });
+    }
 
     function updateNavButtons() {
       prevBtn.style.opacity = currentPage === 0 ? 0.3 : 1;
