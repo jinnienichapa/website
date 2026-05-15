@@ -367,6 +367,18 @@
   </script>
 
   <script>
+    // --- UI Helpers ---
+    function toggleMenu() {
+      document.getElementById("menuPanel").classList.toggle("active");
+    }
+
+    document.addEventListener("click", (e) => {
+      const panel = document.getElementById("menuPanel");
+      if (!e.target.closest(".sidebar") && panel.classList.contains("active")) {
+        panel.classList.remove("active");
+      }
+    });
+    
     // Flipbook JS
     const pages = document.querySelectorAll('.page');
     const prevBtn = document.getElementById('prevBtn');
@@ -403,38 +415,50 @@
       });
     }
 
-    function updateNavButtons() {
-      prevBtn.style.opacity = currentPage === 0 ? 0.3 : 1;
-      nextBtn.style.opacity = currentPage === pages.length - 1 ? 0.3 : 1;
-      prevBtn.style.pointerEvents = currentPage === 0 ? 'none' : 'auto';
-      nextBtn.style.pointerEvents = currentPage === pages.length - 1 ? 'none' : 'auto';
-    }
+    function updateNav() {
+      prevBtn.style.visibility = currentPage === 0 ? 'hidden' : 'visible';
+      nextBtn.style.visibility = currentPage === pages.length - 1 ? 'hidden' : 'visible';
+    }
 
-    prevBtn.addEventListener('click', () => {
-      if (currentPage > 0) {
-        currentPage--;
-        layout();
-        updateNavButtons();
-      }
-    });
+    const moveNext = () => { if (currentPage < pages.length - 1) { currentPage++; layout(); updateNav(); } };
+    const movePrev = () => { if (currentPage > 0) { currentPage--; layout(); updateNav(); } };
 
-    nextBtn.addEventListener('click', () => {
-      if (currentPage < pages.length - 1) {
-        currentPage++;
-        layout();
-        updateNavButtons();
-      }
-    });
+    prevBtn.addEventListener('click', movePrev);
+    nextBtn.addEventListener('click', moveNext);
 
-    pages.forEach((el, idx) => {
-      el.addEventListener('click', () => {
-        if (idx !== currentPage) {
-          currentPage = idx;
-          layout();
-          updateNavButtons();
-        }
-      });
-    });
+    // --- MOBILE TOUCH FIX ---
+    let touchStartX = 0;
+    const container = document.querySelector('.flipbook-container');
+
+    container.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    container.addEventListener('touchend', (e) => {
+      let touchEndX = e.changedTouches[0].screenX;
+      let diff = touchStartX - touchEndX;
+
+      // If swipe left
+      if (diff > 50) moveNext();
+      // If swipe right
+      if (diff < -50) movePrev();
+    }, {passive: true});
+
+    // Handle Taps for both Desktop and Mobile
+    pages.forEach((page, idx) => {
+      // Use 'pointerdown' as it is faster and more reliable on mobile than 'click'
+      page.addEventListener('pointerdown', (e) => {
+        // Don't flip if we are just swiping
+        if (idx !== currentPage) {
+          currentPage = idx;
+          layout();
+          updateNav();
+        } else {
+          // If already in center, wait for the full click to open lightbox
+          openLightbox(page.querySelector('img').src);
+        }
+      });
+    });
 
     // Initial setup
     layout();
