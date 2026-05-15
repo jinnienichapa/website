@@ -46,10 +46,10 @@
       transition: transform 0.6s cubic-bezier(.2, .8, .2, 1), opacity 0.4s;
       border-radius: 8px; overflow: hidden; background: #fff;
       box-shadow: 0 10px 30px rgba(0,0,0,0.15); backface-visibility: hidden;
-      display: flex; align-items: center; justify-content: center;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
     }
     .page img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
-    .page.dim { opacity: 0.4 !important; pointer-events: none; }
+    .page.dim { opacity: 0.4 !important; }
 
     .nav {
       position: absolute; top: 50%; transform: translateY(-50%);
@@ -105,11 +105,13 @@
           <div class="page"><img src="float full panel2-01.png"><div class="title">Let it Float</div></div>
           <div class="page"><img src="full board flow-01.png"><div class="title">Flow</div></div>
           <div class="page"><img src="full board flow2-01.png"><div class="title">Flow</div></div>
-          <div class="page"><img src="full board vil-03.png"><div class="title">Village in a City</div></div>
-          <div class="page"><img src="full board vil2-01.png"><div class="title">Village in a City</div></div>
+          <div class="page"><img src="full board vil-03.png"><div class="title">Village in a City 1</div></div>
+          <div class="page"><img src="full board vil-02.png"><div class="title">Village in a City 2</div></div>
+          <div class="page"><img src="full board vil2-01.png"><div class="title">Village in a City 3</div></div>
           <div class="page"><img src="full board in-01-min.png"><div class="title">Invisible Boundaries</div></div>
-          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD.jpg"><div class="title">Living Heritage</div></div>
-          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD2.jpg"><div class="title">Living Heritage</div></div>
+          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD.jpg"><div class="title">Living Heritage 1</div></div>
+          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD2.jpg"><div class="title">Living Heritage 2</div></div>
+          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD3.jpg"><div class="title">Living Heritage 3</div></div>
         </div>
       </div>
       <div class="nav right" id="nextBtn">❯</div>
@@ -147,19 +149,31 @@
       pages.forEach((el, idx) => {
         const pos = idx - currentPage;
         const absPos = Math.abs(pos);
-        if (absPos > 1) { el.style.opacity = "0"; el.style.visibility = "hidden"; } 
-        else { el.style.opacity = absPos === 0 ? "1" : "0.4"; el.style.visibility = "visible"; }
+        
+        if (absPos > 1) { 
+          el.style.opacity = "0"; 
+          el.style.visibility = "hidden";
+          el.style.pointerEvents = "none";
+        } else { 
+          el.style.opacity = absPos === 0 ? "1" : "0.4"; 
+          el.style.visibility = "visible";
+          el.style.pointerEvents = "auto"; // Re-enable clicking for side pages
+        }
+        
         const offset = pos * gap;
         const rot = pos * -10;
         const scale = 1 - (absPos * 0.12);
         const zDepth = absPos === 0 ? 150 : 0;
+        
         el.style.setProperty('--offset', `${offset}px`);
         el.style.setProperty('--rot', `${rot}deg`);
         el.style.setProperty('--scale', scale.toString());
         el.style.setProperty('--z', `${zDepth}px`);
         el.style.zIndex = 100 - absPos;
+        
         absPos === 0 ? el.classList.remove('dim') : el.classList.add('dim');
       });
+
       prevBtn.style.visibility = currentPage === 0 ? "hidden" : "visible";
       nextBtn.style.visibility = currentPage === pages.length - 1 ? "hidden" : "visible";
     }
@@ -179,8 +193,15 @@
 
     pages.forEach((page, idx) => {
       page.onclick = () => {
-        if (idx !== currentPage) { currentPage = idx; layout(); } 
-        else { lbImg.src = page.querySelector('img').src; lb.style.display = 'flex'; }
+        if (idx !== currentPage) { 
+          // FIX: Tapping a side page brings it to center
+          currentPage = idx; 
+          layout(); 
+        } else { 
+          // Tapping center page opens lightbox
+          lbImg.src = page.querySelector('img').src; 
+          lb.style.display = 'flex'; 
+        }
       };
     });
 
