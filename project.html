@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Architectural Projects – Nichapa</title>
   <style>
-    /* --- UI & SIDEBAR --- */
+    /* Sidebar & UI */
     .sidebar { position: fixed; top: 1rem; left: 1rem; z-index: 5000; }
     .menu-icon { font-size: 1.8rem; cursor: pointer; color: #2c1d5a; background: transparent; border: none; }
     .menu-panel { 
@@ -14,322 +14,88 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-width: 200px; display: none; 
     }
     .menu-panel.active { display: block; }
-    .menu-panel h3 { text-transform: uppercase; font-size: 0.75rem; margin: 0.8rem 0 0.3rem; color: #f48ab6; letter-spacing: 1px; }
-    .menu-panel a { display: block; text-decoration: none; color: #333; font-size: 0.9rem; margin: 0.4rem 0; }
+    .menu-panel h3 { text-transform: uppercase; font-size: 0.8rem; margin: 0.5rem 0; color: #f48ab6; }
+    .menu-panel a { display: block; text-decoration: none; color: #333; font-size: 0.85rem; margin: 0.4rem 0; }
     .menu-panel a:hover { color: #f48ab6; }
 
     body { margin: 0; min-height: 100vh; background: #f3f4f6; font-family: Helvetica, Arial, sans-serif; overflow-x: hidden; }
-    .content { display: flex; flex-direction: column; align-items: center; padding: 2rem 0; width: 100%; }
-    .logo img { width: 85%; max-width: 400px; height: auto; display: block; margin: 0 auto 1.5rem; }
+    .content { display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; }
+    .logo img { width: 100%; max-width: 500px; height: auto; margin-bottom: 2rem; }
 
-    /* --- ALL-VISIBLE FLIPBOOK --- */
+    /* Flipbook Logic */
     :root { 
       --page-h: 520px; 
-      --gap-x: 140px; /* Tighter gap so all pages fit in view */
+      --gap-x: 140px; /* Adjust this to make the stack wider or tighter */
     }
-    @media (max-width: 1024px) { :root { --page-h: 440px; --gap-x: 100px; } }
-    @media (max-width: 620px) { :root { --page-h: 380px; --gap-x: 60px; } }
+    @media (max-width: 980px) { :root { --page-h: 440px; --gap-x: 100px; } }
+    @media (max-width: 620px) { :root { --page-h: 360px; --gap-x: 60px; } }
 
-    .flipbook-container {
-      width: 100%; height: calc(var(--page-h) + 120px);
-      display: flex; justify-content: center; align-items: center;
-      position: relative; overflow: hidden; touch-action: pan-y;
-    }
-
+    .flipbook-container { width: 100%; display: flex; justify-content: center; padding: 60px 0; position: relative; }
+    
     .wrap { 
+      width: 1px; /* Center anchor */
       height: var(--page-h); 
-      width: 1px; 
       position: relative; 
-      perspective: 2500px; 
-      transform-style: preserve-3d; 
+      perspective: 2000px; 
+      transform-style: preserve-3d;
     }
 
     .page {
       position: absolute; 
       top: 0; 
       left: 50%; 
-      /* Center the page and apply 3D transforms */
-      transform: translateX(calc(-50% + var(--offset, 0px))) translateZ(var(--z, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
-      height: 100%;
+      height: var(--page-h);
       width: auto;
-      transition: transform 0.7s cubic-bezier(.2, .8, .2, 1), opacity 0.5s;
-      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      /* Using translateZ to create real 3D depth */
+      transform: translateX(calc(-50% + var(--offset, 0px))) translateZ(var(--z, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
+      transition: transform 600ms cubic-bezier(.2, .8, .2, 1), opacity 400ms ease;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
     }
 
     .page img { 
-      height: 100%;
-      width: auto;
+      height: 100%; 
+      width: auto; /* Follows original aspect ratio */
       display: block;
-      border-radius: 4px;
-      box-shadow: 0 15px 45px rgba(0,0,0,0.15);
+      border-radius: 6px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       background: #fff;
     }
 
-    /* Dim pages as they get further from center */
-    .page.far { opacity: 0.15; }
-    .page.mid { opacity: 0.5; }
-    .page.active { opacity: 1; }
+    /* Stack appearance */
+    .page.dim { opacity: 0.4; }
+    .page.active { opacity: 1; z-index: 100 !important; }
+    .page.active img { box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
 
-    /* --- NAV & LABELS --- */
-    .nav {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 44px; height: 44px; background: white; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; z-index: 4500;
-      color: #2c1d5a; font-weight: bold;
-    }
-    .nav.left { left: 20px; } .nav.right { right: 20px; }
-    
     .page .title { 
       position: absolute; bottom: -45px; left: 50%; transform: translateX(-50%);
-      background: rgba(33, 34, 84, 0.9); color: #fff; padding: 5px 14px; 
+      background: rgba(33, 34, 84, 0.9); color: #fff; padding: 6px 12px; 
       border-radius: 4px; font-size: 11px; white-space: nowrap;
       opacity: 0; transition: 0.3s; pointer-events: none;
     }
     .page.active .title { opacity: 1; bottom: -35px; }
 
-    /* --- PROJECTS GRID --- */
-    .projects {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem; width: 90%; max-width: 1200px; padding: 3rem 0;
-    }
-    .project { text-decoration: none; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; }
-    .project:hover { transform: translateY(-5px); }
-    .project img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
-    .project-title { padding: 1rem; font-weight: bold; background: #212254; color: #f48ab6; text-align: center; }
-
-    /* --- LIGHTBOX --- */
-    .lightbox { position: fixed; z-index: 6000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; }
-    .lightbox-img { max-width: 95%; max-height: 90%; object-fit: contain; }
-    .close-lb { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; }
-  </style>
-</head>
-<body>
-
-  <div class="sidebar">
-    <button class="menu-icon" id="menuBtn">☰</button>
-    <div class="menu-panel" id="menuPanel">
-      <h3>HOME</h3><a href="index.html">Home</a>
-      <h3>PROJECTS</h3>
-      <a href="project.html">Architectural Project</a>
-      <a href="illustration.html">Illustration</a>
-      <a href="arts-n-crafts.html">Arts n Crafts</a>
-      <a href="some-more-work.html">Other</a>
-      <h3>ABOUT</h3>
-      <a href="about.html">Profile</a>
-      <a href="portfolio.html">Portfolio</a>
-    </div>
-  </div>
-
-  <div class="content">
-    <header><div class="logo"><img src="arch pro_1@3x.png" alt="Logo" /></div></header>
-
-    <div class="flipbook-container">
-      <div class="nav left" id="prevBtn">❮</div>
-      <div class="wrap">
-        <div class="book" id="book">
-          <div class="page"><img src="full panel lf2-01.png"><div class="title">Life in Soi</div></div>
-          <div class="page"><img src="float full panel2-01.png"><div class="title">Let it Float</div></div>
-          <div class="page"><img src="full board flow-01.png"><div class="title">Flow 1</div></div>
-          <div class="page"><img src="full board flow2-01.png"><div class="title">Flow 2</div></div>
-          <div class="page"><img src="full board vil-03.png"><div class="title">Village in a City 1</div></div>
-          <div class="page"><img src="full board vil-02.png"><div class="title">Village in a City 2</div></div>
-          <div class="page"><img src="full board vil2-01.png"><div class="title">Village in a City 3</div></div>
-          <div class="page"><img src="full board in-01-min.png"><div class="title">Invisible Boundaries</div></div>
-          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD.jpg"><div class="title">Living Heritage 1</div></div>
-          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD2.jpg"><div class="title">Living Heritage 2</div></div>
-          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD3.jpg"><div class="title">Living Heritage 3</div></div>
-        </div>
-      </div>
-      <div class="nav right" id="nextBtn">❯</div>
-    </div>
-
-    <div class="projects">
-      <a class="project" href="life-in-soi.html"><img src="life in soi blur.png" /><div class="project-title">01 Life in Soi</div></a>
-      <a class="project" href="let-it-float.html"><img src="let it float blur.png" /><div class="project-title">02 Let it Float</div></a>
-      <a class="project" href="Flow.html"><img src="flow blur.png" /><div class="project-title">03 Flow</div></a>
-      <a class="project" href="Village-in-a-City.html"><img src="village in a city blur.png" /><div class="project-title">04 Village in a City</div></a>
-      <a class="project" href="Invisible-boundaries.html"><img src="Invisible Boundaries blur.png" /><div class="project-title">05 Invisible Boundaries</div></a>
-      <a class="project" href="Living Heritage.html"><img src="cov liv blur1.jpg" /><div class="project-title">06 Living Heritage</div></a>
-    </div>
-  </div>
-
-  <div id="lightbox" class="lightbox">
-    <span class="close-lb">&times;</span>
-    <img class="lightbox-img" id="lightbox-img">
-  </div>
-
-  <script>
-    const pages = document.querySelectorAll('.page');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const lb = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lightbox-img');
-    const menuBtn = document.getElementById('menuBtn');
-    const menuPanel = document.getElementById('menuPanel');
-    
-    let currentPage = 0; 
-    let startX = 0;
-
-    function layout() {
-      const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
-      pages.forEach((el, idx) => {
-        const pos = idx - currentPage;
-        const absPos = Math.abs(pos);
-        
-        // ALL pages are now visible, just translated further
-        el.style.visibility = "visible";
-        el.style.pointerEvents = "auto";
-        
-        const offset = pos * gap;
-        const rot = pos * -12; // Slight rotation for a fan effect
-        const scale = 1 - (absPos * 0.08); // Subtle shrinking
-        const zDepth = -absPos * 100; // Push inactive pages back in 3D space
-        
-        el.style.setProperty('--offset', `${offset}px`);
-        el.style.setProperty('--rot', `${rot}deg`);
-        el.style.setProperty('--scale', scale.toString());
-        el.style.setProperty('--z', `${zDepth}px`);
-        el.style.zIndex = 100 - absPos;
-
-        // Dynamic Opacity for the stack
-        el.className = "page";
-        if (absPos === 0) el.classList.add('active');
-        else if (absPos === 1) el.classList.add('mid');
-        else el.classList.add('far');
-      });
-
-      prevBtn.style.opacity = currentPage === 0 ? "0.3" : "1";
-      nextBtn.style.opacity = currentPage === pages.length - 1 ? "0.3" : "1";
-    }
-
-    const moveNext = () => { if (currentPage < pages.length - 1) { currentPage++; layout(); } };
-    const movePrev = () => { if (currentPage > 0) { currentPage--; layout(); } };
-
-    prevBtn.onclick = (e) => { e.stopPropagation(); movePrev(); };
-    nextBtn.onclick = (e) => { e.stopPropagation(); moveNext(); };
-
-    const container = document.querySelector('.flipbook-container');
-    container.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive: true});
-    container.addEventListener('touchend', e => {
-      const diff = startX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) diff > 0 ? moveNext() : movePrev();
-    }, {passive: true});
-
-    pages.forEach((page, idx) => {
-      page.onclick = () => {
-        if (idx !== currentPage) { 
-          currentPage = idx; 
-          layout(); 
-        } else { 
-          lbImg.src = page.querySelector('img').src; 
-          lb.style.display = 'flex'; 
-        }
-      };
-    });
-
-    menuBtn.onclick = (e) => { e.stopPropagation(); menuPanel.classList.toggle('active'); };
-    document.onclick = () => menuPanel.classList.remove('active');
-    lb.onclick = () => lb.style.display = 'none';
-
-    window.addEventListener('resize', layout);
-    layout();
-  </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>Architectural Projects – Nichapa</title>
-  <style>
-    /* --- SIDEBAR & BASIC UI --- */
-    .sidebar { position: fixed; top: 1rem; left: 1rem; z-index: 5000; }
-    .menu-icon { font-size: 1.8rem; cursor: pointer; color: #2c1d5a; background: transparent; border: none; }
-    .menu-panel { 
-      position: absolute; top: 0; left: 2.5rem; background: white; 
-      border: 1px solid #ddd; padding: 1rem; border-radius: 8px; 
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-width: 200px; display: none; 
-    }
-    .menu-panel.active { display: block; }
-    .menu-panel h3 { text-transform: uppercase; font-size: 0.75rem; margin: 0.8rem 0 0.3rem; color: #f48ab6; letter-spacing: 1px; }
-    .menu-panel a { display: block; text-decoration: none; color: #333; font-size: 0.9rem; margin: 0.4rem 0; }
-    .menu-panel a:hover { color: #f48ab6; }
-
-    body { margin: 0; min-height: 100vh; background: #f3f4f6; font-family: Helvetica, Arial, sans-serif; overflow-x: hidden; }
-    .content { display: flex; flex-direction: column; align-items: center; padding: 2rem 0; width: 100%; }
-    .logo img { width: 85%; max-width: 400px; height: auto; display: block; margin: 0 auto 1rem; }
-
-    /* --- FLEXIBLE WIDTH FLIPBOOK --- */
-    :root { 
-      --page-h: 520px; /* Fixed Height */
-      --gap-x: 280px; 
-    }
-    @media (max-width: 1024px) { :root { --page-h: 440px; --gap-x: 200px; } }
-    @media (max-width: 620px) { :root { --page-h: 380px; --gap-x: 100px; } }
-
-    .flipbook-container {
-      width: 100%; height: calc(var(--page-h) + 100px);
-      display: flex; justify-content: center; align-items: center;
-      position: relative; overflow: hidden; touch-action: pan-y;
-    }
-
-    .wrap { 
-      height: var(--page-h); 
-      width: 1px; /* Center point for the stack */
-      position: relative; 
-      perspective: 2000px; 
-      transform-style: preserve-3d; 
-    }
-
-    .page {
-      position: absolute; 
-      top: 0; 
-      left: 50%; 
-      transform: translateX(calc(-50% + var(--offset, 0px))) translateZ(var(--z, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
-      height: 100%;
-      width: auto; /* Width adapts to image */
-      transition: transform 0.6s cubic-bezier(.2, .8, .2, 1), opacity 0.4s;
-      display: flex; align-items: center; justify-content: center; cursor: pointer;
-    }
-
-    .page img { 
-      height: 100%; /* Forces original height */
-      width: auto;   /* Width follows original proportion */
-      display: block;
-      border-radius: 4px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      background: #fff;
-    }
-
-    .page.dim { opacity: 0.3 !important; }
-
-    /* --- NAV & LABELS --- */
+    /* Navigation */
     .nav {
       position: absolute; top: 50%; transform: translateY(-50%);
-      width: 44px; height: 44px; background: white; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; z-index: 4000;
+      font-size: 24px; background: white; border-radius: 50%;
+      width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 2000;
       color: #2c1d5a;
     }
-    .nav.left { left: 20px; } .nav.right { right: 20px; }
-    .page .title { 
-      position: absolute; bottom: -35px; left: 50%; transform: translateX(-50%);
-      background: rgba(33, 34, 84, 0.9); color: #fff; padding: 4px 12px; 
-      border-radius: 4px; font-size: 10px; white-space: nowrap; 
-    }
+    .nav.left { left: 5%; } .nav.right { right: 5%; }
 
-    /* --- PROJECTS GRID --- */
+    /* Projects Grid */
     .projects {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem; width: 90%; max-width: 1200px; padding: 3rem 0;
+      gap: 2rem; width: 90%; max-width: 1200px; padding: 4rem 0;
     }
     .project { text-decoration: none; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; }
     .project:hover { transform: translateY(-5px); }
     .project img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
     .project-title { padding: 1rem; font-weight: bold; background: #212254; color: #f48ab6; text-align: center; }
 
-    /* --- LIGHTBOX --- */
+    /* Lightbox */
     .lightbox { position: fixed; z-index: 6000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; }
     .lightbox-img { max-width: 95%; max-height: 90%; object-fit: contain; }
     .close-lb { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; }
@@ -338,7 +104,7 @@
 <body>
 
   <div class="sidebar">
-    <button class="menu-icon" id="menuBtn">☰</button>
+    <button class="menu-icon" onclick="toggleMenu()">☰</button>
     <div class="menu-panel" id="menuPanel">
       <h3>HOME</h3><a href="index.html">Home</a>
       <h3>PROJECTS</h3>
@@ -361,15 +127,13 @@
         <div class="book" id="book">
           <div class="page"><img src="full panel lf2-01.png"><div class="title">Life in Soi</div></div>
           <div class="page"><img src="float full panel2-01.png"><div class="title">Let it Float</div></div>
-          <div class="page"><img src="full board flow-01.png"><div class="title">Flow 1</div></div>
+          <div class="page"><img src="full board flow-01.png"><div class="title">Flow</div></div>
           <div class="page"><img src="full board flow2-01.png"><div class="title">Flow 2</div></div>
-          <div class="page"><img src="full board vil-03.png"><div class="title">Village in a City 1</div></div>
-          <div class="page"><img src="full board vil-02.png"><div class="title">Village in a City 2</div></div>
-          <div class="page"><img src="full board vil2-01.png"><div class="title">Village in a City 3</div></div>
+          <div class="page"><img src="full board vil-03.png"><div class="title">Village in a City</div></div>
+          <div class="page"><img src="full board vil2-01.png"><div class="title">Village in a City 2</div></div>
           <div class="page"><img src="full board in-01-min.png"><div class="title">Invisible Boundaries</div></div>
           <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD.jpg"><div class="title">Living Heritage 1</div></div>
           <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD2.jpg"><div class="title">Living Heritage 2</div></div>
-          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD3.jpg"><div class="title">Living Heritage 3</div></div>
         </div>
       </div>
       <div class="nav right" id="nextBtn">❯</div>
@@ -391,16 +155,15 @@
   </div>
 
   <script>
+    function toggleMenu() { document.getElementById("menuPanel").classList.toggle("active"); }
+    document.addEventListener("click", e => {
+      if (!document.querySelector(".sidebar").contains(e.target)) document.getElementById("menuPanel").classList.remove("active");
+    });
+
     const pages = document.querySelectorAll('.page');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const lb = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lightbox-img');
-    const menuBtn = document.getElementById('menuBtn');
-    const menuPanel = document.getElementById('menuPanel');
-    
     let currentPage = 0; 
-    let startX = 0;
 
     function layout() {
       const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
@@ -408,63 +171,44 @@
         const pos = idx - currentPage;
         const absPos = Math.abs(pos);
         
-        if (absPos > 1) { 
-          el.style.opacity = "0"; 
-          el.style.visibility = "hidden";
-          el.style.pointerEvents = "none";
-        } else { 
-          el.style.opacity = absPos === 0 ? "1" : "0.3"; 
-          el.style.visibility = "visible";
-          el.style.pointerEvents = "auto";
-        }
+        // All pages visible
+        el.style.visibility = "visible";
         
         const offset = pos * gap;
-        const rot = pos * -8;
-        const scale = 1 - (absPos * 0.1);
-        const zDepth = absPos === 0 ? 200 : 0;
+        const rot = pos * -10; // Fanned rotation
+        const scale = 1 - (absPos * 0.07);
+        const zDepth = -absPos * 150; // Real 3D depth layering
         
         el.style.setProperty('--offset', `${offset}px`);
         el.style.setProperty('--rot', `${rot}deg`);
         el.style.setProperty('--scale', scale.toString());
         el.style.setProperty('--z', `${zDepth}px`);
         el.style.zIndex = 100 - absPos;
-        
-        absPos === 0 ? el.classList.remove('dim') : el.classList.add('dim');
+
+        el.className = "page" + (absPos === 0 ? " active" : " dim");
       });
 
-      prevBtn.style.visibility = currentPage === 0 ? "hidden" : "visible";
-      nextBtn.style.visibility = currentPage === pages.length - 1 ? "hidden" : "visible";
+      prevBtn.style.opacity = currentPage === 0 ? "0.2" : "1";
+      nextBtn.style.opacity = currentPage === pages.length - 1 ? "0.2" : "1";
     }
 
-    const moveNext = () => { if (currentPage < pages.length - 1) { currentPage++; layout(); } };
-    const movePrev = () => { if (currentPage > 0) { currentPage--; layout(); } };
+    prevBtn.onclick = () => { if (currentPage > 0) { currentPage--; layout(); } };
+    nextBtn.onclick = () => { if (currentPage < pages.length - 1) { currentPage++; layout(); } };
 
-    prevBtn.onclick = (e) => { e.stopPropagation(); movePrev(); };
-    nextBtn.onclick = (e) => { e.stopPropagation(); moveNext(); };
-
-    const container = document.querySelector('.flipbook-container');
-    container.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive: true});
-    container.addEventListener('touchend', e => {
-      const diff = startX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) diff > 0 ? moveNext() : movePrev();
-    }, {passive: true});
-
-    pages.forEach((page, idx) => {
-      page.onclick = () => {
-        if (idx !== currentPage) { 
-          currentPage = idx; 
-          layout(); 
-        } else { 
-          lbImg.src = page.querySelector('img').src; 
-          lb.style.display = 'flex'; 
+    pages.forEach((el, idx) => {
+      el.onclick = () => {
+        if (idx !== currentPage) {
+          currentPage = idx;
+          layout();
+        } else {
+          const lb = document.getElementById('lightbox');
+          document.getElementById('lightbox-img').src = el.querySelector('img').src;
+          lb.style.display = 'flex';
         }
       };
     });
 
-    menuBtn.onclick = (e) => { e.stopPropagation(); menuPanel.classList.toggle('active'); };
-    document.onclick = () => menuPanel.classList.remove('active');
-    lb.onclick = () => lb.style.display = 'none';
-
+    document.getElementById('lightbox').onclick = () => document.getElementById('lightbox').style.display = 'none';
     window.addEventListener('resize', layout);
     layout();
   </script>
