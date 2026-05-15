@@ -87,11 +87,10 @@
 
     /* Flipbook */
     :root {
-      --page-w: 360px;
-      --page-h: 520px;
-      --gap-x: 200px;
-    }
-
+  --page-w: 360px; 
+  --page-h: 520px; 
+  --gap-x: 220px; /* Space between pages on desktop */
+}
     .flipbook-container {
       text-align: center;
       width: 100%;
@@ -100,13 +99,13 @@
       padding: 40px 0;
     }
 
-    .wrap {
-      width: 100%;
-      max-width: 1400px;
-      height: calc(var(--page-h) + 120px);
-      position: relative;
-      perspective: 1800px;
-    }
+    .wrap { 
+  width: var(--page-w); 
+  height: var(--page-h); 
+  position: relative; 
+  perspective: 2000px; /* Stronger perspective for 3D depth */
+  transform-style: preserve-3d;
+}
 
     .book {
       width: 100%;
@@ -116,29 +115,28 @@
     }
 
     .page {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      height: var(--page-h);
-      transform: translate(-50%, -50%) translateX(var(--offset, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
-      transform-origin: center;
-      transition: transform 600ms cubic-bezier(.2, .8, .2, 1), opacity 300ms ease;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-      cursor: pointer;
-      background: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  position: absolute; 
+  top: 0; left: 0; 
+  width: 100%; height: 100%;
+  /* Added translateZ(var(--z)) to handle the stacking order */
+  transform: translateX(var(--offset, 0px)) translateZ(var(--z, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
+  transition: transform 0.6s cubic-bezier(.2, .8, .2, 1), opacity 0.4s;
+  border-radius: 8px; 
+  overflow: hidden; 
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+  backface-visibility: hidden;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
 
-    .page img {
-      width: auto;
-      height: 100%;
-      opacity: 0.8;
-      object-fit: contain;
-    }
+.page img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: contain; /* Shows full board without cropping */
+  pointer-events: none; 
+}
 
     .page:hover {
       --scale: calc(var(--scale) * 1.06);
@@ -170,9 +168,15 @@
     .nav.left { left: 18px; }
     .nav.right { right: 18px; }
 
-    @media (max-width: 980px) {
-      :root { --page-w: 300px; --page-h: 460px; --gap-x: 140px; }
-    }
+    @media (max-width: 620px) {
+  :root { 
+    --page-w: 260px; /* Narrower pages for phone screens */
+    --page-h: 400px; 
+    --gap-x: 70px;  /* Much smaller gap so side pages don't fly off-screen */
+  }
+  .content { padding-top: 3.5rem; }
+  .nav { display: none !important; } /* Hide arrows on mobile to favor swiping */
+}
 
     @media (max-width: 620px) {
       :root { 
@@ -386,47 +390,44 @@
     let currentPage = 1; 
 
     function layout() {
-      const isMobile = window.innerWidth <= 620;
-      const gapValue = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
-      
-      pages.forEach((el, idx) => {
-        const pos = idx - currentPage;
-        const absPos = Math.abs(pos);
+  const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
+  
+  pages.forEach((el, idx) => {
+    const pos = idx - currentPage;
+    const absPos = Math.abs(pos);
 
-        // Hide pages that are too far away to keep it clean on small screens
-        if (absPos > 2 && isMobile) {
-          el.style.opacity = "0";
-          el.style.visibility = "hidden"; 
-        } else {
-          el.style.opacity = absPos > 1 ? "0.4" : "1";
-          el.style.visibility = "visible";
-        }
-
-        const offset = pos * gapValue;
-        const rot = pos * -10;
-        const scale = 1 - (absPos * 0.15);
-        
-        el.style.setProperty('--offset', `${offset}px`);
-        el.style.setProperty('--rot', `${rot}deg`);
-        el.style.setProperty('--scale', scale.toString());
-        el.style.zIndex = 100 - absPos;
-
-        if (pos === 0) el.classList.remove('dim');
-        else el.classList.add('dim');
-      });
+    // 1. Visibility Logic
+    if (absPos > 1) {
+      el.style.opacity = "0";
+      el.style.visibility = "hidden";
+    } else {
+      el.style.opacity = absPos === 0 ? "1" : "0.3";
+      el.style.visibility = "visible";
     }
 
-    function updateNav() {
-      prevBtn.style.visibility = currentPage === 0 ? 'hidden' : 'visible';
-      nextBtn.style.visibility = currentPage === pages.length - 1 ? 'hidden' : 'visible';
-    }
+    const offset = pos * gap;
+    const rot = pos * -12;
+    const scale = 1 - (absPos * 0.1);
+    
+    // 2. THE STACKING FIX: 
+    // Pull the center page forward (100px) and push side pages back (0px)
+    const zDepth = absPos === 0 ? 100 : 0;
 
-    const moveNext = () => { if (currentPage < pages.length - 1) { currentPage++; layout(); updateNav(); } };
-    const movePrev = () => { if (currentPage > 0) { currentPage--; layout(); updateNav(); } };
+    el.style.setProperty('--offset', `${offset}px`);
+    el.style.setProperty('--rot', `${rot}deg`);
+    el.style.setProperty('--scale', scale.toString());
+    el.style.setProperty('--z', `${zDepth}px`);
+    
+    // 3. Z-Index Fallback
+    el.style.zIndex = 100 - absPos;
 
-    prevBtn.addEventListener('click', movePrev);
-    nextBtn.addEventListener('click', moveNext);
+    absPos === 0 ? el.classList.remove('dim') : el.classList.add('dim');
+  });
 
+  // 4. Update Nav Buttons
+  prevBtn.style.visibility = currentPage === 0 ? "hidden" : "visible";
+  nextBtn.style.visibility = currentPage === pages.length - 1 ? "hidden" : "visible";
+}
     // --- MOBILE TOUCH FIX ---
     let touchStartX = 0;
     const container = document.querySelector('.flipbook-container');
