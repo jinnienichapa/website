@@ -117,39 +117,22 @@
 
     .page {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      height: var(--page-h);
-      transform: translate(-50%, -50%) translateX(var(--offset, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
-      transform-origin: center;
-      transition: transform 600ms cubic-bezier(.2, .8, .2, 1), opacity 300ms ease;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      transform: translateX(var(--offset, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
+      transition: transform 0.6s cubic-bezier(.2, .8, .2, 1), opacity 0.4s ease, visibility 0.4s;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-      cursor: pointer;
-      background: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      background: #fff;
+      backface-visibility: hidden; /* CRITICAL: Prevents flickering/overlay */
+      display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .page img {
-      width: auto;
-      height: 100%;
-      opacity: 0.8;
-      object-fit: contain;
-    }
+    .page img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 
-    .page:hover {
-      --scale: calc(var(--scale) * 1.06);
-      z-index: 9999;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-    }
-
-    .page.dim {
-      opacity: 0.5;
-      pointer-events: none;
-    }
+    .page.dim { opacity: 0.2; pointer-events: none; }
 
     .nav {
       position: absolute;
@@ -386,34 +369,42 @@
     let currentPage = 3;
 
     function layout() {
-      const isMobile = window.innerWidth <= 620;
-      const gapValue = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
-      
-      pages.forEach((el, idx) => {
-        const pos = idx - currentPage;
-        const absPos = Math.abs(pos);
+  const isMobile = window.innerWidth <= 768;
+  const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
+  
+  pages.forEach((el, idx) => {
+    const pos = idx - currentPage;
+    const absPos = Math.abs(pos);
 
-        if (absPos > 2 && isMobile) {
-          el.style.opacity = "0";
-          el.style.pointerEvents = "none";
-        } else {
-          el.style.opacity = absPos > 1 ? "0.4" : "1";
-          el.style.pointerEvents = "auto";
-        }
-
-        const offset = pos * gapValue;
-        const rot = pos * -10;
-        const scale = 1 - (absPos * 0.15);
-        
-        el.style.setProperty('--offset', `${offset}px`);
-        el.style.setProperty('--rot', `${rot}deg`);
-        el.style.setProperty('--scale', scale.toString());
-        el.style.zIndex = 100 - absPos;
-
-        if (pos === 0) el.classList.remove('dim');
-        else el.classList.add('dim');
-      });
+    // THE OVERLAY FIX:
+    // If we are on a phone, we hide everything except the center and its neighbors.
+    // 'visibility: hidden' prevents the 'invisible' page from blocking your finger.
+    if (isMobile && absPos > 1) {
+      el.style.opacity = "0";
+      el.style.visibility = "hidden"; 
+    } else {
+      el.style.opacity = absPos > 1 ? "0.2" : "1";
+      el.style.visibility = "visible";
     }
+
+    // Mathematical stacking: The further the page, the lower the z-index
+    const offset = pos * gap;
+    const rot = pos * -15;
+    const scale = 1 - (absPos * 0.12);
+    
+    el.style.setProperty('--offset', `${offset}px`);
+    el.style.setProperty('--rot', `${rot}deg`);
+    el.style.setProperty('--scale', scale.toString());
+    el.style.zIndex = 100 - absPos; // Forces center page to the top
+
+    // Dimming logic
+    if (absPos === 0) {
+      el.classList.remove('dim');
+    } else {
+      el.classList.add('dim');
+    }
+  });
+}
 
     function updateNav() {
       prevBtn.style.visibility = currentPage === 0 ? 'hidden' : 'visible';
