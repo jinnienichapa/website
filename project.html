@@ -5,121 +5,141 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Architectural Projects – Nichapa</title>
   <style>
-    /* Sidebar remains the same */
-    .sidebar { position: fixed; top: 1rem; left: 1rem; z-index: 2000; }
-    .menu-icon { font-size: 1.8rem; cursor: pointer; color: #2c1d5a; background: transparent; border: none; }
-    .menu-panel { position: absolute; top: 0; left: 2.5rem; background: white; border: 1px solid #ddd; padding: 1rem; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); min-width: 180px; display: none; }
+    /* --- SIDEBAR & NAVIGATION --- */
+    .sidebar { position: fixed; top: 1rem; left: 1rem; z-index: 5000; }
+    .menu-icon { font-size: 1.8rem; cursor: pointer; color: #2c1d5a; background: transparent; border: none; outline: none; }
+    .menu-panel { 
+      position: absolute; top: 0; left: 2.5rem; background: white; 
+      border: 1px solid #eee; padding: 1rem; border-radius: 8px; 
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-width: 200px; display: none; 
+    }
     .menu-panel.active { display: block; }
-    .menu-panel h3 { text-transform: uppercase; font-size: 0.8rem; margin: 0.5rem 0; color: #f48ab6; }
-    .menu-panel a { display: block; text-decoration: none; color: #333; font-size: 0.85rem; margin: 0.25rem 0; }
+    .menu-panel a { display: block; text-decoration: none; color: #333; font-size: 0.9rem; margin: 0.5rem 0; transition: 0.2s; }
+    .menu-panel a:hover { color: #f48ab6; }
 
-    body { margin: 0; min-height: 100vh; background: #f3f4f6; font-family: Helvetica, Arial, sans-serif; overflow-x: hidden; }
-    
-    /* Responsive Header */
-    header { text-align: center; padding: 1rem 0; width: 100%; }
-    .logo img { width: 80%; max-width: 350px; height: auto; }
+    /* --- LAYOUT --- */
+    body { margin: 0; min-height: 100vh; background: #f8f9fa; font-family: Helvetica, Arial, sans-serif; overflow-x: hidden; }
+    .content { display: flex; flex-direction: column; align-items: center; padding: 2rem 0; width: 100%; }
+    header { text-align: center; margin-bottom: 1rem; width: 100%; }
+    .logo img { width: 85%; max-width: 380px; height: auto; display: block; margin: 0 auto; }
 
-    /* FLIPBOOK ENGINE - SCALES TO SCREEN */
+    /* --- FLIPBOOK ENGINE --- */
     :root {
-      --page-w: 320px;
-      --page-h: 460px;
-      --gap-x: 180px; /* How far side pages slide out */
+      --page-w: 420px; 
+      --page-h: 580px; 
+      --gap-x: 220px; 
     }
 
-    /* Computer/Large Screen Fix */
-    @media (min-width: 1024px) {
-      :root {
-        --page-w: 380px;
-        --page-h: 540px;
-        --gap-x: 220px;
-      }
+    @media (max-width: 1024px) {
+      :root { --page-w: 360px; --page-h: 500px; --gap-x: 180px; }
     }
 
-    /* Mobile/Tablet Fix */
     @media (max-width: 768px) {
-      :root { 
-        --page-w: 65vw; 
-        --page-h: 50vh; 
-        --gap-x: 45px; /* Tighter slide on mobile so it doesn't go off-screen */
-      }
-      .content { padding-top: 4rem; } /* Make room for menu button */
+      :root { --page-w: 80vw; --page-h: 60vh; --gap-x: 50px; }
+      .content { padding-top: 4rem; }
     }
 
     .flipbook-container {
-      width: 100%;
-      height: calc(var(--page-h) + 60px);
-      display: flex;
-      justify-content: center;
+      width: 100%; 
+      height: calc(var(--page-h) + 100px);
+      display: flex; 
+      justify-content: center; 
       align-items: center;
-      overflow: hidden;
+      position: relative; 
+      overflow: hidden; 
       touch-action: pan-y;
-      position: relative;
     }
 
-    .wrap {
-      width: var(--page-w);
-      height: var(--page-h);
-      position: relative;
-      perspective: 1500px;
-    }
-
-    .book {
-      width: 100%; height: 100%;
-      position: relative;
+    /* Wrap acts as the 3D Stage */
+    .wrap { 
+      width: var(--page-w); 
+      height: var(--page-h); 
+      position: relative; 
+      perspective: 2000px; 
       transform-style: preserve-3d;
+      z-index: 10;
+    }
+
+    .book { 
+      width: 100%; 
+      height: 100%; 
+      position: relative; 
+      transform-style: preserve-3d; 
     }
 
     .page {
-      position: absolute;
-      top: 0; left: 0;
+      position: absolute; 
+      top: 0; left: 0; 
       width: 100%; height: 100%;
-      /* The transform math: Offset moves them side-to-side, Rot turns them */
-      transform: translateX(var(--offset, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
-      transition: transform 0.5s cubic-bezier(.25, .1, .25, 1), opacity 0.4s, visibility 0.4s;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+      /* translateX moves them, translateZ pulls center page forward */
+      transform: translateX(var(--offset, 0px)) translateZ(var(--z, 0px)) rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
+      transition: transform 0.6s cubic-bezier(.2, .8, .2, 1), opacity 0.4s;
+      border-radius: 6px; 
+      overflow: hidden; 
+      background: #fff; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+      backface-visibility: hidden;
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+    }
+
+    /* Use 'contain' to ensure architectural boards are never cropped */
+    .page img { 
+      width: 100%; height: 100%; 
+      object-fit: contain; 
       background: #fff;
-      backface-visibility: hidden; 
-      display: flex; align-items: center; justify-content: center;
-      -webkit-tap-highlight-color: transparent;
+      pointer-events: none; 
     }
 
-    .page img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-    .page.dim { opacity: 0.15; }
-    
-    /* Navigation Arrows - Only for Desktop */
-    .nav {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 40px; height: 40px; background: white; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1); cursor: pointer; z-index: 200;
-    }
-    .nav.left { left: -80px; }
-    .nav.right { right: -80px; }
-
-    @media (max-width: 900px) { .nav { display: none; } }
+    .page.dim { opacity: 0.25 !important; }
 
     .page .title {
-      position: absolute; left: 10px; bottom: 10px;
-      background: rgba(33, 34, 84, 0.85); color: #fff;
-      padding: 4px 8px; border-radius: 3px; font-size: 10px;
+      position: absolute; left: 12px; bottom: 12px;
+      background: rgba(44, 29, 90, 0.85); color: #fff;
+      padding: 5px 10px; border-radius: 4px; font-size: 11px;
+      z-index: 5;
     }
 
-    /* Grid */
-    .projects {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem; width: 90%; max-width: 1100px; padding: 2rem 0;
+    /* Navigation Arrows */
+    .nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px; background: white; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+      cursor: pointer; 
+      z-index: 4000; /* Stays above 3D pages */
+      font-size: 18px; color: #2c1d5a;
+      transition: 0.3s;
+      user-select: none;
     }
-    .project { text-decoration: none; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; }
-    .project:hover { transform: translateY(-3px); }
+    .nav:hover { background: #2c1d5a; color: white; }
+    .nav.left { left: 20px; }
+    .nav.right { right: 20px; }
+
+    /* Desktop Navigation Placement */
+    @media (min-width: 1200px) {
+      .nav.left { left: calc(50% - (var(--page-w) / 2) - 100px); }
+      .nav.right { right: calc(50% - (var(--page-w) / 2) - 100px); }
+    }
+
+    @media (max-width: 768px) { .nav { display: none; } }
+
+    /* --- PROJECTS GRID --- */
+    .projects { 
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+      gap: 2.5rem; width: 90%; max-width: 1200px; padding: 4rem 0; 
+    }
+    .project { text-decoration: none; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+    .project:hover { transform: translateY(-5px); }
     .project img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
-    .project-title { padding: 0.8rem; font-weight: bold; background: #212254; color: #C4499A; text-align: center; font-size: 0.9rem; }
+    .project-title { padding: 1.2rem; font-weight: bold; background: #212254; color: #f48ab6; text-align: center; }
 
-    /* Lightbox */
-    .lightbox {
-      position: fixed; z-index: 3000; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center;
+    /* --- LIGHTBOX --- */
+    .lightbox { 
+      position: fixed; z-index: 6000; top: 0; left: 0; width: 100%; height: 100%; 
+      background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; 
+      cursor: zoom-out;
     }
     .lightbox-img { max-width: 95%; max-height: 90%; object-fit: contain; }
   </style>
@@ -127,14 +147,13 @@
 <body>
 
   <div class="sidebar">
-    <button class="menu-icon" onclick="toggleMenu()">☰</button>
+    <button class="menu-icon" id="menuBtn">☰</button>
     <div class="menu-panel" id="menuPanel">
-      <h3>HOME</h3><a href="index.html">Home</a>
-      <h3>PROJECTS</h3>
+      <a href="index.html">Home</a>
       <a href="project.html">Architectural Project</a>
       <a href="illustration.html">Illustration</a>
       <a href="arts-n-crafts.html">Arts n Crafts</a>
-      <h3>ABOUT</h3><a href="about.html">Profile</a>
+      <a href="about.html">Profile</a>
     </div>
   </div>
 
@@ -142,22 +161,21 @@
     <header><div class="logo"><img src="arch pro_1@3x.png" alt="Logo" /></div></header>
 
     <div class="flipbook-container">
+      <div class="nav left" id="prevBtn">❮</div>
       <div class="wrap">
         <div class="book" id="book">
-          <!-- All your pages -->
-          <div class="page"><img src="full panel lf2-01.png" alt="Life in Soi"><div class="title">Life in Soi</div></div>
-          <div class="page"><img src="float full panel2-01.png" alt="Let it Float"><div class="title">Let it Float</div></div>
-          <div class="page"><img src="full board flow-01.png" alt="Flow"><div class="title">Flow</div></div>
-          <div class="page"><img src="full board flow2-01.png" alt="Flow 2"><div class="title">Flow</div></div>
-          <div class="page"><img src="full board vil-03.png" alt="Village in a City"><div class="title">Village in a City</div></div>
-          <div class="page"><img src="full board vil2-01.png" alt="Village in a City 2"><div class="title">Village in a City</div></div>
-          <div class="page"><img src="full board in-01-min.png" alt="Invisible Boundaries"><div class="title">Invisible Boundaries</div></div>
-          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD.jpg" alt="Living Heritage"><div class="title">Living Heritage</div></div>
-          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD2.jpg" alt="Living Heritage"><div class="title">Living Heritage</div></div>
+          <div class="page"><img src="full panel lf2-01.png"><div class="title">Life in Soi</div></div>
+          <div class="page"><img src="float full panel2-01.png"><div class="title">Let it Float</div></div>
+          <div class="page"><img src="full board flow-01.png"><div class="title">Flow</div></div>
+          <div class="page"><img src="full board flow2-01.png"><div class="title">Flow</div></div>
+          <div class="page"><img src="full board vil-03.png"><div class="title">Village in a City</div></div>
+          <div class="page"><img src="full board vil2-01.png"><div class="title">Village in a City</div></div>
+          <div class="page"><img src="full board in-01-min.png"><div class="title">Invisible Boundaries</div></div>
+          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD.jpg"><div class="title">Living Heritage</div></div>
+          <div class="page"><img src="2025-2026_Y4S2_DESIGN_5_PAYAP_PAKDEELAO_JINNIE_NICHAPA_EAMCHAROEN_BD2.jpg"><div class="title">Living Heritage</div></div>
         </div>
-        <div class="nav left" id="prevBtn">&#9664;</div>
-        <div class="nav right" id="nextBtn">&#9654;</div>
       </div>
+      <div class="nav right" id="nextBtn">❯</div>
     </div>
 
     <div class="projects">
@@ -175,9 +193,11 @@
     const nextBtn = document.getElementById('nextBtn');
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
+    const menuBtn = document.getElementById('menuBtn');
+    const menuPanel = document.getElementById('menuPanel');
     
-    let currentPage = 0; // Starts at first page
-    let touchStartX = 0;
+    let currentPage = 0; 
+    let startX = 0;
 
     function layout() {
       const isMobile = window.innerWidth <= 768;
@@ -187,47 +207,57 @@
         const pos = idx - currentPage;
         const absPos = Math.abs(pos);
 
-        // Hide far-away pages to save memory and stop overlap
+        // Hide inactive pages
         if (absPos > 1) {
           el.style.opacity = "0";
           el.style.visibility = "hidden";
           el.style.pointerEvents = "none";
         } else {
-          el.style.opacity = absPos === 0 ? "1" : "0.4";
+          el.style.opacity = absPos === 0 ? "1" : "0.35";
           el.style.visibility = "visible";
           el.style.pointerEvents = "auto";
         }
 
         const offset = pos * gap;
         const rot = pos * -15;
-        const scale = 1 - (absPos * 0.1);
+        const scale = 1 - (absPos * 0.12);
         
+        // Push side pages into the distance (Z-axis) 
+        // and pull current page to the front
+        const zValue = absPos === 0 ? 150 : 0;
+
         el.style.setProperty('--offset', `${offset}px`);
         el.style.setProperty('--rot', `${rot}deg`);
         el.style.setProperty('--scale', scale.toString());
+        el.style.setProperty('--z', `${zValue}px`);
+        
         el.style.zIndex = 100 - absPos;
 
         absPos === 0 ? el.classList.remove('dim') : el.classList.add('dim');
       });
+
+      // Update button visibility
+      prevBtn.style.visibility = currentPage === 0 ? "hidden" : "visible";
+      nextBtn.style.visibility = currentPage === pages.length - 1 ? "hidden" : "visible";
     }
 
-    function moveNext() { if (currentPage < pages.length - 1) { currentPage++; layout(); } }
-    function movePrev() { if (currentPage > 0) { currentPage--; layout(); } }
+    const moveNext = () => { if (currentPage < pages.length - 1) { currentPage++; layout(); } };
+    const movePrev = () => { if (currentPage > 0) { currentPage--; layout(); } };
 
-    prevBtn.onclick = movePrev;
-    nextBtn.onclick = moveNext;
+    prevBtn.onclick = (e) => { e.stopPropagation(); movePrev(); };
+    nextBtn.onclick = (e) => { e.stopPropagation(); moveNext(); };
 
-    // Swipe logic with a "dead zone" to prevent jitter
+    // Touch Swipe
     const container = document.querySelector('.flipbook-container');
-    container.ontouchstart = e => { touchStartX = e.changedTouches[0].screenX; };
+    container.ontouchstart = e => { startX = e.touches[0].clientX; };
     container.ontouchend = e => {
-      const diff = touchStartX - e.changedTouches[0].screenX;
-      if (Math.abs(diff) > 40) diff > 0 ? moveNext() : movePrev();
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) diff > 0 ? moveNext() : movePrev();
     };
 
-    // Click logic
+    // Page Interaction
     pages.forEach((page, idx) => {
-      page.onclick = () => {
+      page.onclick = (e) => {
         if (idx !== currentPage) {
           currentPage = idx;
           layout();
@@ -238,8 +268,10 @@
       };
     });
 
+    // Sidebar
+    menuBtn.onclick = (e) => { e.stopPropagation(); menuPanel.classList.toggle('active'); };
+    document.onclick = () => menuPanel.classList.remove('active');
     lb.onclick = () => lb.style.display = 'none';
-    function toggleMenu() { document.getElementById("menuPanel").classList.toggle("active"); }
 
     window.onresize = layout;
     layout();
