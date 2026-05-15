@@ -171,11 +171,17 @@
     .nav.right { right: 18px; }
 
     @media (max-width: 980px) {
-      :root { --page-w: 300px; --page-h: 460px; --gap-x: 150px; }
+      :root { --page-w: 300px; --page-h: 460px; --gap-x: 140px; }
     }
+
     @media (max-width: 620px) {
-      :root { --page-w: 220px; --page-h: 360px; --gap-x: 100px; }
-      .nav { display: none; }
+      :root { 
+        --page-w: 75vw; 
+        --page-h: 55vh; 
+        --gap-x: 60px; 
+        --perspective: 1000px; 
+      }
+      .nav { display: none !important; }
     }
 
     .page .title {
@@ -360,70 +366,97 @@
     });
   </script>
 
-  <script>
-    // Flipbook JS
+<script>
+    // --- UI Helpers ---
+    function toggleMenu() {
+      document.getElementById("menuPanel").classList.toggle("active");
+    }
+
+    document.addEventListener("click", (e) => {
+      const panel = document.getElementById("menuPanel");
+      if (!e.target.closest(".sidebar") && panel.classList.contains("active")) {
+        panel.classList.remove("active");
+      }
+    });
+
+    // --- Flipbook Logic ---
     const pages = document.querySelectorAll('.page');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    let currentPage = 3;
+    let currentPage = 1; 
 
     function layout() {
-      const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
-      const maxVisible = 3;
-
+      const isMobile = window.innerWidth <= 620;
+      const gapValue = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap-x'));
+      
       pages.forEach((el, idx) => {
-        const centerIndex = currentPage;
-        const pos = idx - centerIndex;
-        
-        if (Math.abs(pos) > maxVisible || idx < currentPage - 1 || idx > currentPage + 1) {
-          el.classList.add('dim');
-          el.style.setProperty('--offset', `${pos * gap}px`);
-          el.style.setProperty('--rot', `${pos > 0 ? -18 : 18}deg`);
-          el.style.setProperty('--scale', '0.7');
-          el.style.zIndex = 10;
+        const pos = idx - currentPage;
+        const absPos = Math.abs(pos);
+
+        // Hide pages that are too far away to keep it clean on small screens
+        if (absPos > 2 && isMobile) {
+          el.style.opacity = "0";
+          el.style.visibility = "hidden"; 
         } else {
-          el.classList.remove('dim');
-          const offset = pos * gap;
-          const rot = pos * -6;
-          const scale = 1 - Math.abs(pos) * 0.12;
-          el.style.setProperty('--offset', `${offset}px`);
-          el.style.setProperty('--rot', `${rot}deg`);
-          el.style.setProperty('--scale', scale.toString());
-          // FIX: Explicitly set z-index to ensure center page is always on top
-          el.style.zIndex = idx === currentPage ? 100 : 50 - Math.abs(pos);
+          el.style.opacity = absPos > 1 ? "0.4" : "1";
+          el.style.visibility = "visible";
         }
+
+        const offset = pos * gapValue;
+        const rot = pos * -10;
+        const scale = 1 - (absPos * 0.15);
+        
+        el.style.setProperty('--offset', `${offset}px`);
+        el.style.setProperty('--rot', `${rot}deg`);
+        el.style.setProperty('--scale', scale.toString());
+        el.style.zIndex = 100 - absPos;
+
+        if (pos === 0) el.classList.remove('dim');
+        else el.classList.add('dim');
       });
     }
 
-    function updateNavButtons() {
-      prevBtn.style.opacity = currentPage === 0 ? 0.3 : 1;
-      nextBtn.style.opacity = currentPage === pages.length - 1 ? 0.3 : 1;
-      prevBtn.style.pointerEvents = currentPage === 0 ? 'none' : 'auto';
-      nextBtn.style.pointerEvents = currentPage === pages.length - 1 ? 'none' : 'auto';
+    function updateNav() {
+      prevBtn.style.visibility = currentPage === 0 ? 'hidden' : 'visible';
+      nextBtn.style.visibility = currentPage === pages.length - 1 ? 'hidden' : 'visible';
     }
 
-    prevBtn.addEventListener('click', () => {
-      if (currentPage > 0) {
-        currentPage--;
-        layout();
-        updateNavButtons();
-      }
-    });
+    const moveNext = () => { if (currentPage < pages.length - 1) { currentPage++; layout(); updateNav(); } };
+    const movePrev = () => { if (currentPage > 0) { currentPage--; layout(); updateNav(); } };
 
-    nextBtn.addEventListener('click', () => {
-      if (currentPage < pages.length - 1) {
-        currentPage++;
-        layout();
-        updateNavButtons();
-      }
-    });
+    prevBtn.addEventListener('click', movePrev);
+    nextBtn.addEventListener('click', moveNext);
 
-    pages.forEach((el, idx) => {
-      el.addEventListener('click', () => {
+    // --- MOBILE TOUCH FIX ---
+    let touchStartX = 0;
+    const container = document.querySelector('.flipbook-container');
+
+    container.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    container.addEventListener('touchend', (e) => {
+      let touchEndX = e.changedTouches[0].screenX;
+      let diff = touchStartX - touchEndX;
+
+      // If swipe left
+      if (diff > 50) moveNext();
+      // If swipe right
+      if (diff < -50) movePrev();
+    }, {passive: true});
+
+    // Handle Taps for both Desktop and Mobile
+    pages.forEach((page, idx) => {
+      // Use 'pointerdown' as it is faster and more reliable on mobile than 'click'
+      page.addEventListener('pointerdown', (e) => {
+        // Don't flip if we are just swiping
         if (idx !== currentPage) {
           currentPage = idx;
           layout();
-          updateNavButtons();
+          updateNav();
+        } else {
+          // If already in center, wait for the full click to open lightbox
+          openLightbox(page.querySelector('img').src);
         }
       });
     });
