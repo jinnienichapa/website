@@ -145,7 +145,7 @@
 
 
     /* =========================
-       Smaller Image Grid
+       Other Grid
     ========================= */
 
     .detail-grid {
@@ -155,23 +155,31 @@
       margin-top: 1rem;
     }
 
-    .detail-grid img {
+    .detail-grid img,
+    .detail-grid .video-wrapper {
       width: 100%;
-      height: auto;
+      aspect-ratio: 9 / 16;
       display: block;
       border-radius: 6px;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
     }
 
-    /*
-      Make the video inside the grid
-      fill the same grid cell.
-    */
+    .detail-grid img {
+      height: 100%;
+      object-fit: cover;
+    }
 
     .detail-grid .video-wrapper {
       max-width: none;
+      background-color: #f5f5f5;
+    }
+
+    .detail-grid .video-wrapper iframe {
       width: 100%;
-      aspect-ratio: 9 / 16;
+      height: 100%;
+      border: none;
+      display: block;
     }
 
 
@@ -462,38 +470,23 @@
 
 
     <!-- =========================
-         Brand Applications
+         Other
     ========================= -->
 
     <div class="section-title">
-     Other
+      Other
     </div>
 
 
     <div class="detail-grid">
 
 
-      <!-- Application 04 -->
+      <!-- Card -->
 
       <img
         src="tag.jpg"
-        alt="card"
+        alt="Brand Card"
       >
-
-
-      <!-- Brand Video -->
-
-      <div class="video-wrapper">
-
-        <iframe
-          src="https://youtube.com/shorts/nakFJ0Zc8HQ"
-          title="Just Another Girl Closet Logo Video"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
-
-      </div>
 
 
       <!-- Brand Video -->
@@ -510,6 +503,13 @@
 
       </div>
 
+
+      <!-- Add another image here if needed -->
+
+      <img
+        src="tag.jpg"
+        alt="Brand Application"
+      >
 
     </div>
 
