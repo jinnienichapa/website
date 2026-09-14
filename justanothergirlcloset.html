@@ -1,1 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Graphic Design & Brand Identity : Just Another Girl Closet</title>
 
+  <style>
+    /* =========================
+       Main
+    ========================= */
+
+    body {
+      margin: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      background-color: #fff;
+      color: #000;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+
+    /* =========================
+       Top Section
+       ========================= */
+
+    .top-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .left-image {
+      flex: 1 1 65%;
+    }
+
+    .left-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .right-text {
+      flex: 1 1 30%;
+    }
+
+    .right-text h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #212254;
+    }
+
+    .right-text h3 {
+      font-weight: normal;
+      font-size: 1rem;
+      color: #666;
+      margin-top: 0;
+    }
+
+    .right-text p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-top: 1rem;
+      text-align: justify;
+    }
+
+
+    /* =========================
+       Section Titles
+       ========================= */
+
+    .section-title {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin: 3rem 0 1.5rem;
+      color: #C4499A;
+      font-size: 1.2rem;
+    }
+
+
+    /* =========================
+       Large Project Images
+       ========================= */
+
+    .detail-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .detail-list img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+
+    /* =========================
+       Smaller Image Grid
+       ========================= */
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .detail-grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+
+    /* =========================
+       Sidebar
+       ========================= */
+
+    .sidebar {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1000;
+    }
+
+    .menu-icon {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #2c1d5a;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+    }
+
+    .menu-panel {
+      position: absolute;
+      top: 0;
+      left: 2.5rem;
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      min-width: 180px;
+      display: none;
+    }
+
+    .menu-panel.active {
+      display: block;
+    }
+
+    .menu-panel h3 {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+      color: #f48ab6;
+    }
+
+    .menu-panel a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      font-size: 0.85rem;
+      margin: 0.25rem 0;
+    }
+
+    .menu-panel a:hover {
+      color: #f48ab6;
+    }
+
+
+    /* =========================
+       Responsive
+       ========================= */
+
+    @media (max-width: 768px) {
+
+      .top-section {
+        flex-direction: column;
+      }
+
+      .left-image,
+      .right-text {
+        flex: 1 1 100%;
+      }
+
+      .detail-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+    }
+
+
+    @media (max-width: 480px) {
+
+      .container {
+        padding: 1.5rem;
+      }
+
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .right-text h1 {
+        font-size: 1.7rem;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <!-- =========================
+       Sidebar
+       ========================= -->
+
+  <div class="sidebar">
+
+    <button class="menu-icon" onclick="toggleMenu()">☰</button>
+
+    <div class="menu-panel" id="menuPanel">
+
+      <h3>HOME</h3>
+      <a href="index.html">Home</a>
+
+      <h3>PROJECTS</h3>
+      <a href="project.html">Architectural Project</a>
+      <a href="illustration.html">Illustration</a>
+      <a href="artsncrafts.html">Arts n Crafts</a>
+      <a href="some-more-work.html">Other</a>
+
+      <h3>ABOUT</h3>
+      <a href="about.html">Profile</a>
+      <a href="portfolio.html">Portfolio</a>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       Main Content
+       ========================= -->
+
+  <div class="container">
+
+    <!-- Top Section -->
+
+    <div class="top-section">
+
+      <div class="left-image">
+        <img
+          src="branding-cover.jpg"
+          alt="Brand Identity Main Visual"
+        />
+      </div>
+
+
+      <div class="right-text">
+
+        <h1>Brand Identity</h1>
+
+        <h3>2026</h3>
+
+        <p>
+          <strong>Type:</strong>
+          Brand Identity / Visual Identity
+        </p>
+
+        <p>
+          <strong>Description:</strong>
+          A visual identity developed for [Brand Name],
+          exploring the brand's character through typography,
+          color, graphic language, and visual applications.
+        </p>
+
+        <p>
+          <strong>Scope:</strong>
+          Logo, typography, color palette, graphic elements,
+          packaging, social media, and brand applications.
+        </p>
+
+        <p>
+          <strong>Tools:</strong>
+          Illustrator, Photoshop, InDesign
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         Brand Identity
+         ========================= -->
+
+    <div class="section-title">
+      Brand Identity
+    </div>
+
+    <div class="detail-list">
+
+      <img
+        src="branding-01.jpg"
+        alt="Brand Identity Overview"
+      >
+
+      <img
+        src="branding-02.jpg"
+        alt="Logo and Typography"
+      >
+
+      <img
+        src="branding-03.jpg"
+        alt="Color and Graphic Identity"
+      >
+
+    </div>
+
+
+    <!-- =========================
+         Applications
+         ========================= -->
+
+    <div class="section-title">
+      Brand Applications
+    </div>
+
+    <div class="detail-grid">
+
+      <img
+        src="branding-04.jpg"
+        alt="Brand Application"
+      >
+
+      <img
+        src="branding-05.jpg"
+        alt="Packaging"
+      >
+
+      <img
+        src="branding-06.jpg"
+        alt="Printed Material"
+      >
+
+      <img
+        src="branding-07.jpg"
+        alt="Social Media"
+      >
+
+      <img
+        src="branding-08.jpg"
+        alt="Brand Application"
+      >
+
+      <img
+        src="branding-09.jpg"
+        alt="Visual Identity"
+      >
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       Sidebar JavaScript
+       ========================= -->
+
+  <script>
+
+    function toggleMenu() {
+
+      const panel = document.getElementById("menuPanel");
+
+      panel.classList.toggle("active");
+
+    }
+
+
+    document.addEventListener("click", function (event) {
+
+      const sidebar = document.querySelector(".sidebar");
+      const panel = document.getElementById("menuPanel");
+
+      if (!sidebar.contains(event.target)) {
+
+        panel.classList.remove("active");
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
