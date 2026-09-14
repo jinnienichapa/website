@@ -4,8 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>illustration – Nichapa</title>
+
   <style>
-    /* Sidebar */
+    /* =========================
+       Sidebar
+    ========================= */
+
     .sidebar {
       position: fixed;
       top: 1rem;
@@ -57,12 +61,16 @@
     .menu-panel a:hover {
       color: #f48ab6;
     }
-    
-    /* Main layout */
+
+
+    /* =========================
+       Main Layout
+    ========================= */
+
     body {
       margin: 0;
       font-family: Helvetica, Arial, sans-serif;
-      background-color: #f3f4f6; /* Changed to a lighter grey for the background */
+      background-color: #f3f4f6;
       color: #000;
       overflow-x: hidden;
     }
@@ -72,61 +80,126 @@
       margin: 0 auto;
       padding: 2rem;
     }
-    
-    /* Header for the page */
+
+
+    /* =========================
+       Page Header
+    ========================= */
+
     .page-header {
-        text-align: center;
-        margin-bottom: 2rem;
+      text-align: center;
+      margin-bottom: 3rem;
     }
-    
+
     .page-header h1 {
-        font-size: 2.5rem;
-        color: #212254;
+      font-size: 2.5rem;
+      color: #212254;
+      margin: 0;
+      font-weight: normal;
     }
 
-    /* Image grid - Pinterest style */
-.image-grid {
-  column-count: 3; /* Number of columns */
-  column-gap: 1.5rem;
-}
 
-.grid-item {
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  width: 100%;
-  break-inside: avoid; /* Prevent item splitting */
-}
+    /* =========================
+       Selected Work / Project Grid
+    ========================= */
 
-.grid-item img {
-  width: 100%;
-  height: auto; /* Keep original aspect ratio */
-  display: block;
-  border-radius: 8px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
+    .selected-work {
+      margin-bottom: 4rem;
+    }
 
-.grid-item img:hover {
-  transform: scale(1.05);
-}
+    .section-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #f48ab6;
+      margin: 0 0 1rem 0;
+    }
 
-/* Tablet */
-@media (max-width: 768px) {
-  .image-grid {
-    column-count: 2;
-  }
-}
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
 
-/* Mobile */
-@media (max-width: 480px) {
-  .image-grid {
-    column-count: 1;
-  }
-}
+    .project-item {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
 
-    
-    /* Lightbox styling */
+    .project-image {
+      overflow: hidden;
+      background-color: white;
+    }
+
+    .project-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .project-item:hover .project-image img {
+      transform: scale(1.03);
+    }
+
+    .project-info {
+      padding-top: 0.7rem;
+    }
+
+    .project-info h2 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: normal;
+      color: #212254;
+    }
+
+    .project-info p {
+      margin: 0.25rem 0 0;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+
+    /* =========================
+       Illustration Section
+    ========================= */
+
+    .illustration-section {
+      margin-top: 1rem;
+    }
+
+    .image-grid {
+      column-count: 3;
+      column-gap: 1.5rem;
+    }
+
+    .grid-item {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      width: 100%;
+      break-inside: avoid;
+    }
+
+    .grid-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .grid-item img:hover {
+      transform: scale(1.05);
+    }
+
+
+    /* =========================
+       Lightbox
+    ========================= */
+
     .lightbox {
       position: fixed;
       z-index: 2000;
@@ -134,7 +207,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0, 0, 0, 0.9);
       display: none;
       align-items: center;
       justify-content: center;
@@ -161,89 +234,299 @@
       color: #bbb;
       text-decoration: none;
     }
+
+
+    /* =========================
+       Tablet
+    ========================= */
+
+    @media (max-width: 768px) {
+
+      .image-grid {
+        column-count: 2;
+      }
+
+      .project-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+    }
+
+
+    /* =========================
+       Mobile
+    ========================= */
+
+    @media (max-width: 480px) {
+
+      .container {
+        padding: 1.5rem;
+      }
+
+      .page-header h1 {
+        font-size: 2rem;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .image-grid {
+        column-count: 1;
+      }
+
+      .close {
+        right: 20px;
+      }
+
+    }
+
   </style>
 </head>
 
+
 <body>
+
+  <!-- =========================
+       Sidebar
+  ========================= -->
+
   <div class="sidebar">
+
     <button class="menu-icon" onclick="toggleMenu()">☰</button>
+
     <div class="menu-panel" id="menuPanel">
+
       <h3>HOME</h3>
       <a href="index.html">Home</a>
+
       <h3>PROJECTS</h3>
       <a href="project.html">Architectural Project</a>
       <a href="illustration.html">Illustration</a>
       <a href="arts-n-crafts.html">Arts n Crafts</a>
       <a href="some-more-work.html">Other</a>
+
       <h3>ABOUT</h3>
       <a href="about.html">Profile</a>
       <a href="portfolio.html">Portfolio</a>
+
     </div>
+
   </div>
+
+
+  <!-- =========================
+       Main Content
+  ========================= -->
 
   <div class="container">
+
+    <!-- Page Title -->
+
     <div class="page-header">
-        <h1>illustration</h1>
+      <h1>illustration</h1>
     </div>
 
-    <div class="image-grid">
-      <div class="grid-item">
-        <img src="sleepy doggo color map2.jpg" alt="Description of art 1">
+
+    <!-- =========================
+         Selected Work
+    ========================= -->
+
+    <section class="selected-work">
+
+      <h3 class="section-title">selected work</h3>
+
+      <div class="project-grid">
+
+        <!-- Project 1 -->
+
+        <a href="branding.html" class="project-item">
+
+          <div class="project-image">
+            <img
+              src="branding-cover.jpg"
+              alt="Brand Identity Project"
+            />
+          </div>
+
+          <div class="project-info">
+            <h2>Brand Identity</h2>
+            <p>Branding · Visual Identity</p>
+          </div>
+
+        </a>
+
+
+        <!-- Project 2 -->
+
+        <a href="graphic.html" class="project-item">
+
+          <div class="project-image">
+            <img
+              src="graphic-cover.jpg"
+              alt="Graphic Design Project"
+            />
+          </div>
+
+          <div class="project-info">
+            <h2>Graphic Work</h2>
+            <p>Graphic Design · Art Direction</p>
+          </div>
+
+        </a>
+
       </div>
-      <div class="grid-item">
-        <img src="sc ps.png" alt="Description of art 2">
+
+    </section>
+
+
+    <!-- =========================
+         Illustration Archive
+    ========================= -->
+
+    <section class="illustration-section">
+
+      <h3 class="section-title">illustration</h3>
+
+      <div class="image-grid">
+
+        <div class="grid-item">
+          <img
+            src="sleepy doggo color map2.jpg"
+            alt="Sleepy Doggo illustration"
+          />
+        </div>
+
+        <div class="grid-item">
+          <img
+            src="sc ps.png"
+            alt="Illustration"
+          />
+        </div>
+
+        <div class="grid-item">
+          <img
+            src="ps a week-03.jpg"
+            alt="Illustration"
+          />
+        </div>
+
+        <div class="grid-item">
+          <img
+            src="flower2.png"
+            alt="Flower illustration"
+          />
+        </div>
+
       </div>
-      <div class="grid-item">
-        <img src="ps a week-03.jpg" alt="Description of art 3">
-      </div>
-      <div class="grid-item">
-        <img src="flower2.png" alt="Description of art 4">
-      </div>
+
+    </section>
+
   </div>
+
+
+  <!-- =========================
+       Lightbox
+  ========================= -->
 
   <div id="lightbox" class="lightbox">
+
     <span class="close">&times;</span>
-    <img class="lightbox-content" id="lightbox-img" alt="">
+
+    <img
+      class="lightbox-content"
+      id="lightbox-img"
+      alt=""
+    />
+
   </div>
 
+
+  <!-- =========================
+       JavaScript
+  ========================= -->
+
   <script>
+
+    /* Sidebar Menu */
+
     function toggleMenu() {
       const panel = document.getElementById("menuPanel");
       panel.classList.toggle("active");
     }
 
     document.addEventListener("click", function (event) {
+
       const sidebar = document.querySelector(".sidebar");
       const panel = document.getElementById("menuPanel");
+
       if (!sidebar.contains(event.target)) {
         panel.classList.remove("active");
       }
+
     });
-  </script>
-  
-  <script>
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const closeBtn = document.querySelector('.close');
-    const gridItems = document.querySelectorAll('.grid-item img');
+
+
+    /* Lightbox */
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const closeBtn = document.querySelector(".close");
+    const gridItems = document.querySelectorAll(".grid-item img");
+
 
     gridItems.forEach(item => {
-      item.addEventListener('click', () => {
-        lightbox.style.display = 'flex';
+
+      item.addEventListener("click", () => {
+
+        lightbox.style.display = "flex";
+
         lightboxImg.src = item.src;
         lightboxImg.alt = item.alt;
+
       });
+
     });
 
-    closeBtn.addEventListener('click', () => {
-      lightbox.style.display = 'none';
+
+    /* Close button */
+
+    closeBtn.addEventListener("click", () => {
+
+      lightbox.style.display = "none";
+
     });
 
-    lightbox.addEventListener('click', (event) => {
-        if (event.target === lightbox || event.target === lightboxImg) {
-            lightbox.style.display = 'none';
-        }
+
+    /* Close when clicking outside image */
+
+    lightbox.addEventListener("click", (event) => {
+
+      if (
+        event.target === lightbox ||
+        event.target === lightboxImg
+      ) {
+
+        lightbox.style.display = "none";
+
+      }
+
     });
+
+
+    /* Close with ESC */
+
+    document.addEventListener("keydown", (event) => {
+
+      if (event.key === "Escape") {
+
+        lightbox.style.display = "none";
+
+      }
+
+    });
+
   </script>
+
 </body>
 </html>
